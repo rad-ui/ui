@@ -272,14 +272,11 @@ describe('Accordion Component', () => {
         expect(item1Trigger).toHaveFocus();
     });
 
-    test('passes accessibility checks', (done) => {
+    test('passes accessibility checks', async() => {
         const { container } = render(<TestAccordion />);
-
-        axe.run(container, { runOnly: { type: 'tag', values: ACCESSIBILITY_TEST_TAGS } }).then((results) => {
-            expect(results.incomplete.length).toBe(0);
-            expect(results.violations.length).toBe(0);
-            done();
-        });
+        const results = await axe.run(container, { runOnly: { type: 'tag', values: ACCESSIBILITY_TEST_TAGS } });
+        expect(results.incomplete.map((r) => r.id)).toEqual([]);
+        expect(results.violations.map((r) => r.id)).toEqual([]);
     });
 
     test('controlled mode responds to external value changes', async() => {

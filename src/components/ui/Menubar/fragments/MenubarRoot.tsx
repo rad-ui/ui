@@ -3,6 +3,7 @@ import { useComponentClass } from '~/components/ui/Theme/useComponentClass';
 import clsx from 'clsx';
 import Floater from '~/core/primitives/Floater';
 import MenubarContext, { MenubarItem } from '../contexts/MenubarContext';
+import { useDirection } from '~/core/hooks/useDirection';
 
 export type MenubarRootElement = ElementRef<typeof Floater.Composite>;
 export type MenubarRootProps = {
@@ -13,7 +14,8 @@ export type MenubarRootProps = {
 
 const COMPONENT_NAME = 'Menubar';
 
-const MenubarRoot = forwardRef<MenubarRootElement, MenubarRootProps>(({ children, customRootClass, className, dir, loop, rtl, onKeyDown, ...props }, ref) => {
+const MenubarRoot = forwardRef<MenubarRootElement, MenubarRootProps>(({ children, customRootClass, className, dir: dirProp, loop, rtl, onKeyDown, ...props }, ref) => {
+    const dir = useDirection(dirProp);
     const rootClass = useComponentClass(customRootClass, COMPONENT_NAME);
     const [items, setItems] = React.useState<MenubarItem[]>([]);
     const [activeIndex, setActiveIndex] = React.useState(0);

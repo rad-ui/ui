@@ -1,7 +1,15 @@
 import React from 'react';
 
 export type NumberFieldStepDirection = 'increment' | 'decrement';
-export type NumberFieldStepType = 'small' | 'large';
+/** `small` is the regular step, `large` is Shift (or PageUp/PageDown) and `fine` is Alt/Option. */
+export type NumberFieldStepType = 'small' | 'large' | 'fine';
+
+/** The step type a key or pointer event asks for: Shift for `largeStep`, Alt/Option for `smallStep`. */
+export const getStepType = (event: { shiftKey: boolean; altKey: boolean }): NumberFieldStepType => {
+    if (event.shiftKey) return 'large';
+    if (event.altKey) return 'fine';
+    return 'small';
+};
 
 export type NumberFieldContextType = {
   inputValue: number|'';
@@ -11,6 +19,8 @@ export type NumberFieldContextType = {
   commitValue: () => void;
   /** Jumps to min (`'min'`) or max (`'max'`) when that bound is defined. */
   setToBound: (bound: 'min' | 'max') => void;
+  /** Reports the value to `onValueCommit` if it changed since the last report. */
+  notifyCommit: () => void;
   canIncrement: boolean;
   canDecrement: boolean;
   id?: string;
@@ -23,6 +33,9 @@ export type NumberFieldContextType = {
   required?: boolean;
   invalid?: boolean;
   rootClass?: string;
+  format?: Intl.NumberFormatOptions;
+  locale?: string;
+  allowWheelScrub?: boolean;
 };
 
 const NumberFieldContext = React.createContext<NumberFieldContextType | null>(null);

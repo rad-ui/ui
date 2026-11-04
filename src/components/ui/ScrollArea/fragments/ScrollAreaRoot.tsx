@@ -18,6 +18,11 @@ export type ScrollAreaRootProps = ComponentPropsWithoutRef<typeof Primitive.div>
     customRootClass?: string;
     /** Controls scrollbar and thumb visibility: always, on scroll (1s fade), on hover + scroll, or when overflowing (auto). */
     type?: ScrollAreaScrollbarType;
+    /**
+     * Pixels of hidden content an edge needs before it gets its `data-overflow-*` attribute,
+     * as one number or per edge. Defaults to 0 (sub-pixel remainders never count).
+     */
+    overflowEdgeThreshold?: number | Partial<Record<'xStart' | 'xEnd' | 'yStart' | 'yEnd', number>>;
 };
 
 const ScrollAreaRoot = forwardRef<ScrollAreaRootElement, ScrollAreaRootProps>(({
@@ -25,6 +30,7 @@ const ScrollAreaRoot = forwardRef<ScrollAreaRootElement, ScrollAreaRootProps>(({
     className = '',
     customRootClass = '',
     type = 'hover',
+    overflowEdgeThreshold = 0,
     ...props
 }, ref) => {
     const rootClass = useComponentClass(customRootClass, COMPONENT_NAME);
@@ -150,9 +156,38 @@ const ScrollAreaRoot = forwardRef<ScrollAreaRootElement, ScrollAreaRootProps>(({
         setOverflow((previous) => (previous.x === hasH && previous.y === hasV ? previous : { x: hasH, y: hasV }));
     };
 
+    // Mark which edges have hidden content, for fade masks or shadows:
+    // data-overflow-{x,y}-{start,end} plus --scroll-area-overflow-* distances.
+    // Written to the DOM directly so scrolling doesn't re-render.
+    const updateOverflowEdges = (viewport: HTMLElement) => {
+        const yStart = Math.max(0, viewport.scrollTop);
+        const yEnd = Math.max(0, viewport.scrollHeight - viewport.clientHeight - viewport.scrollTop);
+        // Measured from the inline start, so RTL's negative scrollLeft reads the same.
+        const xStart = Math.abs(viewport.scrollLeft);
+        const xEnd = Math.max(0, viewport.scrollWidth - viewport.clientWidth - xStart);
+        const threshold = (edge: 'xStart' | 'xEnd' | 'yStart' | 'yEnd') => (
+            typeof overflowEdgeThreshold === 'number' ? overflowEdgeThreshold : overflowEdgeThreshold[edge] ?? 0
+        );
+        const edges: Array<[string, number, number]> = [
+            ['y-start', yStart, threshold('yStart')],
+            ['y-end', yEnd, threshold('yEnd')],
+            ['x-start', xStart, threshold('xStart')],
+            ['x-end', xEnd, threshold('xEnd')]
+        ];
+        [internalRootRef.current, viewport].forEach((element) => {
+            if (!element) return;
+            edges.forEach(([edge, distance, minimum]) => {
+                // Sub-pixel remainders from zoom never count as overflow.
+                element.toggleAttribute(`data-overflow-${edge}`, distance > Math.max(1, minimum));
+                element.style.setProperty(`--scroll-area-overflow-${edge}`, `${Math.round(distance)}px`);
+            });
+        });
+    };
+
     const handleScroll = () => {
         if (!scrollAreaViewportRef.current) return;
         const viewport = scrollAreaViewportRef.current;
+        updateOverflowEdges(viewport);
 
         // Vertical
         if (scrollYThumbRef.current) {

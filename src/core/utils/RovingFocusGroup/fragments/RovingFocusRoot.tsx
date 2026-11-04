@@ -3,6 +3,7 @@ import React from 'react';
 import Primitive from '~/core/primitives/Primitive';
 
 import { RovingFocusRootContext } from '../context/RovingFocusRootContext';
+import { useDirection } from '~/core/hooks/useDirection';
 
 /**
  * Props for the RovingFocusRoot component
@@ -53,10 +54,11 @@ const RovingFocusRoot = React.forwardRef<React.ElementRef<'div'>, RovingFocusRoo
     'aria-labelledby': ariaLabelledBy,
     disableTabIndexing = false,
     mode = 'default',
-    dir = 'ltr',
+    dir: dirProp,
     asChild = false,
     ...props
 }, forwardedRef) => {
+    const dir = useDirection(dirProp) ?? 'ltr';
     // With asChild the role lives on the slotted child element.
     const childRole = asChild && React.isValidElement(children)
         ? (children.props as { role?: unknown }).role

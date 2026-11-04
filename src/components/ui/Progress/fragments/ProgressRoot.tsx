@@ -19,6 +19,10 @@ export type ProgressRootProps = {
     minValue?: number;
     maxValue?: number;
     getValueLabel?: (value: number, minValue: number, maxValue: number) => string;
+    /** Intl.NumberFormat options for the value text (and Value part), such as percent or unit. */
+    format?: Intl.NumberFormatOptions;
+    /** Locale for `format`. */
+    locale?: string;
     customRootClass?: string;
     children: React.ReactNode;
 } & ComponentPropsWithoutRef<typeof Primitive.div>;
@@ -46,6 +50,8 @@ const ProgressRoot = forwardRef<ProgressRootElement, ProgressRootProps>(
             children,
             customRootClass,
             getValueLabel,
+            format,
+            locale,
             className,
             ...props
         },
@@ -55,13 +61,21 @@ const ProgressRoot = forwardRef<ProgressRootElement, ProgressRootProps>(
         const isIndeterminate = value === null;
         // Indeterminate progress has no current value, so it exposes neither
         // aria-valuenow nor value text (WAI-ARIA progressbar).
-        const valueLabel = isIndeterminate ? undefined : getValueLabel?.(value as number, minValue, maxValue);
+        const valueLabel = isIndeterminate
+            ? undefined
+            : getValueLabel?.(value as number, minValue, maxValue)
+                ?? (format ? new Intl.NumberFormat(locale, format).format(value as number) : undefined);
+        const percentage = isIndeterminate || maxValue === minValue
+            ? undefined
+            : Math.min(100, Math.max(0, (((value as number) - minValue) / (maxValue - minValue)) * 100));
+        const labelId = React.useId();
+        const [hasLabel, setHasLabel] = React.useState(false);
         const ariaLabel = valueLabel ?? '';
         // Values at or beyond maxValue are complete (raw values are still exposed as-is).
         const state = getProgressState(value, maxValue);
         // The value label is the accessible value text; it only doubles as the accessible
         // name when the consumer supplies no aria-label / aria-labelledby.
-        const hasConsumerName = props['aria-label'] !== undefined || props['aria-labelledby'] !== undefined;
+        const hasConsumerName = hasLabel || props['aria-label'] !== undefined || props['aria-labelledby'] !== undefined;
 
         const sendValues = {
             value,
@@ -70,7 +84,11 @@ const ProgressRoot = forwardRef<ProgressRootElement, ProgressRootProps>(
             rootClass,
             getValueLabel,
             ariaLabel,
-            state
+            state,
+            valueText: valueLabel,
+            percentage,
+            labelId,
+            setHasLabel
         };
 
         const { asChild, ...rest } = props;
@@ -81,6 +99,7 @@ const ProgressRoot = forwardRef<ProgressRootElement, ProgressRootProps>(
                     role="progressbar"
                     aria-label={hasConsumerName ? undefined : valueLabel || undefined}
                     aria-valuetext={valueLabel || undefined}
+                    aria-labelledby={hasLabel ? labelId : undefined}
                     aria-valuenow={isIndeterminate ? undefined : value}
                     aria-valuemin={minValue}
                     aria-valuemax={maxValue}

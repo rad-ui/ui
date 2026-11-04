@@ -1,6 +1,7 @@
 /**
- * Static marker set on search components (primitive and styled wrappers) so Combobox content can
- * render them outside the role="listbox" element, as the WAI-ARIA combobox pattern requires.
+ * Static marker set on search and empty-state components (primitive and styled wrappers) so
+ * Combobox content can render them outside the role="listbox" element, as the WAI-ARIA combobox
+ * pattern requires (a listbox may only own options and groups).
  */
 export const COMBOBOX_SEARCH_PART = '__radComboboxSearchPart' as const;
 

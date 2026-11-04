@@ -18,7 +18,8 @@ const SUPPORTED_HTML_ELEMENTS = [
     'tr',
     'td',
     'th',
-    'form'
+    'form',
+    'output'
 ] as const;
 type SupportedElement = typeof SUPPORTED_HTML_ELEMENTS[number];
 type PrimitiveComponentProps<TTag extends SupportedElement> = React.ComponentPropsWithoutRef<TTag> & {

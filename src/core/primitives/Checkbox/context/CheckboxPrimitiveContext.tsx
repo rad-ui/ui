@@ -7,7 +7,8 @@ export interface CheckboxPrimitiveContextProps {
     setIsChecked: (value: boolean | 'indeterminate' | null) => void,
     id?: string,
     required?: boolean,
-    disabled?: boolean
+    disabled?: boolean,
+    readOnly?: boolean
 }
 
 const CheckboxPrimitiveContext = React.createContext<CheckboxPrimitiveContextProps>({

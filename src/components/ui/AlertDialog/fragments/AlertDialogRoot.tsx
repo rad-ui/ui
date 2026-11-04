@@ -6,6 +6,9 @@ import clsx from 'clsx';
 import { useControllableState } from '~/core/hooks/useControllableState';
 
 import DialogPrimitive from '~/core/primitives/Dialog';
+import { callOpenChange, type OpenChangeDetails } from '~/core/utils/openChangeDetails';
+
+const noop = () => {};
 
 type AlertDialogRootElement = React.ElementRef<typeof DialogPrimitive.Root>;
 type DialogPrimitiveRootProps = React.ComponentPropsWithoutRef<typeof DialogPrimitive.Root>;
@@ -15,7 +18,8 @@ export type AlertDialogRootProps = Omit<DialogPrimitiveRootProps, 'open' | 'onOp
     className?: string;
     defaultOpen?: boolean;
     open?: boolean;
-    onOpenChange?: (open: boolean) => void;
+    /** Called with the next open state and details (`reason`, `event`, `cancel()`). */
+    onOpenChange?: (open: boolean, details: OpenChangeDetails) => void;
 };
 
 const COMPONENT_NAME = 'AlertDialog';
@@ -31,7 +35,12 @@ const AlertDialogRoot = forwardRef<AlertDialogRootElement, AlertDialogRootProps>
 }, ref) => {
     const rootClass = useComponentClass(customRootClass, COMPONENT_NAME);
 
-    const [isOpen, setIsOpen] = useControllableState(open, defaultOpen, onOpenChange);
+    const [isOpen, setIsOpen] = useControllableState(open, defaultOpen, noop);
+    // The primitive is controlled by this state, so apply the change here.
+    const handlePrimitiveOpenChange = (nextOpen: boolean, details: OpenChangeDetails) => {
+        callOpenChange(onOpenChange, nextOpen, details);
+        if (!details.isCanceled) setIsOpen(nextOpen);
+    };
     const [titleId, setTitleId] = useState<string | undefined>(undefined);
     const [descriptionId, setDescriptionId] = useState<string | undefined>(undefined);
 
@@ -52,14 +61,16 @@ const AlertDialogRoot = forwardRef<AlertDialogRootElement, AlertDialogRootProps>
         <DialogPrimitive.Root
             ref={ref}
             open={isOpen}
-            onOpenChange={setIsOpen}
+            onOpenChange={handlePrimitiveOpenChange}
             className={clsx(rootClass, className)}
             dismissOnOutsidePress={false}
             {...props}
         >
-            <AlertDialogContext.Provider value={contextProps}>
-                {children}
-            </AlertDialogContext.Provider>
+            {typeof children === 'function'
+                ? (state: { payload: unknown }) => (
+                    <AlertDialogContext.Provider value={contextProps}>{children(state)}</AlertDialogContext.Provider>
+                )
+                : <AlertDialogContext.Provider value={contextProps}>{children}</AlertDialogContext.Provider>}
         </DialogPrimitive.Root>
     );
 });

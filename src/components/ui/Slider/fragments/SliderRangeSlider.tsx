@@ -5,6 +5,7 @@ import { SliderContext } from '../context/SliderContext';
 import Primitive from '~/core/primitives/Primitive';
 import { KEYBOARD_KEYS } from '~/core/utils/keyboard';
 import { snapToStep } from '../utils/sliderMath';
+import { useDirection } from '~/core/hooks/useDirection';
 
 const COMPONENT_NAME = 'SliderRangeSlider';
 const THUMB_HALF_SIZE = 8;
@@ -29,6 +30,7 @@ const SliderRangeSlider = forwardRef<SliderRangeSliderElement, SliderRangeSlider
     ...props
 }, ref) => {
     const { rootClass, minValue, maxValue, step, disabled, orientation, rootRef } = React.useContext(SliderContext);
+    const contextDir = useDirection();
 
     const [internalValue, setValue] = React.useState<[number, number]>(valueProp || defaultValue);
     // Honour a controlled `value` prop instead of only reading it on mount.
@@ -141,7 +143,7 @@ const SliderRangeSlider = forwardRef<SliderRangeSliderElement, SliderRangeSlider
         if (disabled) return;
 
         const newValue = [...value] as [number, number];
-        const isRtl = Boolean((e.currentTarget as HTMLElement).closest('[dir="rtl"]'));
+        const isRtl = contextDir ? contextDir === 'rtl' : Boolean((e.currentTarget as HTMLElement).closest('[dir="rtl"]'));
 
         switch (e.key) {
         case KEYBOARD_KEYS.ARROW_RIGHT:

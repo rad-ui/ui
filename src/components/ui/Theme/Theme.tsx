@@ -51,21 +51,25 @@ const Theme = forwardRef<ThemeElement, ThemeProps>(function Theme({
     }, []);
 
     useEffect(() => {
-        const media = window.matchMedia('(prefers-color-scheme: dark)');
-        const handler = (event: MediaQueryListEvent) => {
-            if (appearance === 'system') {
-                setTheme(event.matches ? 'dark' : 'light');
-            }
-        };
-
-        if (appearance === 'system') {
-            setTheme(media.matches ? 'dark' : 'light');
-            media.addEventListener('change', handler);
-        } else {
+        if (appearance !== 'system') {
             setTheme(appearance);
+            return;
         }
-
-        return () => media.removeEventListener('change', handler);
+        // No matchMedia (some test runners and embedded webviews): stay light rather than crash.
+        if (typeof window.matchMedia !== 'function') {
+            setTheme('light');
+            return;
+        }
+        const media = window.matchMedia('(prefers-color-scheme: dark)');
+        const handler = (event: MediaQueryListEvent) => setTheme(event.matches ? 'dark' : 'light');
+        setTheme(media.matches ? 'dark' : 'light');
+        // Safari before 14 only has the deprecated addListener.
+        if (typeof media.addEventListener === 'function') {
+            media.addEventListener('change', handler);
+            return () => media.removeEventListener('change', handler);
+        }
+        media.addListener(handler);
+        return () => media.removeListener(handler);
     }, [appearance]);
 
     useEffect(() => {

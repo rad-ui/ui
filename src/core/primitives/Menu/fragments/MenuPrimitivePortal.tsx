@@ -34,7 +34,7 @@ const MenuPrimitivePortal = forwardRef<MenuPrimitivePortalElement, MenuPrimitive
         }, [container, root, themeContext]);
 
         if (!context) return null;
-        if ((!context.isOpen && !forceMount) || !rootElement) return null;
+        if ((!context.transitionMounted && !forceMount) || !rootElement) return null;
         return (
             <MenuPrimitivePortalContext.Provider value={{ forceMount }}>
                 <Floater.Portal root={rootElement} {...props}>

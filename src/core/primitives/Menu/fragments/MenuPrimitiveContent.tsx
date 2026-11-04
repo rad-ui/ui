@@ -5,6 +5,8 @@ import { getNextTabbable } from '@floating-ui/react/utils';
 import Floater from '~/core/primitives/Floater';
 import MenuPrimitiveRootContext from '../contexts/MenuPrimitiveRootContext';
 import { MenuPrimitivePortalContext } from '../contexts/MenuPrimitivePortalContext';
+import { useTransitionStatus, getTransitionAttributes } from '~/core/hooks/useTransitionStatus';
+import { placementAlign, placementSide } from '~/core/utils/placement';
 
 export type MenuPrimitiveContentProps = {
     children: React.ReactNode;
@@ -26,7 +28,7 @@ const MenuPrimitiveContent = forwardRef<HTMLDivElement, MenuPrimitiveContentProp
         const { forceMount: portalForceMount } = useContext(MenuPrimitivePortalContext);
         if (!context) return null;
         const isOpen = context.isOpen;
-        if (!isOpen && !forceMount && !portalForceMount) return null;
+        if (!context.transitionMounted && !forceMount && !portalForceMount) return null;
         const {
             floatingStyles,
             getFloatingProps,
@@ -35,8 +37,10 @@ const MenuPrimitiveContent = forwardRef<HTMLDivElement, MenuPrimitiveContentProp
             isNested,
             floatingContext,
             maxHeight,
-            getRootTrigger
+            getRootTrigger,
+            modal = false
         } = context;
+        const blocksPage = modal && isOpen && !isNested;
 
         // Menu button pattern (WAI-ARIA APG): Tab / Shift+Tab close the whole
         // menu tree. Shift+Tab returns focus to the trigger; Tab moves focus to
@@ -84,6 +88,9 @@ const MenuPrimitiveContent = forwardRef<HTMLDivElement, MenuPrimitiveContentProp
                 // Portaled content does not inherit direction from the trigger's tree.
                 dir: context.dir,
                 'data-state': 'open',
+                'data-side': placementSide(context.resolvedPlacement),
+                'data-align': placementAlign(context.resolvedPlacement),
+                ...getTransitionAttributes(context.transitionStatus),
                 onKeyDown: (event: React.KeyboardEvent<HTMLDivElement>) => {
                     (restProps.onKeyDown as React.KeyboardEventHandler<HTMLDivElement> | undefined)?.(event);
                     handleTabKey(event);
@@ -95,15 +102,23 @@ const MenuPrimitiveContent = forwardRef<HTMLDivElement, MenuPrimitiveContentProp
                 className,
                 dir: context.dir,
                 'data-state': 'closed',
-                style: { ...consumerStyle, ...floatingStyles, visibility: 'hidden', pointerEvents: 'none' }
+                'data-side': placementSide(context.resolvedPlacement),
+                'data-align': placementAlign(context.resolvedPlacement),
+                'aria-hidden': 'true',
+                ...getTransitionAttributes(context.transitionStatus),
+                // Stay visible while the exit animation runs; hidden once it's only force-mounted.
+                style: { ...consumerStyle, ...floatingStyles, visibility: context.transitionStatus === 'ending' ? undefined : 'hidden', pointerEvents: 'none' }
             };
 
         return (
             <Floater.FloatingList elementsRef={elementsRef} labelsRef={labelsRef}>
+                {/* A modal menu covers the page with a transparent layer: it locks scroll and
+                    takes outside presses, which close the menu without reaching the page. */}
+                {blocksPage && <Floater.Overlay lockScroll data-slot="menu-backdrop" style={{ zIndex: 'auto' }} />}
                 <Floater.FocusManager
                     context={floatingContext}
                     disabled={focusManagerDisabled || !isOpen}
-                    modal={false}
+                    modal={blocksPage}
                     initialFocus={initialFocus ?? (isNested ? -1 : 0)}
                     returnFocus={!isNested}
                 >

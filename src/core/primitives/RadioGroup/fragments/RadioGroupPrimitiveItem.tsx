@@ -19,7 +19,7 @@ const RadioGroupPrimitiveItem = React.forwardRef<RadioGroupPrimitiveItemElement,
         if (!context) {
             throw new Error('RadioGroup.Item must be used within a RadioGroup.Root');
         }
-        const { groupDisabled, selectedValue, setSelectedValue, isNavigatingWithKeyboardRef } = context;
+        const { groupDisabled, readOnly, selectedValue, setSelectedValue, isNavigatingWithKeyboardRef } = context;
         const { setFocusedItemId } = useContext(RovingFocusGroupContext);
         const rovingId = React.useId();
 
@@ -34,7 +34,7 @@ const RadioGroupPrimitiveItem = React.forwardRef<RadioGroupPrimitiveItemElement,
         }, [itemSelected, isDisabled, rovingId, setFocusedItemId]);
 
         const select = () => {
-            if (isDisabled) return;
+            if (isDisabled || readOnly) return;
             setSelectedValue(value);
         };
 

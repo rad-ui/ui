@@ -4,6 +4,7 @@ import { useComponentClass } from '~/components/ui/Theme/useComponentClass';
 import CheckboxContext from '../context/CheckboxContext';
 import clsx from 'clsx';
 import { createDataAttributes, composeAttributes, createDataAccentColorAttribute } from '~/core/hooks/createDataAttribute';
+import { useFieldControlProps } from '~/components/ui/Field/contexts/FieldContext';
 
 const COMPONENT_NAME = 'Checkbox';
 
@@ -15,7 +16,8 @@ export type CheckboxRootProps = {
     size?: string;
 } & ComponentPropsWithoutRef<typeof CheckboxPrimitiveRoot>;
 
-const CheckboxRoot = forwardRef<CheckboxRootElement, CheckboxRootProps>(({ children, className = '', customRootClass, color = '', variant, size, ...props }, ref) => {
+const CheckboxRoot = forwardRef<CheckboxRootElement, CheckboxRootProps>((fieldAwareProps, ref) => {
+    const { children, className = '', customRootClass, color = '', variant, size, ...props } = useFieldControlProps(fieldAwareProps);
     const rootClass = useComponentClass(customRootClass, COMPONENT_NAME);
 
     const dataAttributes = createDataAttributes('checkbox', { variant, size });

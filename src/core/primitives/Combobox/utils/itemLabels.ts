@@ -54,3 +54,15 @@ export function findItemLabel(node: React.ReactNode, value: string): string | nu
     visit(node);
     return found;
 }
+
+/** Labels supplied up front, for items the element tree can't reveal (custom components, lazy lists). */
+export type ComboboxItemsLabels = Record<string, string> | ReadonlyArray<{ value: string; label: string }>;
+
+export function labelFromItems(items: ComboboxItemsLabels | undefined, value: string): string | null {
+    if (!items) return null;
+    if (Array.isArray(items)) {
+        return (items as ReadonlyArray<{ value: string; label: string }>).find((item) => item.value === value)?.label ?? null;
+    }
+    const label = (items as Record<string, string>)[value];
+    return typeof label === 'string' ? label : null;
+}

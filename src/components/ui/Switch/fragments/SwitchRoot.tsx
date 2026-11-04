@@ -13,6 +13,7 @@ import useControllableState from '~/core/hooks/useControllableState';
 import composeEventHandlers from '~/core/hooks/composeEventHandlers';
 import { mergeRefs } from '~/core/utils/mergeRefs';
 import clsx from 'clsx';
+import { useFieldControlProps } from '~/components/ui/Field/contexts/FieldContext';
 
 const COMPONENT_NAME = 'Switch';
 
@@ -27,30 +28,34 @@ export type SwitchRootProps = ComponentPropsWithoutRef<typeof ButtonPrimitive> &
     checked?: boolean;
     onCheckedChange?: (checked: boolean) => void;
     disabled?: boolean;
+    /** Show the state without letting the user change it. Stays focusable. */
+    readOnly?: boolean;
     required?: boolean;
     name?: string;
     value?: string;
     asChild?: boolean;
 };
 
-const SwitchRoot = forwardRef<SwitchRootElement, SwitchRootProps>(({
-    children,
-    customRootClass,
-    color = '',
-    variant,
-    size,
-    defaultChecked = false,
-    checked,
-    onCheckedChange,
-    disabled = false,
-    required = false,
-    name,
-    value,
-    asChild = false,
-    className,
-    onClick,
-    ...props
-}, ref) => {
+const SwitchRoot = forwardRef<SwitchRootElement, SwitchRootProps>((fieldAwareProps, ref) => {
+    const {
+        children,
+        customRootClass,
+        color = '',
+        variant,
+        size,
+        defaultChecked = false,
+        checked,
+        onCheckedChange,
+        disabled = false,
+        readOnly = false,
+        required = false,
+        name,
+        value,
+        asChild = false,
+        className,
+        onClick,
+        ...props
+    } = useFieldControlProps(fieldAwareProps);
     const [isChecked, setIsChecked] = useControllableState(
         checked,
         defaultChecked,
@@ -64,7 +69,7 @@ const SwitchRoot = forwardRef<SwitchRootElement, SwitchRootProps>(({
     const composedAttributes = composeAttributes(dataAttributes, accentAttributes);
 
     const handleCheckedChange = () => {
-        if (disabled) return;
+        if (disabled || readOnly) return;
         setIsChecked(!isChecked);
     };
 
@@ -96,6 +101,8 @@ const SwitchRoot = forwardRef<SwitchRootElement, SwitchRootProps>(({
         role: 'switch',
         'aria-checked': isChecked,
         'aria-required': required,
+        'aria-readonly': readOnly || undefined,
+        'data-readonly': readOnly ? '' : undefined,
         disabled,
         ...props
     };

@@ -7,6 +7,7 @@ import { KEYBOARD_KEYS } from '~/core/utils/keyboard';
 import { mergeRefs } from '~/core/utils/mergeRefs';
 import clsx from 'clsx';
 import { clampValue, getThumbBounds, roundToStepPrecision } from '../utils/sliderMath';
+import { useDirection } from '~/core/hooks/useDirection';
 
 const COMPONENT_NAME = 'SliderThumb';
 
@@ -20,7 +21,8 @@ export type SliderThumbProps = {
 } & ComponentPropsWithoutRef<'div'>;
 
 const SliderThumb = React.memo(forwardRef<SliderThumbElement, SliderThumbProps>(({ children, asChild = false, index = 0, 'aria-label': ariaLabel, 'aria-labelledby': ariaLabelledby, className, style, onKeyDown, onPointerDown, onPointerUp, onFocus, onBlur, ...props }, ref) => {
-    const { rootClass, value, minValue, maxValue, step, setValue, commitValue, name, isDragging, setDragging, disabled, orientation, pageStepMultiplier, formatValue, registerThumbRef } = React.useContext(SliderContext);
+    const { rootClass, value, minValue, maxValue, step, setValue, commitValue, name, isDragging, setDragging, disabled, orientation, isRtl: rootIsRtl, thumbAlignment, pageStepMultiplier, minStepsBetweenValues, formatValue, registerThumbRef } = React.useContext(SliderContext);
+    const contextDir = useDirection();
     const thumbRef = React.useRef<HTMLDivElement>(null);
     
     // Register this thumb ref with the slider root
@@ -45,7 +47,7 @@ const SliderThumb = React.memo(forwardRef<SliderThumbElement, SliderThumbProps>(
         onKeyDown?.(e);
         if (disabled || e.defaultPrevented) return;
         let newValue = currentValue;
-        const isRtl = Boolean((e.currentTarget as HTMLElement).closest('[dir="rtl"]'));
+        const isRtl = contextDir ? contextDir === 'rtl' : rootIsRtl || Boolean((e.currentTarget as HTMLElement).closest('[dir="rtl"]'));
         switch (e.key) {
         case KEYBOARD_KEYS.ARROW_RIGHT:
             newValue = isRtl ? currentValue - step : currentValue + step;
@@ -78,7 +80,7 @@ const SliderThumb = React.memo(forwardRef<SliderThumbElement, SliderThumbProps>(
 
         // In multi-thumb sliders a thumb cannot move past its neighbours.
         const bounds = Array.isArray(value)
-            ? getThumbBounds(value, index, minValue, maxValue)
+            ? getThumbBounds(value, index, minValue, maxValue, minStepsBetweenValues * step)
             : { lower: minValue, upper: maxValue };
         const nextThumbValue = clampValue(
             roundToStepPrecision(newValue, step, minValue),
@@ -138,9 +140,16 @@ const SliderThumb = React.memo(forwardRef<SliderThumbElement, SliderThumbProps>(
             onBlur={(e: React.FocusEvent<HTMLDivElement>) => { onBlur?.(e); setFocused(false); }}
             style={{
                 ...style,
-                ...(orientation === 'vertical'
-                    ? { top: `calc(${percent}% - 10px)` }
-                    : { left: `calc(${percent}% - 10px)` })
+                ...(() => {
+                    // Mirror first in right-to-left, then keep the thumb inside the track for edge alignment.
+                    const visual = orientation !== 'vertical' && rootIsRtl ? 100 - percent : percent;
+                    const offset = thumbAlignment === 'edge'
+                        ? `var(--rad-slider-thumb-size, 20px) * ${visual / 100}`
+                        : '10px';
+                    return orientation === 'vertical'
+                        ? { top: `calc(${visual}% - ${offset})` }
+                        : { left: `calc(${visual}% - ${offset})` };
+                })()
             }}
             {...props}
         >

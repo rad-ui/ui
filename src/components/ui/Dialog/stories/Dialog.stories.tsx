@@ -50,3 +50,35 @@ export const Default = {
         actionButton: <button>Delete</button>
     }
 };
+
+const DetachedTriggersExample = () => {
+    const handle = React.useMemo(() => Dialog.createHandle<{ name: string }>(), []);
+    const files = [{ name: 'Invoice.pdf' }, { name: 'Contract.docx' }, { name: 'Photo.png' }];
+    return (
+        <SandboxEditor>
+            <ul className="flex flex-col gap-2">
+                {files.map((file) => (
+                    <li key={file.name} className="flex items-center gap-3">
+                        {file.name}
+                        <Dialog.Trigger handle={handle} payload={file}>Delete</Dialog.Trigger>
+                    </li>
+                ))}
+            </ul>
+            <Dialog.Root handle={handle}>
+                {({ payload }) => (
+                    <Dialog.Portal>
+                        <Dialog.Overlay />
+                        <Dialog.Content>
+                            <Dialog.Title>Delete {(payload as { name: string } | undefined)?.name}?</Dialog.Title>
+                            <Dialog.Close>Cancel</Dialog.Close>
+                        </Dialog.Content>
+                    </Dialog.Portal>
+                )}
+            </Dialog.Root>
+        </SandboxEditor>
+    );
+};
+
+export const DetachedTriggers = {
+    render: () => <DetachedTriggersExample />
+};

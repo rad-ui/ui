@@ -27,7 +27,9 @@ export type PopoverOutsideInteractionEvent<T extends Event> = {
 
 type PopoverPrimitiveContextType = {
     isOpen: boolean;
-    modal: boolean;
+    modal: boolean | 'trap-focus';
+    /** Called after the open or close animations finish. */
+    onOpenChangeComplete?: (open: boolean) => void;
     contentId: string;
     triggerNode: HTMLElement | null;
     anchorNode: HTMLElement | null;

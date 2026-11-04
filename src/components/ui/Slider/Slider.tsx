@@ -7,6 +7,7 @@ import SliderThumb from './fragments/SliderThumb';
 import SliderRange from './fragments/SliderRange';
 import SliderMarks from './fragments/SliderMarks';
 import SliderRangeSlider from './fragments/SliderRangeSlider';
+import SliderValue from './fragments/SliderValue';
 
 export type SliderElement = ElementRef<'div'>;
 
@@ -25,7 +26,11 @@ export type SliderProps = {
     disabled?: boolean;
     name?: string;
     orientation?: 'horizontal' | 'vertical';
+    /** `edge` keeps the whole thumb inside the track at the ends. */
+    thumbAlignment?: 'center' | 'edge';
     pageStepMultiplier?: number;
+    /** In a range slider, the smallest number of steps kept between neighbouring thumbs. */
+    minStepsBetweenValues?: number;
     showStepMarks?: boolean;
     formatValue?: (value: number) => string;
     'aria-label'?: string;
@@ -39,6 +44,7 @@ type SliderComponent = ForwardRefExoticComponent<SliderProps & RefAttributes<Sli
     Thumb: typeof SliderThumb;
     Marks: typeof SliderMarks;
     RangeSlider: typeof SliderRangeSlider;
+    Value: typeof SliderValue;
 };
 
 const Slider = forwardRef<SliderElement, SliderProps>((props, ref) => {
@@ -106,6 +112,7 @@ Slider.Range = SliderRange;
 Slider.Thumb = SliderThumb;
 Slider.Marks = SliderMarks;
 Slider.RangeSlider = SliderRangeSlider;
+Slider.Value = SliderValue;
 
 export type { SliderRootProps } from './fragments/SliderRoot';
 export type { SliderTrackProps } from './fragments/SliderTrack';
@@ -113,6 +120,7 @@ export type { SliderRangeProps } from './fragments/SliderRange';
 export type { SliderThumbProps } from './fragments/SliderThumb';
 export type { SliderMarksProps } from './fragments/SliderMarks';
 export type { SliderRangeSliderProps } from './fragments/SliderRangeSlider';
+export type { SliderValueProps } from './fragments/SliderValue';
 // Named part exports let React Server Components use `import * as Slider from '@radui/ui/Slider'`;
 // property access on the default export is undefined across the client boundary.
 export {
@@ -121,7 +129,8 @@ export {
     SliderRange as Range,
     SliderThumb as Thumb,
     SliderMarks as Marks,
-    SliderRangeSlider as RangeSlider
+    SliderRangeSlider as RangeSlider,
+    SliderValue as Value
 };
 
 export default Slider;

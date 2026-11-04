@@ -33,6 +33,11 @@
       "require": "./dist/components/AspectRatio.cjs",
       "types": "./dist/components/AspectRatio.d.ts"
     },
+    "./Autocomplete": {
+      "import": "./dist/components/Autocomplete.js",
+      "require": "./dist/components/Autocomplete.cjs",
+      "types": "./dist/components/Autocomplete.d.ts"
+    },
     "./Avatar": {
       "import": "./dist/components/Avatar.js",
       "require": "./dist/components/Avatar.cjs",
@@ -122,6 +127,11 @@
       "import": "./dist/components/Dialog.js",
       "require": "./dist/components/Dialog.cjs",
       "types": "./dist/components/Dialog.d.ts"
+    },
+    "./DirectionProvider": {
+      "import": "./dist/components/DirectionProvider.js",
+      "require": "./dist/components/DirectionProvider.cjs",
+      "types": "./dist/components/DirectionProvider.d.ts"
     },
     "./Disclosure": {
       "import": "./dist/components/Disclosure.js",
@@ -213,6 +223,11 @@
       "require": "./dist/components/NumberField.cjs",
       "types": "./dist/components/NumberField.d.ts"
     },
+    "./OTPField": {
+      "import": "./dist/components/OTPField.js",
+      "require": "./dist/components/OTPField.cjs",
+      "types": "./dist/components/OTPField.d.ts"
+    },
     "./Popover": {
       "import": "./dist/components/Popover.js",
       "require": "./dist/components/Popover.cjs",
@@ -267,6 +282,11 @@
       "import": "./dist/components/Slider.js",
       "require": "./dist/components/Slider.cjs",
       "types": "./dist/components/Slider.d.ts"
+    },
+    "./Slot": {
+      "import": "./dist/components/Slot.js",
+      "require": "./dist/components/Slot.cjs",
+      "types": "./dist/components/Slot.d.ts"
     },
     "./Spinner": {
       "import": "./dist/components/Spinner.js",

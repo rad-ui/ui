@@ -24,7 +24,7 @@
  * </Toast.Provider>
  * ```
  *
- * ## Adding toasts (Base UI–aligned)
+ * ## Adding toasts
  * ```tsx
  * const manager = Toast.useToastManager();
  * manager.add({ title: 'Saved!', variant: 'success', timeout: 4000 });

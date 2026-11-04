@@ -13,19 +13,28 @@ const HOLD_INTERVAL_MS = 60;
 export function useStepperButton(
     direction: NumberFieldStepDirection,
     handleStep: (opts: { direction: NumberFieldStepDirection; type: 'small' }) => boolean,
-    enabled: boolean
+    enabled: boolean,
+    /** Called once a press (or a keyboard activation) has finished stepping. */
+    onCommit?: () => void
 ) {
     const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
     const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
     const pointerSteppedRef = useRef(false);
     const handleStepRef = useRef(handleStep);
     handleStepRef.current = handleStep;
+    const onCommitRef = useRef(onCommit);
+    onCommitRef.current = onCommit;
+    const holdingRef = useRef(false);
 
     const stop = useCallback(() => {
         if (timeoutRef.current) clearTimeout(timeoutRef.current);
         if (intervalRef.current) clearInterval(intervalRef.current);
         timeoutRef.current = null;
         intervalRef.current = null;
+        if (holdingRef.current) {
+            holdingRef.current = false;
+            onCommitRef.current?.();
+        }
         if (typeof window !== 'undefined') {
             window.removeEventListener('pointerup', stop);
             window.removeEventListener('pointercancel', stop);
@@ -46,6 +55,7 @@ export function useStepperButton(
         pointerSteppedRef.current = true;
         stop();
         if (!step()) return;
+        holdingRef.current = true;
         window.addEventListener('pointerup', stop);
         window.addEventListener('pointercancel', stop);
         window.addEventListener('blur', stop);
@@ -63,7 +73,7 @@ export function useStepperButton(
         // assistive-technology activation dispatches clicks with detail === 0.
         if (fromPointer && event.detail !== 0) return;
         if (!enabled) return;
-        step();
+        if (step()) onCommitRef.current?.();
     };
 
     return { onPointerDown, onClick, onPointerLeave: stop };

@@ -7,6 +7,11 @@ import SelectRoot from './fragments/SelectRoot';
 import SelectIndicator from './fragments/SelectIndicator';
 import SelectPortal from './fragments/SelectPortal';
 import SelectGroup from './fragments/SelectGroup';
+import SelectGroupLabel from './fragments/SelectGroupLabel';
+import SelectSeparator from './fragments/SelectSeparator';
+import SelectValue from './fragments/SelectValue';
+import SelectIcon from './fragments/SelectIcon';
+import { SelectScrollUpArrow, SelectScrollDownArrow } from './fragments/SelectScrollArrow';
 
 const SelectBase = React.forwardRef<unknown, Record<string, never>>((_props, _ref) => {
     console.warn('Direct usage of Select is not supported. Please use Select.Root, Select.Content, etc. instead.');
@@ -22,7 +27,13 @@ interface SelectComponent extends React.ForwardRefExoticComponent<React.RefAttri
     Trigger: typeof SelectTrigger;
     Portal: typeof SelectPortal;
     Group: typeof SelectGroup;
+    GroupLabel: typeof SelectGroupLabel;
+    Separator: typeof SelectSeparator;
+    Value: typeof SelectValue;
+    Icon: typeof SelectIcon;
     Indicator: typeof SelectIndicator;
+    ScrollUpArrow: typeof SelectScrollUpArrow;
+    ScrollDownArrow: typeof SelectScrollDownArrow;
 }
 
 const Select = SelectBase as SelectComponent;
@@ -33,15 +44,26 @@ Select.Item = SelectItem;
 Select.Trigger = SelectTrigger;
 Select.Portal = SelectPortal;
 Select.Group = SelectGroup;
+Select.GroupLabel = SelectGroupLabel;
+Select.Separator = SelectSeparator;
+Select.Value = SelectValue;
+Select.Icon = SelectIcon;
 Select.Indicator = SelectIndicator;
+Select.ScrollUpArrow = SelectScrollUpArrow;
+Select.ScrollDownArrow = SelectScrollDownArrow;
 
 export type { SelectRootProps } from './fragments/SelectRoot';
 export type { SelectContentProps } from './fragments/SelectContent';
+export type { SelectGroupLabelProps } from './fragments/SelectGroupLabel';
+export type { SelectSeparatorProps } from './fragments/SelectSeparator';
+export type { SelectValueProps } from './fragments/SelectValue';
+export type { SelectIconProps } from './fragments/SelectIcon';
 export type { SelectItemProps } from './fragments/SelectItem';
 export type { SelectTriggerProps } from './fragments/SelectTrigger';
 export type { SelectPortalProps } from './fragments/SelectPortal';
 export type { SelectGroupProps } from './fragments/SelectGroup';
 export type { SelectIndicatorProps } from './fragments/SelectIndicator';
+export type { SelectScrollArrowProps } from './fragments/SelectScrollArrow';
 // Named part exports let React Server Components use `import * as Select from '@radui/ui/Select'`;
 // property access on the default export is undefined across the client boundary.
 export {
@@ -51,7 +73,13 @@ export {
     SelectTrigger as Trigger,
     SelectPortal as Portal,
     SelectGroup as Group,
-    SelectIndicator as Indicator
+    SelectGroupLabel as GroupLabel,
+    SelectSeparator as Separator,
+    SelectValue as Value,
+    SelectIcon as Icon,
+    SelectIndicator as Indicator,
+    SelectScrollUpArrow as ScrollUpArrow,
+    SelectScrollDownArrow as ScrollDownArrow
 };
 
 export default Select;

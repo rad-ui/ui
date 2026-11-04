@@ -51,6 +51,7 @@
 @use "../../components/ui/NavigationMenu/navigation-menu.clarity";
 @use "../../components/ui/DropdownMenu/dropdown-menu.clarity";
 @use "../../components/ui/NumberField/number-field.clarity";
+@use "../../components/ui/OTPField/otp-field.clarity";
 @use "../../components/ui/ContextMenu/context-menu.clarity";
 @use "../../components/ui/Menubar/menubar.clarity";
 @use "../../components/ui/Meter/meter.clarity";
@@ -59,6 +60,7 @@
 @use "../../components/ui/Steps/steps.clarity";
 @use "../../components/ui/Minimap/minimap.clarity";
 @use "../../components/ui/Combobox/combobox.clarity";
+@use "../../components/ui/Autocomplete/autocomplete.clarity";
 @use "../../components/ui/Command/command.clarity";
 @use "../../components/ui/Tooltip/tooltip.clarity";
 @use "../../components/ui/Spinner/spinner.clarity";

@@ -13,15 +13,15 @@ export type ToastProviderProps = {
     position?: ToastPosition;
     expand?: boolean;
     gap?: number;
-    /** @deprecated Prefer Base UI name `limit`. */
+    /** @deprecated Use `limit`. */
     maxToasts?: number;
-    /** Base UI — max visible stack size (default `3`). */
+    /** Max visible stack size (default `3`). */
     limit?: number;
-    /** Base UI — default auto-dismiss ms (default `5000`). */
+    /** Default auto-dismiss delay in ms (default `5000`). */
     timeout?: number;
     /** Sonner alias */
     duration?: number;
-    /** Base UI — isolate queue / use outside React tree (pair with `createToastManager()`). */
+    /** A separate queue you can also use outside React (pair with `createToastManager()`). */
     toastManager?: ToastManager;
     /** Optional className passthrough for viewport region if needed (headless) */
     className?: string;

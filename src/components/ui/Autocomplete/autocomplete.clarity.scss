@@ -1,0 +1,93 @@
+.rad-ui-autocomplete-root {
+    position: relative;
+    display: inline-flex;
+    width: var(--rad-autocomplete-width, 240px);
+    max-width: 100%;
+}
+
+.rad-ui-autocomplete-input {
+    width: 100%;
+    min-height: var(--rad-ui-control-height-md);
+    box-sizing: border-box;
+    padding: 0 var(--rad-ui-control-padding-x-md);
+    border: var(--rad-ui-border-width-default) solid var(--rad-ui-field-border);
+    border-radius: var(--rad-ui-control-radius-md);
+    background-color: var(--rad-ui-field-background);
+    color: var(--rad-ui-text-primary);
+    font-family: var(--rad-ui-font-sans);
+    font-size: var(--rad-ui-component-font-size-sm);
+    outline: none;
+    box-shadow: var(--rad-ui-control-shadow);
+
+    &::placeholder {
+        color: var(--rad-ui-text-muted);
+    }
+
+    &:focus-visible,
+    &[data-state="open"] {
+        border-color: var(--rad-ui-color-gray-700);
+        box-shadow: var(--rad-ui-focus-ring-shadow);
+    }
+
+    &:disabled {
+        opacity: 0.5;
+        background-color: var(--rad-ui-disabled-background);
+        border-color: var(--rad-ui-disabled-border);
+        cursor: not-allowed;
+    }
+}
+
+.rad-ui-autocomplete-content {
+    z-index: var(--rad-ui-z-index-portal);
+    box-sizing: border-box;
+    max-height: min(
+        var(--rad-autocomplete-content-height, var(--rad-ui-overlay-max-height-md)),
+        var(--rad-ui-floating-available-height, var(--rad-ui-overlay-max-height-md))
+    );
+    padding: var(--rad-ui-density-gap-sm);
+    background-color: var(--rad-ui-surface-panel);
+    border: var(--rad-ui-border-width-default) solid var(--rad-ui-border-soft);
+    border-radius: var(--rad-ui-panel-radius-sm);
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+    box-shadow: var(--rad-ui-elevation-md-shadow);
+
+    &[data-state="closed"] {
+        display: none;
+    }
+
+    // An empty filter leaves nothing to show; drop the empty panel unless an
+    // Empty message is showing.
+    &:not(:has([role="option"]:not([style*="display: none"]), [data-empty])) {
+        display: none;
+    }
+}
+
+.rad-ui-autocomplete-item {
+    display: flex;
+    align-items: center;
+    padding: var(--rad-ui-control-padding-y-md) var(--rad-ui-control-padding-x-md);
+    font-size: var(--rad-ui-component-font-size-sm);
+    line-height: var(--rad-ui-component-line-height-normal);
+    color: var(--rad-ui-text-primary);
+    border-radius: var(--rad-ui-control-radius-sm);
+    cursor: default;
+    user-select: none;
+    outline: none;
+
+    &[data-active="true"], &:hover {
+        background-color: var(--rad-ui-surface-hover);
+    }
+
+    &[data-disabled] {
+        opacity: 0.5;
+        pointer-events: none;
+    }
+}
+
+.rad-ui-autocomplete-empty {
+    padding: var(--rad-ui-control-padding-y-md) var(--rad-ui-control-padding-x-md);
+    color: var(--rad-ui-text-muted);
+    font-size: var(--rad-ui-component-font-size-sm);
+}

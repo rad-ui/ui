@@ -5,3 +5,12 @@
 #{baremetal.$theme-root} :where(.rad-ui-tabs-trigger) { @include baremetal.option-item; }
 #{baremetal.$theme-root} :where(.rad-ui-tabs-trigger[data-state="active"]) { @include baremetal.checked-item; }
 #{baremetal.$theme-root} :where(.rad-ui-tab-content) { @include baremetal.surface; }
+#{baremetal.$theme-root} :where(.rad-ui-tabs-list) { position: relative; }
+#{baremetal.$theme-root} :where(.rad-ui-tabs-indicator) {
+    position: absolute;
+    top: var(--active-tab-top);
+    left: var(--active-tab-left);
+    width: var(--active-tab-width);
+    height: var(--active-tab-height);
+    pointer-events: none;
+}

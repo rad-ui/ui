@@ -5,6 +5,7 @@ import { useComponentClass } from '~/components/ui/Theme/useComponentClass';
 import Primitive from '~/core/primitives/Primitive';
 import RovingFocusGroup from '~/core/utils/RovingFocusGroup';
 import ToolbarRootContext from '../context/ToolbarRootContext';
+import { useDirection } from '~/core/hooks/useDirection';
 
 const COMPONENT_NAME = 'Toolbar';
 
@@ -21,7 +22,7 @@ const ToolbarRoot = React.forwardRef<HTMLDivElement, ToolbarRootProps>(
         {
             orientation = 'horizontal',
             loop = false,
-            dir = 'ltr',
+            dir: dirProp,
             className = '',
             customRootClass = '',
             asChild = false,
@@ -31,6 +32,7 @@ const ToolbarRoot = React.forwardRef<HTMLDivElement, ToolbarRootProps>(
         ref
     ) => {
         const rootClass = useComponentClass(customRootClass, COMPONENT_NAME);
+        const dir = useDirection(dirProp) ?? 'ltr';
         const context = React.useMemo(() => ({ rootClass, orientation, dir }), [rootClass, orientation, dir]);
         const dataAttributes: Record<string, string> = {
             'data-orientation': orientation as string

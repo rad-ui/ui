@@ -4,6 +4,7 @@ import clsx from 'clsx';
 import RovingFocusGroup from '~/core/utils/RovingFocusGroup';
 import TabNavContext from '../context/TabNav.context';
 import useControllableState from '~/core/hooks/useControllableState';
+import { useDirection } from '~/core/hooks/useDirection';
 
 const COMPONENT_NAME = 'TabNav';
 
@@ -20,11 +21,12 @@ export type TabNavRootProps = React.ComponentPropsWithoutRef<'nav'> & {
 }
 
 const TabNavRoot = forwardRef<HTMLElement, TabNavRootProps>(({
-    className, loop = true, orientation = 'horizontal', dir, children, color, customRootClass = '', defaultValue = '',
+    className, loop = true, orientation = 'horizontal', dir: dirProp, children, color, customRootClass = '', defaultValue = '',
     onValueChange = () => {},
     value, ...props
 }, ref) => {
     const rootClass = useComponentClass(customRootClass, COMPONENT_NAME);
+    const dir = useDirection(dirProp);
 
     const [tabValue, setTabValue] = useControllableState<string>(
         value,

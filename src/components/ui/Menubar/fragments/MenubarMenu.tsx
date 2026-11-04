@@ -4,6 +4,7 @@ import clsx from 'clsx';
 import MenubarContext, { MenubarItem } from '../contexts/MenubarContext';
 import Floater from '~/core/primitives/Floater';
 import MenubarMenuContext from '../contexts/MenubarMenuContext';
+import { callOpenChange, type OpenChangeDetails } from '~/core/utils/openChangeDetails';
 
 export type MenubarMenuElement = ElementRef<typeof MenuPrimitive.Root>;
 export type MenubarMenuProps = {
@@ -40,9 +41,9 @@ const MenubarMenu = forwardRef<MenubarMenuElement, MenubarMenuProps>(({ children
             data-id={id}
             data-active={isOpen}
             open={isOpen}
-            onOpenChange={(open) => {
+            onOpenChange={(open: boolean, details: OpenChangeDetails) => {
                 if (id) updateItemState(id, open ? 'open' : 'closed');
-                onOpenChange?.(open);
+                callOpenChange(onOpenChange, open, details);
             }}
             {...props}
         >

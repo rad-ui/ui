@@ -9,6 +9,9 @@
 // Mark line: step 7 (600) — default border
 // Mark label: step 11 (950) — supporting content
 .rad-ui-slider {
+  // Thumb size, shared with the edge-alignment maths in the thumb, range and marks.
+  --rad-slider-thumb-size: var(--rad-ui-icon-size-md);
+
   position: relative;
   width: 100%;
   max-width: var(--rad-ui-slider-inline-size, calc(var(--rad-ui-overlay-width-md) + var(--rad-ui-spacing-6)));
@@ -55,8 +58,8 @@
   .rad-ui-slider-thumb,
   .rad-ui-slider-thumb-lower,
   .rad-ui-slider-thumb-upper {
-    width: var(--rad-ui-icon-size-md);
-    height: var(--rad-ui-icon-size-md);
+    width: var(--rad-slider-thumb-size);
+    height: var(--rad-slider-thumb-size);
     background-color: var(--rad-ui-color-gray-50);  // step 1 — canvas bg
     border-radius: var(--rad-ui-control-radius-pill);
     border: var(--rad-ui-border-width-default) solid var(--rad-ui-color-gray-600); // step 7 — default border
@@ -200,4 +203,11 @@
       .rad-ui-slider-mark-line { width: var(--rad-ui-density-gap-xs); height: var(--rad-ui-density-gap-md); }
     }
   }
+}
+
+.rad-ui-slider-value {
+    color: var(--rad-ui-text-secondary);
+    font-family: var(--rad-ui-font-sans);
+    font-size: var(--rad-ui-font-size-2);
+    font-variant-numeric: tabular-nums;
 }

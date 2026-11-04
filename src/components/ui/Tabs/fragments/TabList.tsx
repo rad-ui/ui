@@ -1,10 +1,11 @@
 'use client';
-import React, { useContext } from 'react';
+import React, { useContext, useMemo } from 'react';
 import clsx from 'clsx';
 import TabsRootContext from '../context/TabsRootContext';
 
 import RovingFocusGroup from '~/core/utils/RovingFocusGroup';
 import Primitive from '~/core/primitives/Primitive';
+import { mergeRefs } from '~/core/utils/mergeRefs';
 
 const COMPONENT_NAME = 'TabList';
 
@@ -17,12 +18,13 @@ const TabList = React.forwardRef<React.ElementRef<'div'>, TabListProps>(
         const context = useContext(TabsRootContext);
         if (!context) throw new Error('TabList must be used within a TabRoot');
 
-        const { rootClass, orientation } = context;
+        const { rootClass, orientation, listRef } = context;
+        const ref = useMemo(() => mergeRefs(forwardedRef, listRef), [forwardedRef, listRef]);
 
         return (
             <RovingFocusGroup.Group>
                 <Primitive.div
-                    ref={forwardedRef}
+                    ref={ref}
                     role="tablist"
                     aria-orientation={orientation}
                     className={clsx(rootClass && `${rootClass}-list`, className)}

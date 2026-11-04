@@ -3,6 +3,7 @@ import { useControllableState } from '~/core/hooks/useControllableState';
 import NumberFieldContext, { NumberFieldContextType } from '../contexts/NumberFieldContext';
 import { useComponentClass } from '~/components/ui/Theme/useComponentClass';
 import clsx from 'clsx';
+import FieldContext from '~/components/ui/Field/contexts/FieldContext';
 
 const COMPONENT_NAME = 'NumberField';
 
@@ -17,12 +18,29 @@ export type NumberFieldRootProps = {
     step?: number
     /** Amount used by Shift+Arrow and PageUp/PageDown. Defaults to `step * 10`. */
     largeStep?: number
+    /** Amount used by Alt/Option+Arrow, for fine adjustments. Defaults to `step / 10`. */
+    smallStep?: number
     min?: number
     max?: number
     disabled?: boolean
     readOnly?: boolean
     required?: boolean
     invalid?: boolean
+    /**
+     * Display the value with Intl.NumberFormat, such as currency, percent or
+     * unit. The input becomes a text field that accepts formatted typing; the
+     * value stays a plain number (a percent of 25% is 0.25).
+     */
+    format?: Intl.NumberFormatOptions
+    /** Locale for `format`. Defaults to the browser's. */
+    locale?: string
+    /** Let the mouse wheel step the value while the input is focused. */
+    allowWheelScrub?: boolean
+    /**
+     * Called with the settled value: on blur or Enter after typing, when a stepper button or
+     * scrub is released, and right away for keyboard steps. Fires only when the value changed.
+     */
+    onValueCommit?: (value: number | '') => void
 } & ComponentPropsWithoutRef<'div'>;
 
 const countDecimals = (value: number | undefined): number => {
@@ -41,7 +59,14 @@ const isValidStep = (value: number | undefined): value is number => {
     return typeof value === 'number' && Number.isFinite(value) && value > 0;
 };
 
-const NumberFieldRoot = forwardRef<NumberFieldRootElement, NumberFieldRootProps>(({ children, customRootClass = '', name, defaultValue = '', value, onValueChange, largeStep, step, min, max, disabled, readOnly, required, invalid, id, className = '', ...props }, ref) => {
+const NumberFieldRoot = forwardRef<NumberFieldRootElement, NumberFieldRootProps>(({ children, customRootClass = '', name: nameProp, defaultValue = '', value, onValueChange, onValueCommit, largeStep, smallStep, step, min, max, disabled: disabledProp, readOnly, required: requiredProp, invalid: invalidProp, format, locale, allowWheelScrub = false, id: idProp, className = '', ...props }, ref) => {
+    // Inside Field.Root, the input takes the field's id, name and state.
+    const field = React.useContext(FieldContext);
+    const id = idProp ?? field?.controlId;
+    const name = nameProp ?? field?.name;
+    const disabled = disabledProp ?? (field?.disabled || undefined);
+    const required = requiredProp ?? (field?.required || undefined);
+    const invalid = invalidProp ?? (field?.invalid || undefined);
     const rootClass = useComponentClass(customRootClass, COMPONENT_NAME);
     const [inputValue, setInputValue] = useControllableState<number | ''>(
         value,
@@ -50,6 +75,7 @@ const NumberFieldRoot = forwardRef<NumberFieldRootElement, NumberFieldRootProps>
 
     const resolvedStep = isValidStep(step) ? step : 1;
     const resolvedLargeStep = isValidStep(largeStep) ? largeStep : resolvedStep * 10;
+    const resolvedSmallStep = isValidStep(smallStep) ? smallStep : resolvedStep / 10;
 
     // Latest value, readable from timers (press-and-hold) without stale closures.
     const valueRef = useRef<number | ''>(inputValue);
@@ -84,15 +110,26 @@ const NumberFieldRoot = forwardRef<NumberFieldRootElement, NumberFieldRootProps>
         commit(input);
     };
 
+    // The last value reported to onValueCommit, so a commit only fires on a real change.
+    const lastCommittedRef = useRef<number | ''>(inputValue);
+    const onValueCommitRef = useRef(onValueCommit);
+    onValueCommitRef.current = onValueCommit;
+    const notifyCommit = () => {
+        const current = valueRef.current;
+        if (current === lastCommittedRef.current) return;
+        lastCommittedRef.current = current;
+        onValueCommitRef.current?.(current);
+    };
+
     const commitValue = () => {
         const current = valueRef.current;
-        if (current === '') return;
-        commit(clamp(current));
+        if (current !== '') commit(clamp(current));
+        notifyCommit();
     };
 
     const handleStep: NumberFieldContextType['handleStep'] = ({ type, direction }) => {
         if (disabled || readOnly) return false;
-        let amount = type === 'large' ? resolvedLargeStep : resolvedStep;
+        let amount = type === 'large' ? resolvedLargeStep : type === 'fine' ? resolvedSmallStep : resolvedStep;
         if (direction === 'decrement') amount *= -1;
 
         const current = valueRef.current;
@@ -101,7 +138,7 @@ const NumberFieldRoot = forwardRef<NumberFieldRootElement, NumberFieldRootProps>
             // Start from 0 (clamped into range) rather than an arbitrary offset.
             next = clamp(0 + amount);
         } else {
-            next = clamp(roundToPrecision(current + amount, current, resolvedStep, resolvedLargeStep, min));
+            next = clamp(roundToPrecision(current + amount, current, resolvedStep, resolvedLargeStep, resolvedSmallStep, min));
         }
 
         if (next === current) return false;
@@ -125,6 +162,7 @@ const NumberFieldRoot = forwardRef<NumberFieldRootElement, NumberFieldRootProps>
         handleStep,
         commitValue,
         setToBound,
+        notifyCommit,
         canIncrement,
         canDecrement,
         id,
@@ -136,7 +174,10 @@ const NumberFieldRoot = forwardRef<NumberFieldRootElement, NumberFieldRootProps>
         readOnly,
         required,
         invalid,
-        rootClass
+        rootClass,
+        format,
+        locale,
+        allowWheelScrub
     };
 
     return (

@@ -37,6 +37,13 @@ export type ButtonProps = {
     variant?: string;
     size?: string;
     color?: string;
+    /**
+     * Keep a disabled button in the tab order. It still won't activate, but
+     * keyboard and screen reader users can reach it, for example to read a
+     * tooltip explaining why it's disabled, or so focus isn't lost when a
+     * button disables itself while a request is pending.
+     */
+    focusableWhenDisabled?: boolean;
 } & ComponentPropsWithoutRef<typeof ButtonPrimitive>;
 
 const Button = forwardRef<ElementRef<typeof ButtonPrimitive>, ButtonProps>(
@@ -49,6 +56,7 @@ const Button = forwardRef<ElementRef<typeof ButtonPrimitive>, ButtonProps>(
         size = '',
         color = '',
         disabled = false,
+        focusableWhenDisabled = false,
         onClick,
         onClickCapture,
         onAuxClickCapture,
@@ -119,7 +127,7 @@ const Button = forwardRef<ElementRef<typeof ButtonPrimitive>, ButtonProps>(
         const childNeedsButtonKeyboardSupport = asChild && childKind === 'other';
         const resolvedTabIndex = !asChild
             ? tabIndex
-            : disabled && childKind !== null && !childIsNativeButton
+            : disabled && !focusableWhenDisabled && childKind !== null && !childIsNativeButton
                 ? -1
                 : childNeedsButtonKeyboardSupport && tabIndex === undefined
                     ? 0
@@ -172,7 +180,11 @@ const Button = forwardRef<ElementRef<typeof ButtonPrimitive>, ButtonProps>(
                 ref={composedRef}
                 asChild={asChild}
                 tabIndex={resolvedTabIndex}
-                disabled={disabled}
+                // Native `disabled` removes the button from the tab order, so a
+                // focusable disabled button relies on aria-disabled and the
+                // click guards above instead.
+                disabled={disabled && !focusableWhenDisabled}
+                aria-disabled={disabled ? 'true' : undefined}
                 data-disabled={disabled ? '' : undefined}
                 className={clsx(rootClass, className)}
                 {...composedAttributes}

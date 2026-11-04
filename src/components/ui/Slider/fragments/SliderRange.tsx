@@ -3,6 +3,7 @@
 import React, { forwardRef, ElementRef, ComponentPropsWithoutRef } from 'react';
 import { SliderContext } from '../context/SliderContext';
 import clsx from 'clsx';
+import { thumbCenterPosition } from '../utils/sliderMath';
 
 const COMPONENT_NAME = 'SliderRange';
 
@@ -10,7 +11,7 @@ export type SliderRangeElement = ElementRef<'div'>;
 export type SliderRangeProps = { children?: React.ReactNode } & ComponentPropsWithoutRef<'div'>;
 
 const SliderRange = forwardRef<SliderRangeElement, SliderRangeProps>(({ children, className, style, ...props }, ref) => {
-    const { rootClass, value, minValue, maxValue, orientation } = React.useContext(SliderContext);
+    const { rootClass, value, minValue, maxValue, orientation, isRtl, thumbAlignment } = React.useContext(SliderContext);
     let startPercent = 0;
     let endPercent = 0;
 
@@ -37,6 +38,17 @@ const SliderRange = forwardRef<SliderRangeElement, SliderRangeProps>(({ children
     }
 
     const length = endPercent - startPercent;
+    // With edge alignment the fill runs between thumb centres, which sit inset from the ends.
+    // In right-to-left the fill is mirrored first (it grows from the right edge).
+    const hasStartThumb = Array.isArray(value) && value.length > 1;
+    const mirrored = isRtl && orientation !== 'vertical';
+    const edgeStart = mirrored
+        ? thumbCenterPosition(100 - endPercent, 'edge')
+        : hasStartThumb ? thumbCenterPosition(startPercent, 'edge') : '0%';
+    const edgeEnd = mirrored
+        ? (hasStartThumb ? thumbCenterPosition(100 - startPercent, 'edge') : '100%')
+        : thumbCenterPosition(endPercent, 'edge');
+    const edgeLength = `calc(${edgeEnd} - ${edgeStart})`;
     const mergedClassName = clsx(rootClass ? `${rootClass}-range` : undefined, className) || undefined;
 
     return (
@@ -45,13 +57,18 @@ const SliderRange = forwardRef<SliderRangeElement, SliderRangeProps>(({ children
             className={mergedClassName}
             style={{
                 ...style,
-                ...(orientation === 'vertical'
+                ...(thumbAlignment === 'edge'
+                ? (orientation === 'vertical'
+                    ? { height: edgeLength, marginTop: `calc(100% - ${edgeEnd})` }
+                    : { marginLeft: edgeStart, width: edgeLength })
+                : orientation === 'vertical'
                 ? {
                     height: `${length}%`,
                     marginTop: `${100 - endPercent}%`
                 }
                 : {
-                    marginLeft: `${startPercent}%`,
+                    // Physical margin: in right-to-left the filled part starts from the right edge.
+                    marginLeft: `${isRtl ? 100 - endPercent : startPercent}%`,
                     width: `${length}%`
                 })
             }}

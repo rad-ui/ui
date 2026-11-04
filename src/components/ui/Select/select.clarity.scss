@@ -226,3 +226,60 @@
     white-space: nowrap;
     text-align: left;
 }
+
+.rad-ui-select-separator {
+    height: var(--rad-ui-border-width-default);
+    margin: var(--rad-ui-density-gap-xs) 0;
+    background-color: var(--rad-ui-border-soft);
+}
+
+// With a Value part the trigger lays out its own children.
+.rad-ui-select-value {
+    flex: 1;
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    text-align: start;
+
+    &[data-placeholder] {
+        color: var(--rad-ui-text-muted);
+    }
+}
+
+// A Select.Icon replaces the built-in caret.
+.rad-ui-select-trigger:has(.rad-ui-select-icon)::after {
+    display: none;
+}
+// Scroll arrows overlay the top and bottom edges of the list while it can scroll that way.
+.rad-ui-select-content {
+    scroll-padding-block: var(--rad-select-scroll-arrow-height, 1.5rem);
+}
+
+.rad-ui-select-scroll-arrow {
+    position: sticky;
+    z-index: 1;
+    display: flex;
+    flex-shrink: 0;
+    align-items: center;
+    justify-content: center;
+    height: var(--rad-select-scroll-arrow-height, 1.5rem);
+    color: var(--rad-ui-color-gray-900);
+    background-color: var(--rad-ui-color-gray-50);
+    cursor: default;
+
+    // Stick flush to the content's edge, over its padding, so no option peeks past the arrow.
+    &[data-direction="up"] {
+        top: calc(var(--rad-ui-spacing-1) * -1);
+        margin-bottom: calc(var(--rad-select-scroll-arrow-height, 1.5rem) * -1);
+    }
+
+    &[data-direction="down"] {
+        bottom: calc(var(--rad-ui-spacing-1) * -1);
+        margin-top: calc(var(--rad-select-scroll-arrow-height, 1.5rem) * -1);
+    }
+
+    &[hidden] {
+        display: none;
+    }
+}

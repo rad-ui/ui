@@ -10,10 +10,12 @@ export type MenuPrimitiveItemProps = {
     disabled?: boolean
     asChild?: boolean
     onSelect?: (event :React.MouseEvent<HTMLButtonElement>) => void
+    /** Close the whole menu when this item is chosen. Set to false to keep it open. */
+    closeOnClick?: boolean
 } & Omit<React.ComponentPropsWithoutRef<'button'>, 'children' | 'className' | 'disabled' | 'onSelect'>
 
 const MenuPrimitiveItem = forwardRef<HTMLButtonElement, MenuPrimitiveItemProps>(
-    ({ children, className, label, disabled, asChild = false, onSelect, ...props }, propRef) => {
+    ({ children, className, label, disabled, asChild = false, onSelect, closeOnClick = true, ...props }, propRef) => {
         const context = React.useContext(MenuPrimitiveRootContext);
         const checkLabel = disabled ? null : label;
         const { ref, index } = Floater.useListItem({
@@ -61,8 +63,8 @@ const MenuPrimitiveItem = forwardRef<HTMLButtonElement, MenuPrimitiveItemProps>(
                         if (event.defaultPrevented) return;
                         onSelect?.(event);
                         // Selecting an item closes the whole menu tree unless the
-                        // consumer called event.preventDefault() to keep it open.
-                        if (event.defaultPrevented) return;
+                        // consumer called event.preventDefault() or set closeOnClick={false}.
+                        if (event.defaultPrevented || !closeOnClick) return;
                         tree?.events.emit('click');
                     },
                     onKeyDown(event: React.KeyboardEvent<HTMLButtonElement>) {

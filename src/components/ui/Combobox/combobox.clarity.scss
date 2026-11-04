@@ -118,7 +118,9 @@
 
     .rad-ui-combobox-item-indicator {
         position: absolute;
+        top: 50%;
         right: var(--rad-ui-control-padding-x-md);
+        transform: translateY(-50%);
         display: flex;
         align-items: center;
         justify-content: center;
@@ -153,5 +155,78 @@
     to {
         opacity: 1;
         transform: translateY(0);
+    }
+}
+
+.rad-ui-combobox-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--rad-ui-density-gap-xs);
+    margin-top: var(--rad-ui-density-gap-sm);
+}
+
+.rad-ui-combobox-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--rad-ui-density-gap-xs);
+    min-height: var(--rad-ui-control-height-xs);
+    padding: 0 var(--rad-ui-density-gap-xs) 0 var(--rad-ui-control-padding-x-sm);
+    border-radius: var(--rad-ui-control-radius-pill);
+    background-color: var(--rad-ui-surface-muted);
+    color: var(--rad-ui-text-primary);
+    font-family: var(--rad-ui-font-sans);
+    font-size: var(--rad-ui-component-font-size-xs);
+    box-shadow: var(--rad-ui-inset-border-shadow);
+}
+
+.rad-ui-combobox-chip-remove {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: calc(var(--rad-ui-density-gap-xs) / 2);
+    border: 0;
+    border-radius: var(--rad-ui-control-radius-pill);
+    background: transparent;
+    color: var(--rad-ui-text-muted);
+    cursor: pointer;
+
+    &:hover {
+        color: var(--rad-ui-text-primary);
+        background-color: var(--rad-ui-surface-canvas);
+    }
+
+    &:focus-visible {
+        outline: none;
+        box-shadow: var(--rad-ui-focus-ring-shadow);
+    }
+
+    &:disabled {
+        cursor: not-allowed;
+        opacity: 0.5;
+    }
+}
+
+.rad-ui-combobox-empty {
+    padding: var(--rad-ui-control-padding-y-md) var(--rad-ui-control-padding-x-md);
+    color: var(--rad-ui-text-muted);
+    font-size: var(--rad-ui-component-font-size-sm);
+}
+
+.rad-ui-combobox-separator {
+    height: var(--rad-ui-border-width-default);
+    margin: var(--rad-ui-density-gap-xs) 0;
+    background-color: var(--rad-ui-border-soft);
+}
+
+.rad-ui-combobox-value {
+    flex: 1;
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    text-align: start;
+
+    &[data-placeholder] {
+        color: var(--rad-ui-text-muted);
     }
 }

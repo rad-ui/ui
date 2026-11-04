@@ -10,7 +10,9 @@ export interface NavigationMenuItemContextProps {
    /** Opens the panel (if needed) and focuses its first link once it is rendered. */
    openAndFocusFirstLink?: () => void,
    /** Called by the content once it is mounted to flush a pending "focus first link" request. */
-   flushPendingFocus?: () => void
+   flushPendingFocus?: () => void,
+   /** The content panel, which may be portaled into the viewport outside the item's DOM. */
+   contentNodeRef?: React.MutableRefObject<HTMLElement | null>
 }
 
 const NavigationMenuItemContext = React.createContext<NavigationMenuItemContextProps>({

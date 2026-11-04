@@ -32,9 +32,12 @@ const DialogRoot = forwardRef<DialogRootElement, DialogRootProps>(({ children, c
 
     return (
         <DialogPrimitive.Root ref={ref} className={clsx(rootClass, className)} {...props}>
-            <DialogContext.Provider value={contextProps}>
-                {children}
-            </DialogContext.Provider>
+            {typeof children === 'function'
+                // With a handle, children can read the opening trigger's payload.
+                ? (state: { payload: unknown }) => (
+                    <DialogContext.Provider value={contextProps}>{children(state)}</DialogContext.Provider>
+                )
+                : <DialogContext.Provider value={contextProps}>{children}</DialogContext.Provider>}
         </DialogPrimitive.Root>
     );
 });

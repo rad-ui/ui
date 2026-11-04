@@ -8,6 +8,7 @@ import PopoverPortal from './fragments/PopoverPortal';
 import PopoverContent from './fragments/PopoverContent';
 import PopoverClose from './fragments/PopoverClose';
 import PopoverArrow from './fragments/PopoverArrow';
+import { createPopupHandle } from '~/core/utils/popupHandle';
 import PopoverTitle from './fragments/PopoverTitle';
 import PopoverDescription from './fragments/PopoverDescription';
 
@@ -22,6 +23,8 @@ type PopoverComponent = React.ForwardRefExoticComponent<PopoverProps & React.Ref
     Content: typeof PopoverContent;
     Close: typeof PopoverClose;
     Arrow: typeof PopoverArrow;
+    /** Creates a handle that connects triggers rendered outside Popover.Root. */
+    createHandle: typeof createPopupHandle;
     Title: typeof PopoverTitle;
     Description: typeof PopoverDescription;
 };
@@ -40,6 +43,7 @@ Popover.Portal = PopoverPortal;
 Popover.Content = PopoverContent;
 Popover.Close = PopoverClose;
 Popover.Arrow = PopoverArrow;
+Popover.createHandle = createPopupHandle;
 Popover.Title = PopoverTitle;
 Popover.Description = PopoverDescription;
 
@@ -50,6 +54,7 @@ export type { PopoverPortalProps } from './fragments/PopoverPortal';
 export type { PopoverContentProps } from './fragments/PopoverContent';
 export type { PopoverCloseProps } from './fragments/PopoverClose';
 export type { PopoverArrowProps } from './fragments/PopoverArrow';
+export type { PopupHandle as PopoverHandle } from '~/core/utils/popupHandle';
 export type { PopoverTitleProps } from './fragments/PopoverTitle';
 export type { PopoverDescriptionProps } from './fragments/PopoverDescription';
 // Named part exports let React Server Components use `import * as Popover from '@radui/ui/Popover'`;
@@ -63,7 +68,8 @@ export {
     PopoverClose as Close,
     PopoverArrow as Arrow,
     PopoverTitle as Title,
-    PopoverDescription as Description
+    PopoverDescription as Description,
+    createPopupHandle as createHandle
 };
 
 export default Popover;

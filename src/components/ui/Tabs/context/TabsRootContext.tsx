@@ -1,4 +1,4 @@
-import { createContext } from 'react';
+import React, { createContext } from 'react';
 
 export type TabsRootContextType = {
   rootClass: string;
@@ -11,6 +11,10 @@ export type TabsRootContextType = {
   /** Consumer-provided trigger ids, keyed by tab value, so panels stay labelled by their tab. */
   customTriggerIds?: Record<string, string>;
   registerTriggerId?: (value: string, id: string | undefined) => void;
+  /** The tablist element, used by `Tabs.Indicator` to measure the active tab. */
+  listRef?: React.MutableRefObject<HTMLElement | null>;
+  /** Trigger elements keyed by tab value, used by `Tabs.Indicator`. */
+  triggerElementsRef?: React.MutableRefObject<Map<string, HTMLElement>>;
 } | null;
 
 const sanitize = (value: string) => value.replace(/\s+/g, '-');

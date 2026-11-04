@@ -3,16 +3,38 @@ import MenuPrimitiveRootContext from '../contexts/MenuPrimitiveRootContext';
 import Floater from '~/core/primitives/Floater';
 import { useControllableState } from '~/core/hooks/useControllableState';
 import { useRegisterDocumentOverlayOpen } from '~/core/hooks/useRegisterDocumentOverlayOpen';
+import { Align, Side, toPlacement } from '~/core/utils/placement';
+import { useDirection } from '~/core/hooks/useDirection';
+import { useTransitionStatus } from '~/core/hooks/useTransitionStatus';
+import { callOpenChange, createOpenChangeDetails, fromFloatingReason, OpenChangeDetails, OpenChangeReason } from '~/core/utils/openChangeDetails';
+
+const noop = () => {};
+import type { PopupHandle } from '~/core/utils/popupHandle';
+import useIsomorphicLayoutEffect from '~/core/hooks/useLayoutEffect';
 
 export type MenuPrimitiveRootElement = ElementRef<'div'>;
 export type MenuPrimitiveRootProps = {
-    children: React.ReactNode
+    /** Content, or a function of the payload passed by the trigger that opened it (with `handle`). */
+    children: React.ReactNode | ((state: { payload: unknown }) => React.ReactNode)
+    /** Connects detached triggers made with `createHandle()`; the menu anchors to whichever opened it. */
+    handle?: PopupHandle<any>
     className?: string
     open?: boolean
-    onOpenChange?: (open: boolean) => void
+    /** Called with the next open state; a two-parameter handler also gets details (`reason`, `event`, `cancel()`). */
+    onOpenChange?: (open: boolean, details: OpenChangeDetails) => void
     defaultOpen?: boolean
+    /** Shift along the cross axis in px. Same as `alignOffset`. */
     crossAxisOffset?: number
+    /** Distance from the trigger in px. Same as `sideOffset`. */
     mainAxisOffset?: number
+    /** Preferred side of the trigger; overrides `placement`. Flips when there isn't room. */
+    side?: Side
+    /** Alignment against the trigger; overrides `placement`. Defaults to `start`. */
+    align?: Align
+    /** Distance from the trigger in px. Defaults to 4 (14 for submenus). */
+    sideOffset?: number
+    /** Shift along the cross axis in px. Defaults to 0. */
+    alignOffset?: number
     collisionBoundary?: Element | null | Array<Element | null>
     collisionPadding?: number
     loop?: boolean
@@ -33,21 +55,48 @@ export type MenuPrimitiveRootProps = {
   rtl?: boolean
   /** Reading direction. In `rtl`, ArrowLeft/ArrowRight open and close submenus and submenus open on the left. Submenus inherit it. */
   dir?: 'ltr' | 'rtl'
-} & Omit<ComponentPropsWithoutRef<'div'>, 'dir'>;
+  /** Also open the menu while the pointer rests on its trigger. Clicking still toggles it. */
+  openOnHover?: boolean
+  /** With `openOnHover`, ms the pointer rests before opening. */
+  hoverOpenDelay?: number
+  /** With `openOnHover`, ms after the pointer leaves before closing. */
+  hoverCloseDelay?: number
+  /**
+   * While open, block the rest of the page: an outside press only closes the menu, page
+   * scroll is locked and outside content is hidden from assistive technology.
+   */
+  modal?: boolean
+  /** Called after the open or close animations finish (at once when there are none). */
+  onOpenChangeComplete?: (open: boolean) => void
+} & Omit<ComponentPropsWithoutRef<'div'>, 'dir' | 'children'>;
 
 type MenuComponentRootProps = MenuPrimitiveRootProps & {
     /** Internal: set by MenuPrimitive.Sub so the menu behaves as a submenu. */
     isSubmenu?: boolean
 };
 
-export const MenuComponentRoot = forwardRef<MenuPrimitiveRootElement, MenuComponentRootProps>(({ children, className, open, onOpenChange, defaultOpen = false, crossAxisOffset, mainAxisOffset, collisionBoundary = null, collisionPadding = 4, loop = true, placement = 'bottom-start', avoidCollision = true, rtl = false, dir, isSubmenu = false, ...props }, ref) => {
-    const isRtl = rtl || dir === 'rtl';
-    const direction: 'ltr' | 'rtl' | undefined = isRtl ? 'rtl' : dir;
-    const [isOpen, setIsOpen] = useControllableState(
+export const MenuComponentRoot = forwardRef<MenuPrimitiveRootElement, MenuComponentRootProps>(({ children, className, open, onOpenChange, defaultOpen = false, crossAxisOffset, mainAxisOffset, side, align, sideOffset, alignOffset, collisionBoundary = null, collisionPadding = 4, loop = true, placement = 'bottom-start', avoidCollision = true, rtl = false, dir, isSubmenu = false, openOnHover = false, hoverOpenDelay = 100, hoverCloseDelay = 0, handle, modal = false, onOpenChangeComplete, ...props }, ref) => {
+    const resolvedDir = useDirection(dir);
+    const isRtl = rtl || resolvedDir === 'rtl';
+    const direction: 'ltr' | 'rtl' | undefined = isRtl ? 'rtl' : resolvedDir;
+    const [isOpen, setOpenState] = useControllableState(
         open,
         defaultOpen,
-        onOpenChange
+        noop
     );
+    // onOpenChange is called here with details; the state hook only stores the value.
+    const onOpenChangeRef = React.useRef(onOpenChange);
+    onOpenChangeRef.current = onOpenChange;
+    const isOpenRef = React.useRef(Boolean(isOpen));
+    isOpenRef.current = Boolean(isOpen);
+    const setIsOpen = React.useCallback((nextOpenOrUpdater: React.SetStateAction<boolean>, reason: OpenChangeReason = 'none', event?: Event) => {
+        const nextOpen = typeof nextOpenOrUpdater === 'function' ? nextOpenOrUpdater(isOpenRef.current) : nextOpenOrUpdater;
+        const details = createOpenChangeDetails(reason, event);
+        callOpenChange(onOpenChangeRef.current, nextOpen, details);
+        if (details.isCanceled) return;
+        setOpenState(nextOpen);
+    }, [setOpenState]);
+
     useRegisterDocumentOverlayOpen(isOpen);
 
     const [activeIndex, setActiveIndex] = useState<number | null>(null);
@@ -64,9 +113,9 @@ export const MenuComponentRoot = forwardRef<MenuPrimitiveRootElement, MenuCompon
     // Popover), so "nested" means "is a submenu", not "has a floating parent".
     const isNested = isSubmenu;
 
-    const effectiveCrossAxisOffset = crossAxisOffset ?? 0;
-    const effectiveMainAxisOffset =
-        mainAxisOffset !== undefined ? mainAxisOffset : isNested ? 14 : 4;
+    const effectiveCrossAxisOffset = alignOffset ?? crossAxisOffset ?? 0;
+    const effectiveMainAxisOffset = sideOffset ?? mainAxisOffset ?? (isNested ? 14 : 4);
+    const requestedPlacement = side || align ? toPlacement(side ?? 'bottom', align ?? 'start') : placement;
     const boundary = Array.isArray(collisionBoundary) ? collisionBoundary : [collisionBoundary];
     const filteredBoundary = boundary.filter((item): item is Element => item != null);
     const hasCustomCollisionBoundary = filteredBoundary.length > 0;
@@ -92,14 +141,17 @@ export const MenuComponentRoot = forwardRef<MenuPrimitiveRootElement, MenuCompon
         ...sharedDetectOverflowOptions
     };
 
-    const { refs, floatingStyles, context: floatingContext } = Floater.useFloating({
+    const { refs, floatingStyles, context: floatingContext, placement: resolvedPlacement } = Floater.useFloating({
         open: isOpen,
         nodeId,
-        onOpenChange: setIsOpen,
+        onOpenChange: (nextOpen, event, reason) => {
+            setIsOpen(nextOpen, fromFloatingReason(reason), event);
+            if (!nextOpen) handle?.close();
+        },
         strategy: 'fixed',
         transform: false,
         // Submenus open toward the inline end: right in LTR, left in RTL.
-        placement: isNested ? (isRtl ? 'left-start' : 'right-start') : placement,
+        placement: isNested ? (isRtl ? 'left-start' : 'right-start') : requestedPlacement,
         middleware: [
             Floater.offset({
                 mainAxis: effectiveMainAxisOffset,
@@ -130,9 +182,10 @@ export const MenuComponentRoot = forwardRef<MenuPrimitiveRootElement, MenuCompon
     });
     const click = Floater.useClick(floatingContext, {});
     const hover = Floater.useHover(floatingContext, {
-        enabled: isNested,
-        delay: { open: 75 },
-        handleClose: Floater.safePolygon({ blockPointerEvents: true })
+        enabled: isNested || openOnHover,
+        delay: isNested ? { open: 75 } : { open: hoverOpenDelay, close: hoverCloseDelay },
+        // Lets the pointer travel from the trigger into the menu without it closing.
+        handleClose: Floater.safePolygon({ blockPointerEvents: isNested })
     });
     // Submenus let Escape bubble so the whole menu closes; the top-level menu
     // does not, so Escape inside a menu never also closes a host Dialog/Popover.
@@ -164,11 +217,16 @@ export const MenuComponentRoot = forwardRef<MenuPrimitiveRootElement, MenuCompon
         return refs.domReference.current;
     }, [isNested, parentMenuContext, refs.domReference]);
 
+    const transition = useTransitionStatus(isOpen, () => refs.floating.current, onOpenChangeComplete);
+
     const values = {
+        transitionMounted: transition.mounted,
+        transitionStatus: transition.status,
         isOpen,
         setIsOpen,
         refs,
         floatingStyles,
+        resolvedPlacement,
         maxHeight,
         getReferenceProps,
         getFloatingProps,
@@ -184,15 +242,29 @@ export const MenuComponentRoot = forwardRef<MenuPrimitiveRootElement, MenuCompon
         floatingContext,
         rtl: isRtl,
         dir: direction,
-        getRootTrigger
+        getRootTrigger,
+        modal: modal && !isNested
     };
+    // A handle lets detached triggers open this menu and anchor it.
+    const subscribeHandle = React.useCallback((listener: () => void) => handle?.subscribe(listener) ?? (() => {}), [handle]);
+    const handleState = React.useSyncExternalStore(subscribeHandle, () => handle?.getState(), () => handle?.getState());
+    const handleOpen = handleState?.open;
+    const handleTrigger = handleState?.trigger ?? null;
+    useIsomorphicLayoutEffect(() => {
+        if (!handle) return;
+        if (handleTrigger) refs.setReference(handleTrigger);
+        if (handleOpen !== undefined && handleOpen !== isOpenRef.current) setIsOpen(handleOpen);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [handle, handleOpen, handleTrigger]);
+
     const tree = Floater.useFloatingTree();
 
     React.useEffect(() => {
         if (!tree) return;
 
         function handleTreeClick() {
-            setIsOpen(false);
+            setIsOpen(false, 'item-press');
+            handle?.close();
         }
 
         tree.events.on('click', handleTreeClick);
@@ -208,7 +280,7 @@ export const MenuComponentRoot = forwardRef<MenuPrimitiveRootElement, MenuCompon
 
             <MenuPrimitiveRootContext.Provider value={values} >
                 <Floater.FloatingNode id={nodeId}>
-                    {children}
+                    {typeof children === 'function' ? children({ payload: handleState?.payload }) : children}
                 </Floater.FloatingNode>
             </MenuPrimitiveRootContext.Provider>
 

@@ -1,15 +1,28 @@
 'use client';
 import React, { forwardRef } from 'react';
 import { DialogPrimitiveContext } from '../context/DialogPrimitiveContext';
+import { DialogNestingContext } from '../context/DialogNestingContext';
 import Floater from '~/core/primitives/Floater';
+import type { DialogHandle } from '../handle';
 import { useControllableState } from '~/core/hooks/useControllableState';
 import { useRegisterDocumentOverlayOpen } from '~/core/hooks/useRegisterDocumentOverlayOpen';
+import { callOpenChange, createOpenChangeDetails, fromFloatingReason, OpenChangeDetails, OpenChangeReason } from '~/core/utils/openChangeDetails';
+
+const noop = () => {};
 
 export type DialogPrimitiveRootProps = {
-    children: React.ReactNode;
+    /** Content, or a function of the payload passed by the trigger that opened it (with `handle`). */
+    children: React.ReactNode | ((state: { payload: unknown }) => React.ReactNode);
+    /** Connects detached triggers made with `createHandle()`. */
+    handle?: DialogHandle<any>;
     open?: boolean;
     defaultOpen?: boolean;
-    onOpenChange?: (open: boolean) => void;
+    /**
+     * Called with the next open state and details: `reason` (such as
+     * `trigger-press`, `outside-press`, `escape-key`, `close-press`), the
+     * `event`, and `cancel()` to keep it as it is.
+     */
+    onOpenChange?: (open: boolean, details: OpenChangeDetails) => void;
     onClickOutside?: () => void;
     className?:string;
     /** When true, outside pointer events and escape key will not close the dialog. */
@@ -19,28 +32,67 @@ export type DialogPrimitiveRootProps = {
      * close the dialog, while Escape still does. Used by AlertDialog.
      */
     dismissOnOutsidePress?: boolean;
+    /** Called after the open or close animations finish (at once when there are none). */
+    onOpenChangeComplete?: (open: boolean) => void;
+    /**
+     * `true` (default): focus is trapped, page scroll is locked and the overlay blocks the page.
+     * `'trap-focus'`: focus is trapped but the page still scrolls and takes pointer input.
+     * `false`: the rest of the page stays fully usable.
+     */
+    modal?: boolean | 'trap-focus';
 }
 
 const COMPONENT_NAME = 'DialogPrimitive';
 
-const DialogPrimitiveRootInner = forwardRef<HTMLDivElement, DialogPrimitiveRootProps>(({ children, open, defaultOpen = false, onOpenChange, onClickOutside = () => {}, className, disablePointerDismissal = false, dismissOnOutsidePress = true, ...props }, ref) => {
-    const [isOpen, setIsOpen] = useControllableState(open, defaultOpen, onOpenChange);
+const DialogPrimitiveRootInner = forwardRef<HTMLDivElement, DialogPrimitiveRootProps>(({ children, handle, open, defaultOpen = false, onOpenChange, onClickOutside = () => {}, className, disablePointerDismissal = false, dismissOnOutsidePress = true, onOpenChangeComplete, modal = true, ...props }, ref) => {
+    // onOpenChange is called by handleOpenChange (with details), not by the state hook.
+    const [isOpen, setIsOpen] = useControllableState(open, defaultOpen, noop);
+    const onOpenChangeRef = React.useRef(onOpenChange);
+    onOpenChangeRef.current = onOpenChange;
     const nodeId = Floater.useFloatingNodeId();
     useRegisterDocumentOverlayOpen(isOpen);
 
-    const handleOpenChange = (open: boolean) => {
+    // Nested dialogs report their open state to the dialog they're inside, so
+    // its content can be styled as stacked behind them.
+    const parentNesting = React.useContext(DialogNestingContext);
+    const [openChildCount, setOpenChildCount] = React.useState(0);
+    const nesting = React.useMemo(() => ({
+        onChildOpenChange: (childOpen: boolean) => setOpenChildCount((count) => Math.max(0, count + (childOpen ? 1 : -1)))
+    }), []);
+    const parentOnChildOpenChange = parentNesting?.onChildOpenChange;
+    React.useEffect(() => {
+        if (!isOpen || !parentOnChildOpenChange) return;
+        parentOnChildOpenChange(true);
+        return () => parentOnChildOpenChange(false);
+    }, [isOpen, parentOnChildOpenChange]);
+    // A handle lets triggers outside this Root open it; keep both in sync.
+    const subscribeHandle = React.useCallback((listener: () => void) => handle?.subscribe(listener) ?? (() => {}), [handle]);
+    const handleState = React.useSyncExternalStore(subscribeHandle, () => handle?.getState(), () => handle?.getState());
+    const handleOpen = handleState?.open;
+    React.useEffect(() => {
+        if (handleOpen === undefined) return;
+        setIsOpen(handleOpen);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [handleOpen]);
+
+    const handleOpenChange = (open: boolean, reason: OpenChangeReason = open ? 'none' : 'close-press', event?: Event) => {
+        const details = createOpenChangeDetails(reason, event);
+        callOpenChange(onOpenChangeRef.current, open, details);
+        if (details.isCanceled) return;
         setIsOpen(open);
+        if (!open) handle?.close();
     };
     const handleOverlayClick = () => {
         if (disablePointerDismissal || !dismissOnOutsidePress) return;
         onClickOutside();
-        handleOpenChange(false);
+        handleOpenChange(false, 'outside-press');
     };
 
     const { context: floaterContext, refs, floatingStyles } = Floater.useFloating({
+        elements: handleState?.trigger ? { reference: handleState.trigger } : undefined,
         open: isOpen,
         nodeId,
-        onOpenChange: handleOpenChange
+        onOpenChange: (nextOpen, event, reason) => handleOpenChange(nextOpen, fromFloatingReason(reason), event)
     });
 
     const dismiss = Floater.useDismiss(floaterContext, {
@@ -55,8 +107,9 @@ const DialogPrimitiveRootInner = forwardRef<HTMLDivElement, DialogPrimitiveRootP
         role
     ]);
 
-    const contextProps = { isOpen, handleOpenChange, floaterContext, handleOverlayClick, getReferenceProps, getFloatingProps, getItemProps, refs, floatingStyles };
+    const contextProps = { isOpen, handleOpenChange, floaterContext, handleOverlayClick, getReferenceProps, getFloatingProps, getItemProps, refs, floatingStyles, nested: Boolean(parentNesting), openChildCount, onOpenChangeComplete, modal };
     return (
+        <DialogNestingContext.Provider value={nesting}>
         <DialogPrimitiveContext.Provider value={contextProps}>
             <Floater.FloatingNode id={nodeId}>
                 <div
@@ -65,10 +118,11 @@ const DialogPrimitiveRootInner = forwardRef<HTMLDivElement, DialogPrimitiveRootP
                     {...props}
                     className={className}
                 >
-                    {children}
+                    {typeof children === 'function' ? children({ payload: handleState?.payload }) : children}
                 </div>
             </Floater.FloatingNode>
         </DialogPrimitiveContext.Provider>
+        </DialogNestingContext.Provider>
     );
 });
 

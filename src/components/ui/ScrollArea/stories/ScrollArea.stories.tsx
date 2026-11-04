@@ -245,3 +245,27 @@ export const InsideCard = {
         </SandboxEditor>
     )
 };
+
+export const FadeEdges = () => (
+    <SandboxEditor>
+        <style>{`
+            .fade-edges .rad-ui-scroll-area-viewport {
+                mask-image: linear-gradient(
+                    to bottom,
+                    transparent 0,
+                    black min(24px, var(--scroll-area-overflow-y-start, 0px)),
+                    black calc(100% - min(24px, var(--scroll-area-overflow-y-end, 0px))),
+                    transparent 100%
+                );
+            }
+        `}</style>
+        <ScrollArea.Root className="fade-edges" style={{ height: 200, width: 280 }}>
+            <ScrollArea.Viewport>
+                {Array.from({ length: 30 }, (_, index) => <Text key={index}>Line {index + 1}</Text>)}
+            </ScrollArea.Viewport>
+            <ScrollArea.Scrollbar orientation="vertical">
+                <ScrollArea.Thumb />
+            </ScrollArea.Scrollbar>
+        </ScrollArea.Root>
+    </SandboxEditor>
+);

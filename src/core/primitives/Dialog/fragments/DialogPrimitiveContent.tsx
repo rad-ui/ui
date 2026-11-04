@@ -3,7 +3,7 @@ import React, { forwardRef, useContext } from 'react';
 import { DialogPrimitiveContext } from '../context/DialogPrimitiveContext';
 import Floater from '~/core/primitives/Floater';
 import Primitive from '~/core/primitives/Primitive';
-import usePresence from '~/core/hooks/usePresence';
+import { useTransitionStatus, getTransitionAttributes } from '~/core/hooks/useTransitionStatus';
 
 export type DialogPrimitiveContentProps = React.ComponentPropsWithoutRef<typeof Primitive.div> & {
     children: React.ReactNode;
@@ -29,24 +29,25 @@ const DialogPrimitiveContent = forwardRef<HTMLDivElement, DialogPrimitiveContent
     forceMount = false,
     initialFocus = true,
     finalFocus = true,
-    trapFocus = true,
+    trapFocus: trapFocusProp,
     role = 'dialog',
-    'aria-modal': ariaModal = true,
+    'aria-modal': ariaModalProp,
     'aria-labelledby': ariaLabelledBy,
     'aria-describedby': ariaDescribedBy,
     style: styleProp,
     ...props
 }, ref) => {
-    const { isOpen, getFloatingProps, refs, floaterContext } = useContext(DialogPrimitiveContext);
+    const { isOpen, getFloatingProps, refs, floaterContext, nested, openChildCount = 0, onOpenChangeComplete, modal = true } = useContext(DialogPrimitiveContext);
+    // The root's modal mode sets the defaults; explicit props still win.
+    const trapFocus = trapFocusProp ?? modal !== false;
+    const ariaModal = ariaModalProp ?? modal !== false;
     const previousFocusedElementRef = React.useRef<HTMLElement | null>(null);
     const wasOpenRef = React.useRef(isOpen);
     const referenceElement = refs.reference?.current;
 
-    const contentRef = React.useRef<HTMLDivElement | null>(null);
-    const mergedRef = Floater.useMergeRefs([refs.setFloating, ref, contentRef]);
-    // Stays mounted while the closing transition plays (#2290).
-    const isPresent = usePresence(isOpen, contentRef);
-    const shouldRender = isPresent || forceMount;
+    const mergedRef = Floater.useMergeRefs([refs.setFloating, ref]);
+    const transition = useTransitionStatus(isOpen, () => refs.floating?.current ?? null, onOpenChangeComplete);
+    const shouldRender = transition.mounted || forceMount;
     const dataState = isOpen ? 'open' : 'closed';
 
     React.useEffect(() => {
@@ -133,12 +134,15 @@ const DialogPrimitiveContent = forwardRef<HTMLDivElement, DialogPrimitiveContent
             asChild={asChild}
             {...(getFloatingProps as (userProps?: Record<string, unknown>) => Record<string, unknown>)({
                 ...restProps,
-                style: { outline: 'none', ...styleProp, ...consumerStyle },
+                style: { outline: 'none', ['--nested-dialogs' as string]: openChildCount, ...styleProp, ...consumerStyle },
+                'data-nested': nested ? '' : undefined,
+                'data-nested-dialog-open': openChildCount > 0 ? '' : undefined,
                 role,
                 'aria-hidden': !isOpen ? 'true' : undefined,
                 'aria-labelledby': isOpen ? ariaLabelledBy : undefined,
                 'aria-describedby': isOpen ? ariaDescribedBy : undefined,
                 'data-state': dataState,
+                ...getTransitionAttributes(transition.status),
                 'aria-modal': ariaModal
             })}
         >

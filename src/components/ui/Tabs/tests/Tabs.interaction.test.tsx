@@ -159,7 +159,7 @@ describe('Tabs interactions', () => {
         expect(screen.getByText('Panel A')).toBeInTheDocument();
     });
 
-    test('no accessibility violations for selected tab', (done) => {
+    test('no accessibility violations for selected tab', async() => {
         const { container } = render(
             <Tabs.Root defaultValue="tab1">
                 <Tabs.List>
@@ -171,10 +171,8 @@ describe('Tabs interactions', () => {
             </Tabs.Root>
         );
 
-        runAxe(container).then((results) => {
-            expect(results.violations.length).toBe(0);
-            done();
-        });
+        const results = await runAxe(container);
+        expect(results.violations.map((v) => v.id)).toEqual([]);
     });
 
     test('asChild preserves semantics and forwards refs', () => {

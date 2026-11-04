@@ -5,10 +5,10 @@ export type CheckboxGroupPrimitiveContentElement = ElementRef<'span'>;
 export type CheckboxGroupPrimitiveContentProps = ComponentPropsWithoutRef<'span'>;
 
 const CheckboxGroupPrimitiveContent = forwardRef<CheckboxGroupPrimitiveContentElement, CheckboxGroupPrimitiveContentProps>(({ children, className, ...props }, ref) => {
-    const { isChecked } = React.useContext(CheckboxGroupPrimitiveTriggerContext);
+    const { isChecked, isIndeterminate } = React.useContext(CheckboxGroupPrimitiveTriggerContext);
 
     return <span ref={ref} className={className} {...props}>
-        {isChecked ? children : null}
+        {isChecked || isIndeterminate ? children : null}
     </span>;
 });
 

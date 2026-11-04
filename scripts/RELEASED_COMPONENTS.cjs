@@ -1,6 +1,7 @@
 const RELEASED_COMPONENTS = [
     // Released
     'Accordion',
+    'Autocomplete',
     'Avatar',
     'AvatarGroup',
     'AlertDialog',
@@ -13,8 +14,10 @@ const RELEASED_COMPONENTS = [
     'Card',
     'Code',
     'Dialog',
+    'DirectionProvider',
     'Em',
     'Heading',
+    'Slot',
     'Text',
     'Kbd',
     'Label',
@@ -55,6 +58,7 @@ const RELEASED_COMPONENTS = [
     'Minimap',
     'NavigationMenu',
     'NumberField',
+    'OTPField',
     'Quote',
     'Radio',
     'RadioCards',

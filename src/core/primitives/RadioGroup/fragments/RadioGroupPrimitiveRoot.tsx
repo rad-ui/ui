@@ -5,6 +5,7 @@ import RovingFocusGroup from '~/core/utils/RovingFocusGroup';
 import useControllableState from '~/core/hooks/useControllableState';
 import composeEventHandlers from '~/core/hooks/composeEventHandlers';
 import { KEYBOARD_KEYS } from '~/core/utils/keyboard';
+import { useDirection } from '~/core/hooks/useDirection';
 
 export type RadioGroupPrimitiveRootElement = React.ElementRef<typeof Primitive.div>;
 
@@ -13,6 +14,8 @@ export type RadioGroupPrimitiveRootProps = React.ComponentPropsWithoutRef<typeof
     defaultValue?: string;
     onValueChange?: (value: string) => void;
     disabled?: boolean;
+    /** Show the selection without letting the user change it. Radios stay focusable. */
+    readOnly?: boolean;
     required?: boolean;
     name?: string;
     orientation?: 'horizontal' | 'vertical' | 'both';
@@ -39,7 +42,8 @@ const visuallyHiddenInputStyle: React.CSSProperties = {
 };
 
 const RadioGroupPrimitiveRoot = React.forwardRef<RadioGroupPrimitiveRootElement, RadioGroupPrimitiveRootProps>(
-    ({ value, defaultValue = '', onValueChange, children, disabled: groupDisabled = false, required = false, name = '', orientation = 'horizontal', loop = true, dir = 'ltr', onKeyDownCapture, onKeyUpCapture, ...props }, ref) => {
+    ({ value, defaultValue = '', onValueChange, children, disabled: groupDisabled = false, readOnly = false, required = false, name = '', orientation = 'horizontal', loop = true, dir: dirProp, onKeyDownCapture, onKeyUpCapture, ...props }, ref) => {
+        const dir = useDirection(dirProp) ?? 'ltr';
         const [selectedValue, setSelectedValue] = useControllableState(
             value,
             defaultValue,
@@ -62,6 +66,7 @@ const RadioGroupPrimitiveRoot = React.forwardRef<RadioGroupPrimitiveRootElement,
             selectedValue,
             setSelectedValue,
             groupDisabled,
+            readOnly,
             isNavigatingWithKeyboardRef
         };
 
@@ -78,17 +83,21 @@ const RadioGroupPrimitiveRoot = React.forwardRef<RadioGroupPrimitiveRootElement,
                     isNavigatingWithKeyboardRef.current = false;
                 }, { checkForDefaultPrevented: false })}
                 aria-required={required}
+                aria-readonly={readOnly || undefined}
+                data-readonly={readOnly ? '' : undefined}
                 role='radiogroup'
                 aria-orientation={orientation === 'both' ? undefined : orientation}
                 aria-disabled={groupDisabled}
                 data-disabled={groupDisabled ? '' : undefined}
             >
                 {/* Radio groups move with all four arrow keys whatever their visual
-                    orientation (WAI-ARIA APG radio pattern; Radix and Base UI do the same).
+                    orientation (WAI-ARIA APG radio pattern).
                     `orientation` still sets aria-orientation above. */}
                 <RovingFocusGroup.Root dir={dir} orientation="both" loop={loop} asChild>
                     <RadioGroupContext.Provider value={sendItems}>
-                        <RovingFocusGroup.Group>
+                        {/* Always a wrapper: merged onto a single child, the group role and id would
+                            land on that child (often a <label>, which then stops naming its control). */}
+                        <RovingFocusGroup.Group asChild={false}>
 
                             {children}
 

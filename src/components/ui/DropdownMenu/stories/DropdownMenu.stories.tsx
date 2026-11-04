@@ -51,6 +51,67 @@ export const Basic: Story = {
     )
 };
 
+export const CheckboxAndRadioItems: Story = {
+    render: () => {
+        const [grid, setGrid] = React.useState(true);
+        const [sort, setSort] = React.useState('name');
+        return (
+            <SandboxEditor>
+                <DropdownMenu.Root>
+                    <DropdownMenu.Trigger>View</DropdownMenu.Trigger>
+                    <DropdownMenu.Portal>
+                        <DropdownMenu.Content>
+                            <DropdownMenu.CheckboxItem checked={grid} onCheckedChange={setGrid}>
+                                Show grid
+                                <DropdownMenu.ItemIndicator>✓</DropdownMenu.ItemIndicator>
+                            </DropdownMenu.CheckboxItem>
+                            <DropdownMenu.Separator />
+                            <DropdownMenu.Group>
+                                <DropdownMenu.GroupLabel>Sort by</DropdownMenu.GroupLabel>
+                                <DropdownMenu.RadioGroup value={sort} onValueChange={setSort}>
+                                    <DropdownMenu.RadioItem value="name">Name<DropdownMenu.ItemIndicator>✓</DropdownMenu.ItemIndicator></DropdownMenu.RadioItem>
+                                    <DropdownMenu.RadioItem value="date">Date modified<DropdownMenu.ItemIndicator>✓</DropdownMenu.ItemIndicator></DropdownMenu.RadioItem>
+                                    <DropdownMenu.RadioItem value="size">Size<DropdownMenu.ItemIndicator>✓</DropdownMenu.ItemIndicator></DropdownMenu.RadioItem>
+                                </DropdownMenu.RadioGroup>
+                            </DropdownMenu.Group>
+                        </DropdownMenu.Content>
+                    </DropdownMenu.Portal>
+                </DropdownMenu.Root>
+            </SandboxEditor>
+        );
+    }
+};
+
+const DetachedTriggersExample = () => {
+    const handle = React.useMemo(() => DropdownMenu.createHandle<string>(), []);
+    return (
+        <SandboxEditor>
+            <ul className="flex flex-col gap-2">
+                {['Invoice.pdf', 'Contract.docx'].map((file) => (
+                    <li key={file} className="flex items-center gap-3">
+                        {file}
+                        <DropdownMenu.Trigger handle={handle} payload={file}>Actions</DropdownMenu.Trigger>
+                    </li>
+                ))}
+            </ul>
+            <DropdownMenu.Root handle={handle}>
+                {({ payload }) => (
+                    <DropdownMenu.Portal>
+                        <DropdownMenu.Content>
+                            <DropdownMenu.Item>Rename {String(payload)}</DropdownMenu.Item>
+                            <DropdownMenu.Item>Delete {String(payload)}</DropdownMenu.Item>
+                        </DropdownMenu.Content>
+                    </DropdownMenu.Portal>
+                )}
+            </DropdownMenu.Root>
+        </SandboxEditor>
+    );
+};
+
+export const DetachedTriggers: Story = {
+    render: () => <DetachedTriggersExample />
+};
+
 export const ScrollCollisionVisualTest: Story = {
     render: () => {
         const [open, setOpen] = React.useState(true);
@@ -82,4 +143,30 @@ export const ScrollCollisionVisualTest: Story = {
             </SandboxEditor>
         );
     }
+};
+
+export const Modal: Story = {
+    render: () => (
+        <SandboxEditor>
+            <div style={{ minHeight: '150vh' }}>
+                <DropdownMenu.Root modal>
+                    <DropdownMenu.Trigger><Hamburger /></DropdownMenu.Trigger>
+                    <DropdownMenu.Portal>
+                        <DropdownMenu.Content>
+                            <DropdownMenu.Item label="Profile">Profile</DropdownMenu.Item>
+                            <DropdownMenu.Item label="Settings">Settings</DropdownMenu.Item>
+                            <DropdownMenu.Sub>
+                                <DropdownMenu.SubTrigger>More Options <ChevronRight /></DropdownMenu.SubTrigger>
+                                <DropdownMenu.Content>
+                                    <DropdownMenu.Item label="Help Center">Help Center</DropdownMenu.Item>
+                                    <DropdownMenu.Item label="Feedback">Feedback</DropdownMenu.Item>
+                                </DropdownMenu.Content>
+                            </DropdownMenu.Sub>
+                        </DropdownMenu.Content>
+                    </DropdownMenu.Portal>
+                </DropdownMenu.Root>
+                <p style={{ marginTop: '1rem' }}>While the menu is open the page can't scroll and clicks outside only close it.</p>
+            </div>
+        </SandboxEditor>
+    )
 };

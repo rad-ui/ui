@@ -5,6 +5,8 @@ import clsx from 'clsx';
 import { useComponentClass } from '~/components/ui/Theme/useComponentClass';
 import { SliderContext } from '../context/SliderContext';
 import useControllableState from '~/core/hooks/useControllableState';
+import useLayoutEffect from '~/core/hooks/useLayoutEffect';
+import { useDirection } from '~/core/hooks/useDirection';
 import { clampValue, getThumbBounds, snapToStep } from '../utils/sliderMath';
 
 const COMPONENT_NAME = 'Slider';
@@ -24,7 +26,11 @@ export type SliderRootProps = {
     disabled?: boolean;
     name?: string;
     orientation?: 'horizontal' | 'vertical';
+    /** `center` (default) lets a thumb's centre reach the track ends; `edge` keeps the whole thumb inside the track. */
+    thumbAlignment?: 'center' | 'edge';
     pageStepMultiplier?: number;
+    /** In a range slider, the smallest number of steps kept between neighbouring thumbs. */
+    minStepsBetweenValues?: number;
     showStepMarks?: boolean;
     formatValue?: (value: number) => string;
 } & Omit<ComponentPropsWithoutRef<'div'>, 'value' | 'defaultValue' | 'onValueChange'>;
@@ -43,7 +49,9 @@ const SliderRoot = forwardRef<SliderRootElement, SliderRootProps>(({
     disabled = false,
     name,
     orientation = 'horizontal',
+    thumbAlignment = 'center',
     pageStepMultiplier = 10,
+    minStepsBetweenValues = 0,
     showStepMarks = false,
     formatValue,
     onPointerDown,
@@ -68,6 +76,18 @@ const SliderRoot = forwardRef<SliderRootElement, SliderRootProps>(({
             else if (ref) (ref as any).current = node;
         };
     }, [ref]);
+
+    // Follow the resolved CSS direction (a dir attribute anywhere above, or CSS), so the
+    // thumb, range, marks and pointer all mirror together in right-to-left layouts.
+    const [cssIsRtl, setIsRtl] = React.useState(false);
+    const contextDir = useDirection();
+    const isRtl = contextDir ? contextDir === 'rtl' : cssIsRtl;
+    useLayoutEffect(() => {
+        const node = internalRef.current;
+        if (!node || typeof window === 'undefined') return;
+        const next = window.getComputedStyle(node).direction === 'rtl';
+        if (next !== cssIsRtl) setIsRtl(next);
+    });
 
     const clamp = (val: number) => clampValue(val, min, max);
 
@@ -94,12 +114,20 @@ const SliderRoot = forwardRef<SliderRootElement, SliderRootProps>(({
         if (!rootElement) return null;
 
         const rect = rootElement.getBoundingClientRect();
-        const size = orientation === 'vertical' ? rect.height : rect.width;
-        if (!size) return null;
+        const fullSize = orientation === 'vertical' ? rect.height : rect.width;
+        // With edge alignment a thumb's centre only travels between half a thumb from each end.
+        const thumbNode = thumbRefsArray.current[0]?.current;
+        const inset = thumbAlignment === 'edge' && thumbNode
+            ? (orientation === 'vertical' ? thumbNode.offsetHeight : thumbNode.offsetWidth) / 2
+            : 0;
+        const size = fullSize - inset * 2;
+        if (!size || size <= 0) return null;
 
         const relative = orientation === 'vertical'
-            ? (rect.bottom - e.clientY) / size
-            : (e.clientX - rect.left) / size;
+            ? (rect.bottom - inset - e.clientY) / size
+            : isRtl
+                ? (rect.right - inset - e.clientX) / size
+                : (e.clientX - rect.left - inset) / size;
 
         const rawValue = min + clampValue(relative, 0, 1) * (max - min);
         return clamp(snapToStep(rawValue, step, min));
@@ -137,7 +165,7 @@ const SliderRoot = forwardRef<SliderRootElement, SliderRootProps>(({
             }
 
             // Thumbs never cross: clamp the dragged thumb between its neighbours.
-            const { lower, upper } = getThumbBounds(current, indexToUpdate, min, max);
+            const { lower, upper } = getThumbBounds(current, indexToUpdate, min, max, minStepsBetweenValues * step);
             const bounded = clampValue(newValue, lower, upper);
             if (bounded === current[indexToUpdate]) return;
 
@@ -212,7 +240,10 @@ const SliderRoot = forwardRef<SliderRootElement, SliderRootProps>(({
         setDragging,
         disabled,
         orientation,
+        isRtl,
+        thumbAlignment,
         pageStepMultiplier,
+        minStepsBetweenValues,
         showStepMarks,
         formatValue,
         rootRef: internalRef,

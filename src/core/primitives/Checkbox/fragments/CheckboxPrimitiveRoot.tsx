@@ -14,10 +14,12 @@ export type CheckboxPrimitiveRootProps = {
     name?: string;
     value?: string;
     id?: string;
+    /** Show the state without letting the user change it. Stays focusable and is submitted with the form. */
+    readOnly?: boolean;
 } & Omit<ComponentPropsWithoutRef<typeof CheckboxPrimitiveTrigger>, 'checked' | 'defaultChecked'>;
 
 const CheckboxPrimitiveRoot = forwardRef<CheckboxPrimitiveRootElement, CheckboxPrimitiveRootProps>(
-    ({ children, className = '', checked, defaultChecked = false, onCheckedChange, disabled, required, name, value, id, ...props }, ref) => {
+    ({ children, className = '', checked, defaultChecked = false, onCheckedChange, disabled, required, name, value, id, readOnly, ...props }, ref) => {
         const [isChecked, setIsChecked] = useControllableState<boolean | 'indeterminate' | null>(
             checked,
             defaultChecked,
@@ -46,7 +48,8 @@ const CheckboxPrimitiveRoot = forwardRef<CheckboxPrimitiveRootElement, CheckboxP
             setIsChecked,
             id,
             required,
-            disabled
+            disabled,
+            readOnly
         };
 
         return <CheckboxPrimitiveContext.Provider value={contextValues}>

@@ -55,6 +55,8 @@ Open these as needed based on the task:
 
 - `knowledge/what-makes-a-library-truly-headless.md`
   Use for headless architecture, behavior/design boundaries, and API decisions.
+- `knowledge/primitive-quality.md`
+  Use for the long-term goal of complete, stable primitives: missing primitives, quality checklist, order of work (`asChild` stays as it is).
 - `knowledge/features/data-attributes.md`
   Use for public `data-*` attribute conventions and styling contract decisions.
 - `knowledge/features/styling-namespaces.md`

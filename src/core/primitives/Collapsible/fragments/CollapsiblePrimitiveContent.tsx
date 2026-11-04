@@ -11,14 +11,20 @@ export type CollapsiblePrimitiveContentProps = React.ComponentPropsWithoutRef<
     typeof Primitive.div
 > & {
     forceMount?: boolean;
+    /**
+     * Keep closed content in the page with `hidden="until-found"`, so the
+     * browser's find-in-page can search it and opens the section on a match.
+     */
+    hiddenUntilFound?: boolean;
 };
 
 const CollapsiblePrimitiveContent = React.forwardRef<
     CollapsiblePrimitiveContentElement,
     CollapsiblePrimitiveContentProps
->(({ children, className, asChild = false, forceMount = false, style, ...props }, forwardedRef) => {
+>(({ children, className, asChild = false, forceMount = false, hiddenUntilFound = false, style, ...props }, forwardedRef) => {
     const {
         open,
+        onOpenChange,
         contentId,
         transitionDuration,
         transitionTimingFunction
@@ -186,7 +192,25 @@ const CollapsiblePrimitiveContent = React.forwardRef<
         }
     }, [children, open, height]);
 
-    const shouldRender = open || isPresent || forceMount;
+    // Find-in-page: the browser fires `beforematch` before revealing a match
+    // inside `hidden="until-found"` content; open the section so it stays open.
+    const onOpenChangeRef = useRef(onOpenChange);
+    onOpenChangeRef.current = onOpenChange;
+    useLayoutEffect(() => {
+        const node = ref.current;
+        if (!node || !hiddenUntilFound) return;
+        if (open || isPresent) {
+            node.removeAttribute('hidden');
+            return;
+        }
+        // React doesn't render the string value of `hidden`, so set it directly.
+        node.setAttribute('hidden', 'until-found');
+        const handleBeforeMatch = () => onOpenChangeRef.current(true);
+        node.addEventListener('beforematch', handleBeforeMatch);
+        return () => node.removeEventListener('beforematch', handleBeforeMatch);
+    }, [hiddenUntilFound, open, isPresent]);
+
+    const shouldRender = open || isPresent || forceMount || hiddenUntilFound;
 
     if (!shouldRender) {
         return null;

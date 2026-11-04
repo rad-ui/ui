@@ -5,6 +5,8 @@ export interface RadioGroupContextValue {
     setSelectedValue: (value: string) => void;
     onChange?: (value: string) => void;
     groupDisabled: boolean;
+    /** Show the selection without letting the user change it. */
+    readOnly?: boolean;
     /**
      * True while a roving-focus navigation key (arrows/Home/End) is being handled.
      * Focus that arrives through keyboard navigation checks the radio; focus that

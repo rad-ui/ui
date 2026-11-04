@@ -17,7 +17,7 @@ const ComboboxPrimitivePortal = React.forwardRef<
     React.ElementRef<typeof Floater.Portal>,
     ComboboxPrimitivePortalProps
 >(({ children, container, forceMount = false, ...props }, _forwardedRef) => {
-    const { isOpen } = useContext(ComboboxPrimitiveContext);
+    const { transitionMounted } = useContext(ComboboxPrimitiveContext);
     const themeContext = useContext(ThemeContext);
     const [rootElementFound, setRootElementFound] = useState(false);
     const rootElement = (
@@ -34,7 +34,7 @@ const ComboboxPrimitivePortal = React.forwardRef<
         }
     }, [rootElement]);
 
-    if ((!isOpen && !forceMount) || !rootElementFound) return null;
+    if ((!transitionMounted && !forceMount) || !rootElementFound) return null;
 
     return (
         <ComboboxPrimitivePortalContext.Provider value={{ forceMount }}>

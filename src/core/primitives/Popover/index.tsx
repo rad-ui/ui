@@ -7,6 +7,7 @@ import PopoverPrimitivePortal from './fragments/PopoverPrimitivePortal';
 import PopoverPrimitiveContent from './fragments/PopoverPrimitiveContent';
 import PopoverPrimitiveClose from './fragments/PopoverPrimitiveClose';
 import PopoverPrimitiveArrow from './fragments/PopoverPrimitiveArrow';
+import { createPopupHandle } from '~/core/utils/popupHandle';
 
 const PopoverPrimitive = {
     Root: PopoverPrimitiveRoot,
@@ -15,7 +16,8 @@ const PopoverPrimitive = {
     Portal: PopoverPrimitivePortal,
     Content: PopoverPrimitiveContent,
     Close: PopoverPrimitiveClose,
-    Arrow: PopoverPrimitiveArrow
+    Arrow: PopoverPrimitiveArrow,
+    createHandle: createPopupHandle
 };
 
 export default PopoverPrimitive;

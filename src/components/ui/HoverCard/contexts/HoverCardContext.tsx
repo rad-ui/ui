@@ -1,4 +1,5 @@
 import { createContext } from 'react';
+import type { ContentPositioning } from '~/core/utils/placement';
 
 type HoverCardContextType = {
     isOpen: boolean;
@@ -17,6 +18,11 @@ type HoverCardContextType = {
     openWithDelay: () => void;
     floatingContext: any;
     arrowRef: any;
+    onOpenChangeComplete?: (open: boolean) => void;
+    /** Content reports its `side`, `align` and offsets here. */
+    setPositioning?: (positioning: ContentPositioning) => void;
+    /** Where the card ended up, after flipping. */
+    resolvedPlacement?: string;
 
 };
 

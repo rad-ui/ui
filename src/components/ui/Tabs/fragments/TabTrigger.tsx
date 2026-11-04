@@ -1,5 +1,5 @@
 'use client';
-import React, { useContext, useEffect } from 'react';
+import React, { useCallback, useContext, useEffect, useMemo } from 'react';
 import clsx from 'clsx';
 
 import TabsRootContext, { makeContentId, makeTriggerId } from '../context/TabsRootContext';
@@ -7,6 +7,7 @@ import TabsRootContext, { makeContentId, makeTriggerId } from '../context/TabsRo
 import RovingFocusGroup from '~/core/utils/RovingFocusGroup';
 import { RovingFocusGroupContext } from '~/core/utils/RovingFocusGroup/context/RovingFocusGroupContext';
 import Primitive from '~/core/primitives/Primitive';
+import { mergeRefs } from '~/core/utils/mergeRefs';
 
 export type TabTriggerProps = React.ComponentPropsWithoutRef<'button'> & {
     value?: string;
@@ -17,8 +18,15 @@ const TabTrigger = React.forwardRef<React.ElementRef<'button'>, TabTriggerProps>
     ({ value, children, className = '', disabled, asChild = false, id, onClick, onFocus, ...props }, forwardedRef) => {
         const context = useContext(TabsRootContext);
         if (!context) throw new Error('TabTrigger must be used within a TabRoot');
-        const { tabValue: activeValue, handleTabChange, rootClass, orientation, activationMode, baseId, registerTriggerId } = context;
+        const { tabValue: activeValue, handleTabChange, rootClass, orientation, activationMode, baseId, registerTriggerId, triggerElementsRef } = context;
         const { setFocusedItemId } = useContext(RovingFocusGroupContext);
+
+        const registerElement = useCallback((element: HTMLButtonElement | null) => {
+            if (value === undefined || !triggerElementsRef) return;
+            if (element) triggerElementsRef.current.set(value, element);
+            else if (triggerElementsRef.current.get(value)) triggerElementsRef.current.delete(value);
+        }, [value, triggerElementsRef]);
+        const ref = useMemo(() => mergeRefs(forwardedRef, registerElement), [forwardedRef, registerElement]);
 
         const isActive = value !== undefined && value === activeValue;
         const triggerId = id ?? (value !== undefined ? makeTriggerId(baseId, value) : undefined);
@@ -64,7 +72,7 @@ const TabTrigger = React.forwardRef<React.ElementRef<'button'>, TabTriggerProps>
         return (
             <RovingFocusGroup.Item domId={triggerId}>
                 <Primitive.button
-                    ref={forwardedRef}
+                    ref={ref}
                     id={triggerId}
                     onClick={handleClick}
                     onFocus={handleFocus}

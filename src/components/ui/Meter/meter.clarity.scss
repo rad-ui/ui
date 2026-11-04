@@ -37,3 +37,37 @@
         transition: none;
     }
 }
+
+// With a Track, the root is a wrapper: Label and Value sit above the bar.
+.rad-ui-meter:has(> .rad-ui-meter-track) {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: var(--rad-ui-spacing-2);
+    height: auto;
+    overflow: visible;
+    background: none;
+    border-radius: 0;
+}
+
+.rad-ui-meter-track {
+    grid-column: 1 / -1;
+    overflow: hidden;
+    height: var(--rad-ui-spacing-1);
+    border-radius: var(--rad-ui-control-radius-pill);
+    background: var(--rad-ui-surface-muted);
+}
+
+.rad-ui-meter-label {
+    color: var(--rad-ui-text-primary);
+    font-family: var(--rad-ui-font-sans);
+    font-size: var(--rad-ui-font-size-2);
+    font-weight: 500;
+}
+
+.rad-ui-meter-value {
+    color: var(--rad-ui-text-secondary);
+    font-family: var(--rad-ui-font-sans);
+    font-size: var(--rad-ui-font-size-2);
+    font-variant-numeric: tabular-nums;
+    text-align: end;
+}
