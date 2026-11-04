@@ -13,7 +13,7 @@ export type SelectTriggerProps = React.ComponentPropsWithoutRef<typeof ComboboxP
 };
 
 const SelectTrigger = React.forwardRef<SelectTriggerElement, SelectTriggerProps>(({ customRootClass, children, className, disabled, placeholder, ...props }, forwardedRef) => {
-    const { rootClass } = useContext(SelectRootContext);
+    const { rootClass, triggerId, labelId, hasLabel } = useContext(SelectRootContext);
     // Inside Field.Root, the trigger is the labelled control.
     const field = useContext(FieldContext);
     const fieldProps = field ? {
@@ -22,6 +22,13 @@ const SelectTrigger = React.forwardRef<SelectTriggerElement, SelectTriggerProps>
         'aria-invalid': (props as { 'aria-invalid'?: boolean })['aria-invalid'] ?? (field.invalid || undefined)
     } : {};
     const isDisabled = disabled ?? (field?.disabled || undefined);
+    // A Select.Label names the trigger; screen readers read the shown value as the combobox's value.
+    const ownProps = props as { id?: string; 'aria-labelledby'?: string };
+    const resolvedId = ownProps.id ?? field?.controlId ?? triggerId;
+    const labelProps = hasLabel && !field ? {
+        id: resolvedId,
+        'aria-labelledby': ownProps['aria-labelledby'] ?? labelId
+    } : !field && triggerId ? { id: resolvedId } : {};
 
     return (
         <ComboboxPrimitive.Trigger
@@ -32,6 +39,7 @@ const SelectTrigger = React.forwardRef<SelectTriggerElement, SelectTriggerProps>
             disabled={isDisabled}
             ref={forwardedRef}
             {...props}
+            {...labelProps}
             {...fieldProps}
         >
 
