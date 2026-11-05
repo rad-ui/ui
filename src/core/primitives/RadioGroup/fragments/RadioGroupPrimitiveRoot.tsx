@@ -81,38 +81,35 @@ const RadioGroupPrimitiveRoot = React.forwardRef<RadioGroupPrimitiveRootElement,
 
         const isEmpty = selectedValue === '' || selectedValue == null;
 
+        // The roving-focus group merges onto the radiogroup element itself, so the radios are its
+        // direct children: no extra wrapper to break the root's grid or flex layout, and no `group`
+        // nested inside the `radiogroup` (rad-ui/ui#2336).
         return (
-            <Primitive.div
-                ref={ref}
-                {...props}
-                onKeyDownCapture={composeEventHandlers(onKeyDownCapture, (event: React.KeyboardEvent<HTMLDivElement>) => {
-                    isNavigatingWithKeyboardRef.current = NAVIGATION_KEYS.includes(event.key);
-                }, { checkForDefaultPrevented: false })}
-                onKeyUpCapture={composeEventHandlers(onKeyUpCapture, () => {
-                    isNavigatingWithKeyboardRef.current = false;
-                }, { checkForDefaultPrevented: false })}
-                aria-required={required}
-                aria-readonly={readOnly || undefined}
-                data-readonly={readOnly ? '' : undefined}
-                role='radiogroup'
-                aria-orientation={orientation === 'both' ? undefined : orientation}
-                aria-disabled={groupDisabled}
-                data-disabled={groupDisabled ? '' : undefined}
-            >
+            <RovingFocusGroup.Root dir={dir} orientation="both" loop={loop} asChild>
                 {/* Radio groups move with all four arrow keys whatever their visual
-                    orientation (WAI-ARIA APG radio pattern).
-                    `orientation` still sets aria-orientation above. */}
-                <RovingFocusGroup.Root dir={dir} orientation="both" loop={loop} asChild>
-                    <RadioGroupContext.Provider value={sendItems}>
-                        {/* Always a wrapper: merged onto a single child, the group role and id would
-                            land on that child (often a <label>, which then stops naming its control). */}
-                        <RovingFocusGroup.Group asChild={false}>
-
+                    orientation (WAI-ARIA APG radio pattern). `orientation` still sets
+                    aria-orientation below. */}
+                <RovingFocusGroup.Group asChild role='radiogroup'>
+                    <Primitive.div
+                        ref={ref}
+                        {...props}
+                        onKeyDownCapture={composeEventHandlers(onKeyDownCapture, (event: React.KeyboardEvent<HTMLDivElement>) => {
+                            isNavigatingWithKeyboardRef.current = NAVIGATION_KEYS.includes(event.key);
+                        }, { checkForDefaultPrevented: false })}
+                        onKeyUpCapture={composeEventHandlers(onKeyUpCapture, () => {
+                            isNavigatingWithKeyboardRef.current = false;
+                        }, { checkForDefaultPrevented: false })}
+                        aria-required={required}
+                        aria-readonly={readOnly || undefined}
+                        data-readonly={readOnly ? '' : undefined}
+                        role='radiogroup'
+                        aria-orientation={orientation === 'both' ? undefined : orientation}
+                        aria-disabled={groupDisabled}
+                        data-disabled={groupDisabled ? '' : undefined}
+                    >
+                        <RadioGroupContext.Provider value={sendItems}>
                             {children}
-
-                        </RovingFocusGroup.Group>
-                    </RadioGroupContext.Provider>
-                </RovingFocusGroup.Root>
+                        </RadioGroupContext.Provider>
                 {name && (
                     <input
                         ref={setNamedInput}
@@ -139,7 +136,9 @@ const RadioGroupPrimitiveRoot = React.forwardRef<RadioGroupPrimitiveRootElement,
                         style={visuallyHiddenInputStyle}
                     />
                 )}
-            </Primitive.div>
+                    </Primitive.div>
+                </RovingFocusGroup.Group>
+            </RovingFocusGroup.Root>
         );
     }
 );
