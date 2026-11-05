@@ -68,7 +68,16 @@ export type ComboboxPrimitiveContextType = {
     /** True while open or running an exit animation. */
     transitionMounted: boolean;
     transitionStatus: TransitionStatus;
+    /** Positioning set on Content (side, align, offsets). It wins over the Root's. */
+    setContentPlacement: (placement: ComboboxContentPlacement | null) => void;
 }
+
+export type ComboboxContentPlacement = {
+    side?: 'top' | 'right' | 'bottom' | 'left';
+    align?: 'start' | 'center' | 'end';
+    sideOffset?: number;
+    alignOffset?: number;
+};
 
 export const ComboboxPrimitiveContext = createContext<ComboboxPrimitiveContextType>({} as ComboboxPrimitiveContextType);
 

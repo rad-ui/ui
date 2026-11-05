@@ -1,7 +1,7 @@
 'use client';
 import React, { useLayoutEffect } from 'react';
 import Primitive from '../../Primitive';
-import { ComboboxItemContext, ComboboxPrimitiveContext } from '../contexts/ComboboxPrimitiveContext';
+import { ComboboxItemContext, ComboboxPrimitiveContext, type ComboboxContentPlacement } from '../contexts/ComboboxPrimitiveContext';
 import { createActiveIndexStore } from '~/core/utils/activeIndexStore';
 import useControllableState from '~/core/hooks/useControllableState';
 import Floater from '~/core/primitives/Floater';
@@ -315,8 +315,14 @@ const ComboboxPrimitiveRoot = React.forwardRef<
         return () => form.removeEventListener('reset', handleReset);
     }, [isFormChild, name, setSelectedValue, setMultipleValue, multiple]);
 
-    const resolvedPlacement = placement ?? getPlacement(side, align);
-    const mainAxisOffset = sideOffset ?? offsetValue ?? 0;
+    // Positioning may be set on Content too (like Popover and Tooltip); there it wins over the Root's.
+    const [contentPlacement, setContentPlacement] = React.useState<ComboboxContentPlacement | null>(null);
+    const contentSetsPlacement = contentPlacement?.side !== undefined || contentPlacement?.align !== undefined;
+    const resolvedPlacement = contentSetsPlacement
+        ? getPlacement(contentPlacement?.side ?? side, contentPlacement?.align ?? align)
+        : placement ?? getPlacement(side, align);
+    const mainAxisOffset = contentPlacement?.sideOffset ?? sideOffset ?? offsetValue ?? 0;
+    const resolvedAlignOffset = contentPlacement?.alignOffset ?? alignOffset;
     const boundary = React.useMemo(() => (
         Array.isArray(collisionBoundary) ? collisionBoundary : [collisionBoundary]
     ), [collisionBoundary]);
@@ -375,7 +381,7 @@ const ComboboxPrimitiveRoot = React.forwardRef<
         const configuredMiddleware: Array<Middleware | false> = [
             Floater.offset({
                 mainAxis: mainAxisOffset,
-                alignmentAxis: alignOffset
+                alignmentAxis: resolvedAlignOffset
             }),
             ...(collisionAvoidance
                 ? collisionMiddleware({
@@ -418,7 +424,7 @@ const ComboboxPrimitiveRoot = React.forwardRef<
 
         return configuredMiddleware.filter(Boolean) as Middleware[];
     }, [
-        alignOffset,
+        resolvedAlignOffset,
         avoidCollisions,
         constrainSize,
         detectOverflowOptions,
@@ -640,6 +646,7 @@ const ComboboxPrimitiveRoot = React.forwardRef<
     }, [setSelectedValue, setSearch, refs, multiple, setMultipleValue]);
 
     const values = React.useMemo(() => ({
+        setContentPlacement,
         transitionMounted: transition.mounted,
         transitionStatus: transition.status,
         isOpen,
