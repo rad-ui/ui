@@ -29,7 +29,7 @@ const RadioCardsTemplate = () => {
             <RadioCards.Root
                 defaultValue="plus"
                 aria-label="Plan"
-                className="[&>[role=group]]:flex [&>[role=group]]:w-full [&>[role=group]]:flex-col [&>[role=group]]:gap-4"
+                className="flex w-full flex-col gap-4"
             >
                 {options.map((option) => (
                     <RadioCards.Item key={option.id} value={option.value}>

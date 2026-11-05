@@ -6,15 +6,11 @@
 // Title: step 11 (1000) — primary text
 // Description: step 11 (950) — secondary text
 .rad-ui-radio-cards {
+  display: flex;
+  flex-direction: column;
+  gap: var(--rad-ui-radio-cards-gap, 1.125rem);
   width: 100%;
   max-width: var(--rad-ui-radio-cards-max-width, 29rem);
-
-  [role="group"] {
-    display: flex;
-    flex-direction: column;
-    gap: var(--rad-ui-radio-cards-gap, 1.125rem);
-    width: 100%;
-  }
 }
 
 .rad-ui-radio-cards .rad-ui-radio-cards-item {
