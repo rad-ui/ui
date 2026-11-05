@@ -33,7 +33,7 @@ export const DocsBreadcrumb = () => {
 
 /** The import line, copyable, plus links to source, issues and the component changelog. */
 export const ComponentMeta = ({ name, changelogPath }: { name: string; changelogPath: string | null }) => {
-    const importLine = `import ${name} from "@radui/ui/${name}"`
+    const importLine = `import ${name} from "${['@radui/ui', name].join('/')}"`
     const issueUrl = `${REPO}/issues/new?title=${encodeURIComponent(`${name}: `)}&labels=${encodeURIComponent('bug')}`
     const sourceUrl = `${REPO}/tree/main/src/components/ui/${name}`
     const linkClass = 'inline-flex items-center gap-1.5 rounded-md px-2 py-1 text-[0.8rem] font-medium text-gray-950 transition-colors hover:bg-gray-100 hover:text-gray-1000'
