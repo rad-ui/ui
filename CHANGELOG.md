@@ -1,5 +1,15 @@
 # @radui/ui
 
+## 1.2.1
+
+### Patch Changes
+
+- 2d81c52: Triggers rendered with `asChild` keep the child's own semantics. A link inside `Tooltip.Trigger`, `Popover.Trigger`, `Dialog.Trigger` or any other trigger used to get `role="button"` and `type="button"`, so screen readers announced it as a button. Now a link stays a link, a native button keeps its own `type`, and only other elements (a `span`, a `div`) get `role="button"`. `Button` already worked this way; every trigger now does too (#2332).
+- 8859953: `Combobox`, `Checkbox`, `CheckboxGroup`, `RadioGroup`, `Switch` and `Field` no longer restore their default value when the owning form's `reset` event is cancelled with `preventDefault()`. They used to reset anyway, so a page that cancels resets lost the user's selection and submitted the default. The restore now runs after the event has finished dispatching, like a native control, so it also follows the browser's own reset of the form (#2344).
+- cd01923: `children` is optional in the types of parts that work without it: `Checkbox.Root`, `Switch.Root`, `Progress.Root`, `Slider.Root`, `RadioGroup.Root` and `RadioGroup.Item`, and the triggers of `Dialog`, `AlertDialog`, `Tooltip`, `DropdownMenu`, `ContextMenu` and `Menubar`. A wrapper typed from `React.ComponentProps<typeof Checkbox.Root>` no longer forces every call site to pass children (#2334).
+- b8cddb8: `RadioGroup` and `RadioCards` render their items directly inside the `radiogroup` element. They used to sit in an extra `<div role="group">`, so `display: grid` or `flex` with `gap` on the root didn't lay them out, and assistive tech met a `group` nested inside the `radiogroup`. The Clarity and Baremetal themes now lay out the root itself. If your own CSS targeted the inner wrapper (`.rad-ui-radio-group-root > [role="group"]`), move those rules to the root (#2336).
+- 47693b3: `Select.Content`, `Combobox.Content` and `Autocomplete.Content` accept `side`, `align`, `sideOffset` and `alignOffset`, as `Popover.Content` and `Tooltip.Content` do. They used to work only on the Root; on Content they were silently passed to the DOM, and React warned about unknown props. Values on Content win over the Root's (#2335).
+
 ## 1.2.0
 
 ### Minor Changes
