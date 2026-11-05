@@ -2,7 +2,7 @@ import generateSeoMetadata from '@/utils/seo/generateSeoMetadata'
 
 const dateTimeGuideMetadata = generateSeoMetadata({
   title: 'Date, time, and timezones | Rad UI',
-  description: 'Guidance for date and time handling if Rad UI introduces date-related components.',
+  description: "How to handle dates, times and time zones alongside Rad UI components: formatting, locale rules and what to keep out of component state.",
     canonicalUrl: "https://www.rad-ui.com/docs/guides/date-time-and-timezones"
 })
 

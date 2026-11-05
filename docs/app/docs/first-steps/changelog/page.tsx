@@ -26,7 +26,7 @@ const NPM_VERSION = npmPackageVersionUrl;
 const baseMetadata = generateSeoMetadata({
     title: "Changelog",
     description:
-        "Release history for @radui/ui: minor and patch changes shipped in each published version.",
+        "Release history for @radui/ui: every published version with the new components, props, fixes and breaking changes it shipped, newest first.",
     keywords: ["changelog", "release notes", "@radui/ui", "npm", "versions"],
     canonicalUrl: `${SITE_URL}${CHANGELOG_PATH}`,
 });
