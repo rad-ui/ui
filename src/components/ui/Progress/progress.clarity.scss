@@ -35,7 +35,8 @@
 
 @media (prefers-reduced-motion: reduce) {
     .rad-ui-progress[data-state="indeterminate"] .rad-ui-progress-indicator {
-        animation-duration: calc(var(--rad-ui-motion-duration-normal) * 15);
+        // The motion tokens collapse under reduced motion, so this pace can't come from them.
+        animation-duration: 2.7s;
     }
 }
 

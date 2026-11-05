@@ -31,3 +31,12 @@
         }
     }
 }
+
+// Reduced motion: a still placeholder instead of a pulsing one.
+@media (prefers-reduced-motion: reduce) {
+    // :root raises it above the shimmer rule, which is !important too.
+    :root .rad-ui-skeleton {
+        animation: none !important;
+        background-color: var(--rad-ui-color-gray-300);
+    }
+}

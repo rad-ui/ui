@@ -69,6 +69,70 @@
 // import .css file
 @use "../../../styles/cssTokens/base.tokens";
 
+// Reduced motion: when the person has asked their system for less motion, every duration token
+// collapses to the reduced one, so the theme's transitions and enter/exit animations finish at
+// once (components still get their animationend and unmount on time). Transition tokens keep
+// colour changes and drop movement. Animations that show ongoing activity (Spinner, an
+// indeterminate Progress) set their own slower pace instead.
+@media (prefers-reduced-motion: reduce) {
+    // html:root outranks the plain :root token blocks, even when another theme's copy loads later.
+    html:root {
+        --rad-ui-motion-duration-instant: var(--rad-ui-motion-duration-reduced);
+        --rad-ui-motion-duration-fast: var(--rad-ui-motion-duration-reduced);
+        --rad-ui-motion-duration-normal: var(--rad-ui-motion-duration-reduced);
+        --rad-ui-motion-duration-slow: var(--rad-ui-motion-duration-reduced);
+        --rad-ui-motion-duration-slower: var(--rad-ui-motion-duration-reduced);
+        --rad-ui-transition-normal: background-color 180ms linear, color 180ms linear, box-shadow 180ms linear;
+        --rad-ui-transition-slow: opacity var(--rad-ui-motion-duration-reduced) linear;
+        --rad-ui-transition-expressive: opacity var(--rad-ui-motion-duration-reduced) linear;
+    }
+}
+
+// Forced colours (Windows High Contrast and similar): the browser drops box-shadows and replaces
+// author colours with system ones. The theme draws focus rings with box-shadow and shows some
+// state only with a fill, so without this, focus is invisible and a Switch thumb, a Radio dot or
+// a Slider range vanishes. These rules use system colours so they follow the person's scheme.
+@media (forced-colors: active) {
+    :root :focus-visible {
+        outline: 2px solid Highlight !important;
+        outline-offset: 2px;
+    }
+
+    // Fills that carry state: keep them, in system colours.
+    :root :is(.rad-ui-switch-indicator, .rad-ui-radio-group-indicator, .rad-ui-slider-thumb) {
+        forced-color-adjust: none;
+        background-color: CanvasText;
+    }
+
+    :root :is(.rad-ui-slider-range, .rad-ui-progress-indicator, .rad-ui-tabs-indicator) {
+        forced-color-adjust: none;
+        background-color: Highlight;
+    }
+
+    :root .rad-ui-switch[data-state="checked"] {
+        forced-color-adjust: none;
+        background-color: Highlight;
+        border-color: Highlight;
+
+        .rad-ui-switch-indicator {
+            background-color: HighlightText;
+        }
+    }
+
+    // Tracks that are only a fill get an outline so their extent shows.
+    :root :is(.rad-ui-slider-track, .rad-ui-progress-track, .rad-ui-progress:not(:has(.rad-ui-progress-track))) {
+        border: 1px solid CanvasText;
+    }
+
+    // Pressed toggles and the highlighted item in a list or menu.
+    :root :is(.rad-ui-toggle, .rad-ui-toggle-group-item):is([data-state="on"], [aria-pressed="true"]),
+    :root [data-highlighted] {
+        forced-color-adjust: none;
+        background-color: Highlight;
+        color: HighlightText;
+    }
+}
+
 [data-rad-ui-theme] {
     --rad-ui-surface-canvas: var(--rad-ui-color-gray-50);
     --rad-ui-surface-panel: var(--rad-ui-color-gray-100);

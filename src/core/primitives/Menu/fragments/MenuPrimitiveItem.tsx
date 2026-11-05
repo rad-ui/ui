@@ -1,6 +1,7 @@
 import React, { forwardRef } from 'react';
 import Floater from '~/core/primitives/Floater';
-import MenuPrimitiveRootContext from '../contexts/MenuPrimitiveRootContext';
+import { MenuItemContext } from '../contexts/MenuPrimitiveRootContext';
+import { EMPTY_ACTIVE_INDEX_STORE, useIsActiveIndex } from '~/core/utils/activeIndexStore';
 import Primitive from '~/core/primitives/Primitive';
 
 export type MenuPrimitiveItemProps = {
@@ -16,7 +17,7 @@ export type MenuPrimitiveItemProps = {
 
 const MenuPrimitiveItem = forwardRef<HTMLButtonElement, MenuPrimitiveItemProps>(
     ({ children, className, label, disabled, asChild = false, onSelect, closeOnClick = true, ...props }, propRef) => {
-        const context = React.useContext(MenuPrimitiveRootContext);
+        const context = React.useContext(MenuItemContext);
         const checkLabel = disabled ? null : label;
         const { ref, index } = Floater.useListItem({
             label: checkLabel
@@ -40,9 +41,9 @@ const MenuPrimitiveItem = forwardRef<HTMLButtonElement, MenuPrimitiveItemProps>(
             [ref, propRef]
         );
 
+        const isActive = useIsActiveIndex(context?.activeIndexStore ?? EMPTY_ACTIVE_INDEX_STORE, index);
         if (!context) return null;
-        const { activeIndex, getItemProps } = context;
-        const isActive = activeIndex === index;
+        const { getItemProps } = context;
         const { onClick: consumerOnClick, onKeyDown: consumerOnKeyDown, ...restProps } = props as React.ComponentPropsWithoutRef<'button'>;
 
         return (

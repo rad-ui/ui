@@ -5,6 +5,7 @@ import { DialogNestingContext } from '../context/DialogNestingContext';
 import Floater from '~/core/primitives/Floater';
 import type { DialogHandle } from '../handle';
 import { useControllableState } from '~/core/hooks/useControllableState';
+import { useModalLayer } from '~/core/utils/modalStack';
 import { useRegisterDocumentOverlayOpen } from '~/core/hooks/useRegisterDocumentOverlayOpen';
 import { callOpenChange, createOpenChangeDetails, fromFloatingReason, OpenChangeDetails, OpenChangeReason } from '~/core/utils/openChangeDetails';
 import { usePopupActions, PopupActions } from '~/core/hooks/usePopupActions';
@@ -64,6 +65,9 @@ const DialogPrimitiveRootInner = forwardRef<HTMLDivElement, DialogPrimitiveRootP
     onOpenChangeRef.current = onOpenChange;
     const nodeId = Floater.useFloatingNodeId();
     useRegisterDocumentOverlayOpen(isOpen);
+    // A modal opened later (a dialog from a drawer) sits on top: this one stops hiding it and
+    // stops treating presses in it as outside.
+    const isTopModal = useModalLayer(Boolean(isOpen) && modal !== false);
 
     // Nested dialogs report their open state to the dialog they're inside, so
     // its content can be styled as stacked behind them.
@@ -123,8 +127,8 @@ const DialogPrimitiveRootInner = forwardRef<HTMLDivElement, DialogPrimitiveRootP
 
     const dismiss = Floater.useDismiss(floaterContext, {
         bubbles: false,
-        escapeKey: !disablePointerDismissal,
-        outsidePress: !disablePointerDismissal && dismissOnOutsidePress,
+        escapeKey: !disablePointerDismissal && isTopModal,
+        outsidePress: !disablePointerDismissal && dismissOnOutsidePress && isTopModal,
     });
     const role = Floater.useRole(floaterContext, { role: 'dialog' });
 
@@ -136,7 +140,7 @@ const DialogPrimitiveRootInner = forwardRef<HTMLDivElement, DialogPrimitiveRootP
     usePopupActions(actionsRef, () => handleOpenChange(false, 'imperative-action'));
 
     useHandleTriggerId(handle, triggerId, defaultTriggerId, Boolean(isOpen));
-    const contextProps = { isOpen, handleOpenChange, floaterContext, handleOverlayClick, getReferenceProps, getFloatingProps, getItemProps, refs, floatingStyles, nested: Boolean(parentNesting), openChildCount, onOpenChangeComplete, modal };
+    const contextProps = { isOpen, handleOpenChange, floaterContext, handleOverlayClick, getReferenceProps, getFloatingProps, getItemProps, refs, floatingStyles, nested: Boolean(parentNesting), openChildCount, onOpenChangeComplete, modal, isTopModal };
     return (
         <DialogNestingContext.Provider value={nesting}>
         <DialogPrimitiveContext.Provider value={contextProps}>

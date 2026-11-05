@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import HoverCard from '../HoverCard';
+import Button from '~/components/ui/Button/Button';
 import SandboxEditor from '~/components/tools/SandboxEditor/SandboxEditor';
 import type { Meta, StoryObj } from '@storybook/react-webpack5';
 
@@ -190,4 +191,22 @@ const DetachedTriggersExample = () => {
 
 export const DetachedTriggers: Story = {
     render: () => <DetachedTriggersExample />
+};
+
+/** With asChild the trigger is your own element, so a Button keeps its look. */
+export const AsChildButton: Story = {
+    render: () => (
+        <div style={{ display: 'flex', gap: 24, alignItems: 'center' }}>
+            <HoverCard.Root>
+                <HoverCard.Trigger>@pranay</HoverCard.Trigger>
+                <HoverCard.Portal><HoverCard.Content>Profile card</HoverCard.Content></HoverCard.Portal>
+            </HoverCard.Root>
+            <HoverCard.Root>
+                <HoverCard.Trigger asChild>
+                    <Button>Approve</Button>
+                </HoverCard.Trigger>
+                <HoverCard.Portal><HoverCard.Content>Approves all 3 posts</HoverCard.Content></HoverCard.Portal>
+            </HoverCard.Root>
+        </div>
+    )
 };

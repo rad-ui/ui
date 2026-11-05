@@ -50,11 +50,11 @@ Table.Cell = TableCell;
 Table.ColumnCellHeader = TableColumnCellHeader;
 Table.ColumnResizeHandle = TableColumnResizeHandle;
 
-export type { TableRootProps, TableResizeHandleVisibility } from './fragments/TableRoot';
+export type { TableRootProps, TableResizeHandleVisibility, TableSize, TableVariant } from './fragments/TableRoot';
 export type { TableBodyProps } from './fragments/TableBody';
 export type { TableHeadProps } from './fragments/TableHead';
 export type { TableRowProps } from './fragments/TableRow';
-export type { TableCellProps } from './fragments/TableCell';
+export type { TableCellProps, TableCellAlign } from './fragments/TableCell';
 export type { TableColumnCellHeaderProps } from './fragments/TableColumnCellHeader';
 export type { TableColumnResizeHandleProps } from './fragments/TableColumnResizeHandle';
 export { useTable } from './fragments/TableRoot';

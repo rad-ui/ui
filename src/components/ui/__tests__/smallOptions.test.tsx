@@ -135,3 +135,24 @@ describe('onClickOutside (deprecated)', () => {
         expect(onOpenChange).toHaveBeenCalledWith(false, expect.objectContaining({ reason: 'outside-press' }));
     });
 });
+
+describe('ToggleGroup variant and size', () => {
+    test('set data-variant and data-size on the root', async() => {
+        const { default: ToggleGroup } = await import('../ToggleGroup/ToggleGroup');
+        const { render: r, screen: s } = await import('@testing-library/react');
+        r(<ToggleGroup.Root type="single" variant="soft" size="small" aria-label="View"><ToggleGroup.Item value="a">A</ToggleGroup.Item></ToggleGroup.Root>);
+        const root = s.getByText('A').closest('[data-orientation]')!;
+        expect(root).toHaveAttribute('data-variant', 'soft');
+        expect(root).toHaveAttribute('data-size', 'small');
+    });
+});
+
+describe('Button highContrast', () => {
+    test('sets data-high-contrast only when asked', async() => {
+        const { default: Button } = await import('../Button/Button');
+        const { render: r, screen: s } = await import('@testing-library/react');
+        r(<><Button highContrast>Main</Button><Button>Other</Button></>);
+        expect(s.getByText('Main')).toHaveAttribute('data-high-contrast');
+        expect(s.getByText('Other')).not.toHaveAttribute('data-high-contrast');
+    });
+});
