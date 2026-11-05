@@ -6,7 +6,7 @@ import { stateData } from '~/core/utils/stateAttributes';
 
 export type CheckboxPrimitiveIndicatorElement = ElementRef<'span'>;
 export type CheckboxPrimitiveIndicatorProps = ComponentPropsWithoutRef<'span'> & {
-    children: React.ReactNode;
+    children?: React.ReactNode;
     /** Keep it rendered while unchecked (with `data-state="unchecked"`), for exit animations or reserved space. */
     forceMount?: boolean;
 };

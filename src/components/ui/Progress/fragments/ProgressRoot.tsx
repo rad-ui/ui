@@ -25,7 +25,7 @@ export type ProgressRootProps = {
     /** Locale for `format`. */
     locale?: string;
     customRootClass?: string;
-    children: React.ReactNode;
+    children?: React.ReactNode;
 } & ComponentPropsWithoutRef<typeof Primitive.div>;
 
 const STATE_ENUMS = {

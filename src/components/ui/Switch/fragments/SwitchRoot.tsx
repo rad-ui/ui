@@ -20,7 +20,7 @@ const COMPONENT_NAME = 'Switch';
 
 export type SwitchRootElement = ElementRef<typeof ButtonPrimitive>;
 export type SwitchRootProps = ComponentPropsWithoutRef<typeof ButtonPrimitive> & {
-    children: React.ReactNode;
+    children?: React.ReactNode;
     customRootClass?: string;
     color?: string;
     variant?: string;

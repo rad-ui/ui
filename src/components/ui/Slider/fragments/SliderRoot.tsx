@@ -13,7 +13,7 @@ const COMPONENT_NAME = 'Slider';
 
 export type SliderRootElement = ElementRef<'div'>;
 export type SliderRootProps = {
-    children: React.ReactNode;
+    children?: React.ReactNode;
     className?: string;
     customRootClass?: string;
     defaultValue?: number | number[];

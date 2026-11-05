@@ -7,7 +7,7 @@ import useControllableState from '~/core/hooks/useControllableState';
 
 export type CheckboxPrimitiveRootElement = ElementRef<typeof CheckboxPrimitiveTrigger>;
 export type CheckboxPrimitiveRootProps = {
-    children: React.ReactNode;
+    children?: React.ReactNode;
     checked?: boolean | 'indeterminate' | null;
     defaultChecked?: boolean | 'indeterminate' | null;
     onCheckedChange?: (value: boolean | 'indeterminate' | null) => void;

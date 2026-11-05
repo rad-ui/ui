@@ -13,7 +13,7 @@ export type TooltipTriggerElement = React.ElementRef<typeof ButtonPrimitive>;
 
 export type TooltipTriggerProps = React.ComponentPropsWithoutRef<typeof ButtonPrimitive> & {
     asChild?: boolean;
-    children: React.ReactNode;
+    children?: React.ReactNode;
     /** Open the tooltip connected to this handle, even when rendered outside its Root. */
     handle?: PopupHandle<any>;
     /** Data for the tooltip's content, such as the cell this trigger belongs to. */

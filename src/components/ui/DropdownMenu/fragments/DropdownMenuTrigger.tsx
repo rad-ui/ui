@@ -5,7 +5,7 @@ import clsx from 'clsx';
 
 export type DropdownMenuTriggerElement = ElementRef<typeof MenuPrimitive.Trigger>;
 export type DropdownMenuTriggerProps = {
-  children: React.ReactNode;
+  children?: React.ReactNode;
   className?: string;
 } & ComponentPropsWithoutRef<typeof MenuPrimitive.Trigger>;
 

@@ -8,7 +8,7 @@ import { useMergeRefs } from '@floating-ui/react';
 
 export type ContextMenuTriggerElement = HTMLSpanElement;
 export type ContextMenuTriggerProps = {
-  children: React.ReactNode;
+  children?: React.ReactNode;
   className?: string;
 } & ComponentPropsWithoutRef<typeof MenuPrimitive.Trigger>;
 
