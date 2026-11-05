@@ -17,6 +17,7 @@ import Theme from '@radui/ui/Theme'
 import ToggleGroup from '@radui/ui/ToggleGroup'
 
 import { NavBarContext } from '@/components/Main/NavBar/NavBarContext'
+import { useLightTokens } from '@/utils/useLightTokens'
 
 import Unthemed from './Unthemed'
 
@@ -54,37 +55,6 @@ function ControlLabel({ children }: { children: string }) {
     return <span className="text-[0.8125rem] font-medium text-gray-950">{children}</span>
 }
 
-
-const STEPS = [50, 100, 200, 300, 400, 500, 600, 700, 800, 900, 950, 1000]
-const RAMPS = ['gray', 'blue', 'violet', 'crimson', 'orange', 'jade', 'red', 'green', 'amber']
-const LIGHT_TOKENS = [
-    ...RAMPS.flatMap((ramp) => STEPS.map((step) => `--rad-ui-color-${ramp}-${step}`)),
-    ...['xs', 'sm', 'md', 'lg', 'xl'].map((size) => `--rad-ui-shadow-${size}`)
-]
-
-/**
- * Clarity declares its light ramps on :root and only overrides them under
- * [data-rad-ui-theme="dark"], so a light Theme nested in a dark page would
- * inherit dark values. When that happens, re-declare the root (light) values
- * on the stage so the nested appearance is honest.
- */
-function useLightTokens(enabled: boolean) {
-    const [vars, setVars] = useState<Record<string, string>>({})
-    useEffect(() => {
-        if (!enabled) {
-            setVars({})
-            return
-        }
-        const root = getComputedStyle(document.documentElement)
-        const next: Record<string, string> = {}
-        for (const name of LIGHT_TOKENS) {
-            const value = root.getPropertyValue(name).trim()
-            if (value) next[name] = value
-        }
-        setVars(next)
-    }, [enabled])
-    return vars
-}
 
 export default function ThemePlayground() {
     const { darkMode } = useContext(NavBarContext)

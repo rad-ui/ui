@@ -166,7 +166,7 @@ export const createAriaReferenceRow = (pattern, description) => {
         id: pattern.id,
         reference: (
             <a
-                className="font-medium text-blue-900 underline underline-offset-4 hover:text-blue-700"
+                className="font-medium text-blue-950 underline underline-offset-4 hover:text-blue-1000"
                 href={pattern.href}
                 rel="noreferrer"
                 target="_blank"

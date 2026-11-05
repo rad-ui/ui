@@ -1,15 +1,78 @@
 # Installation
 
-Getting started with Rad UI is simple and quick! Whether you're integrating it into an existing project or starting fresh, you'll be up and running in no time. Follow the instructions below to install Rad UI using your preferred package manager.
+Rad UI is one package, `@radui/ui`, for React 18 and 19. Install it, pick a setup, render a component. Five minutes.
 
-## Install via npm
-
-
-If you use npm, run the following command to install Rad UI:
+## Install
 
 <MultipleTabs items={[
-  { manager: 'pnpm', command: 'pnpm install @radui/ui' },
-  { manager: 'npm', command: 'npm install @radui/ui --save' },
+  { manager: 'pnpm', command: 'pnpm add @radui/ui' },
+  { manager: 'npm', command: 'npm install @radui/ui' },
   { manager: 'yarn', command: 'yarn add @radui/ui' },
   { manager: 'bun', command: 'bun add @radui/ui' },
 ]} />
+
+Every component has its own entry point (`@radui/ui/Button`, `@radui/ui/Dialog`), so your bundle only carries what you import.
+
+## Pick a setup
+
+Components work without any CSS. The theme is a choice, not a requirement.
+
+| Setup | Choose it when | What to add |
+| --- | --- | --- |
+| **Clarity theme** | You want finished-looking components today and will retheme with tokens later | `import "@radui/ui/themes/default.css"` and wrap the app in `Theme classNamespace="rad-ui"` |
+| **Tailwind preset** | You style with Tailwind and want Rad UI's colour scales as utilities | `@import "@radui/ui/themes/tailwind-presets/default.css"` after `tailwindcss` in your global CSS |
+| **Fully headless** | You own every pixel | Nothing. Import components and style their `data-*` attributes with any CSS |
+
+The three combine: most apps use the theme plus the Tailwind preset, and drop the theme on components they have restyled.
+
+## Set up the app
+
+For the Clarity theme in a Next.js App Router project, two lines in the root layout do it. The `Theme` wrapper sets appearance and accent and turns on the generated class names the stylesheet targets.
+
+```tsx
+// app/layout.tsx
+import "@radui/ui/themes/default.css";
+import Theme from "@radui/ui/Theme";
+
+export default function RootLayout({ children }: { children: React.ReactNode }) {
+  return (
+    <html lang="en">
+      <body>
+        <Theme classNamespace="rad-ui" appearance="light" accentColor="blue">
+          {children}
+        </Theme>
+      </body>
+    </html>
+  );
+}
+```
+
+Going headless? Skip both lines. Using Vite or Remix? The same wrapper goes in your root component; see [Framework usage](/docs/guides/framework-usage).
+
+## Render a component
+
+```tsx
+import Button from "@radui/ui/Button";
+
+export function SaveButton() {
+  return <Button color="blue">Save changes</Button>;
+}
+```
+
+Interactive components are client components. In the App Router, add `"use client"` to the file that renders them.
+
+## Troubleshooting
+
+- **Components render unstyled.** The theme CSS is imported but `Theme` has no `classNamespace`. Pass `classNamespace="rad-ui"`; without it the library emits no classes for the stylesheet to match.
+- **Your Tailwind utilities lose to the theme.** Load the theme before your own CSS, or override on the component's `data-*` attributes. [Styling and customization](/docs/guides/styling-and-customization) covers the cascade.
+- **TypeScript complains about the CSS import.** Add a `declare module "*.css";` in a `.d.ts` file if your config checks side-effect imports.
+
+More cases: [Troubleshooting](/docs/guides/troubleshooting).
+
+## Next steps
+
+- [Usage](/docs/first-steps/usage): `Theme`, `classNamespace`, the Tailwind preset, wrapping components in your own.
+- [All components](/docs/components): what each one is for, grouped.
+- [Styling and customization](/docs/guides/styling-and-customization): tokens, `data-*` attributes and the headless path.
+- [Design system integration](/docs/guides/design-system-integration): building your own system on Rad UI.
+- Working with an AI agent? Point it at [llms.txt](https://www.rad-ui.com/llms.txt).

@@ -172,7 +172,7 @@ export function ChangelogMarkdown({ markdown }: ChangelogMarkdownProps) {
                 },
                 a: ({ href, children }) => (
                     <a
-                        className="font-medium text-blue-900 underline decoration-blue-900/40 underline-offset-2 hover:text-blue-950 hover:decoration-blue-950"
+                        className="font-medium text-blue-950 underline decoration-blue-950/40 underline-offset-2 hover:text-blue-1000 hover:decoration-blue-950"
                         href={href}
                         rel="noreferrer"
                         target={href?.startsWith("http") ? "_blank" : undefined}

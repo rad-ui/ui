@@ -3,6 +3,7 @@
 import PageDetails from "@/components/seo/PageDetails";
 import Navigation from '@/components/navigation/Navigation';
 import EditPageOnGithub from "@/components/docsHelpers/EditPageOnGithub";
+import DocsPager from "@/components/docsHelpers/DocsPager";
 import DocsTableOfContents from "@/components/layout/Documentation/DocsTableOfContents";
 import ScrollArea from "@radui/ui/ScrollArea"
 
@@ -19,44 +20,34 @@ const DocsShell = ({ children }: DocsShellProps) => {
             className="text-gray-1000 md:flex md:flex-row md:items-stretch"
             style={{ height: "calc(100vh - 57px)" }}
         >
-            <div className="relative z-10 hidden h-full flex-none flex-col items-stretch border-r border-gray-300 bg-gray-50 md:flex">
+            <aside className="relative z-10 hidden h-full w-[264px] flex-none flex-col items-stretch border-r border-gray-300 bg-gray-50 md:flex">
                 <Navigation />
-            </div>
+            </aside>
 
-            <div id="docs-content" className="h-full flex-1 bg-transparent">
+            <div id="docs-content" className="h-full min-w-0 flex-1">
                 <ScrollArea.Root customRootClass="rad-ui">
                     <ScrollArea.Viewport>
-                        <DocsLayoutGridRoot>
-                            <div className="grid grid-cols-1 gap-12 xl:grid-cols-[minmax(0,860px)_220px]">
-                                <div className="w-full min-w-0">
+                        <div className="mx-auto w-full max-w-[1180px] px-5 pb-24 pt-8 md:px-10 md:pt-10 xl:pt-12">
+                            <div className="grid grid-cols-1 gap-12 xl:grid-cols-[minmax(0,1fr)_200px] xl:gap-16">
+                                <div className="w-full min-w-0 xl:max-w-[760px]">
                                     <PageDetails />
                                     <article id="docs-article" className="w-full min-w-0">
                                         {children}
                                     </article>
+                                    <DocsPager />
                                     <EditPageOnGithub />
                                 </div>
                                 <DocsTableOfContents />
                             </div>
-                        </DocsLayoutGridRoot>
-
+                        </div>
                     </ScrollArea.Viewport>
-                    <ScrollArea.Scrollbar orientation='vertical'  className="relative z-[100]">
+                    <ScrollArea.Scrollbar orientation='vertical' className="relative z-[100]">
                         <ScrollArea.Thumb />
                     </ScrollArea.Scrollbar>
                 </ScrollArea.Root>
             </div>
         </div>
     )
-}
-
-
-const DocsLayoutGridRoot = ({ children }: { children: React.ReactNode }) => {
-    return <div className="w-full pt-8 md:pt-10">
-        <div className="layout-image" />
-        <div className="relative z-10 mx-auto max-w-[1380px] px-5 pb-24 md:px-8 xl:px-10 xl:pl-14">
-            {children}
-        </div>
-    </div>
 }
 
 export default DocsShell;

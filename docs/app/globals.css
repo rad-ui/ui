@@ -843,3 +843,117 @@ pre.docs-syntax-pre code.docs-code-block {
 /* Avoid `transition: none !important` on the whole docs shell: it overrides
    inline height transitions on Rad UI components (e.g. Accordion) in demos.
    Prefer `prefers-reduced-motion` in component CSS when reducing motion. */
+
+/* ------------------------------------------------------------------
+   Docs shell: sidebar, search, phone drawer
+   ------------------------------------------------------------------ */
+
+/* The active sidebar row carries a short accent bar on its left edge. */
+.docs-nav-item[data-active]::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0.45rem;
+  bottom: 0.45rem;
+  width: 2px;
+  border-radius: 9999px;
+  background: var(--rad-ui-color-green-900);
+}
+
+/* Collapsible groups in the sidebar render no theme classes (customRootClass="docs"),
+   so the only motion is the chevron; content shows and hides at once. */
+.docs-collapsible-content[data-state="closed"] {
+  display: none;
+}
+
+.docs-kbd-hint {
+  font-size: 0.65rem;
+  line-height: 1;
+  padding: 0.2rem 0.35rem;
+  color: var(--rad-ui-text-secondary);
+  border: 1px solid var(--rad-ui-border-soft);
+  border-radius: 0.3rem;
+  background: var(--rad-ui-surface-canvas);
+}
+
+.docs-search-dialog {
+  width: min(600px, calc(100vw - 2rem));
+}
+
+.docs-search-list {
+  max-height: min(60vh, 440px);
+}
+
+.docs-nav-drawer-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  background: color-mix(in oklab, var(--rad-ui-color-gray-1000) 40%, transparent);
+}
+
+.docs-nav-drawer {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 61;
+  width: min(300px, 85vw);
+  background: var(--rad-ui-color-gray-50);
+  border-right: 1px solid var(--rad-ui-color-gray-300);
+  outline: none;
+}
+
+@media (width >= 768px) {
+  .docs-nav-drawer,
+  .docs-nav-drawer-overlay {
+    display: none;
+  }
+}
+
+/* ------------------------------------------------------------------
+   Component page: preview stage, code gutter, API tables
+   ------------------------------------------------------------------ */
+
+.docs-preview-stage {
+  background-image: radial-gradient(
+    circle,
+    color-mix(in oklab, var(--rad-ui-color-gray-700) 45%, transparent) 1px,
+    transparent 1px
+  );
+  background-size: 18px 18px;
+  background-position: center;
+}
+
+.docs-code-body {
+  padding: 0.75rem 0;
+}
+
+.docs-code-gutter {
+  flex: none;
+  padding: 0 0.75rem 0 1rem;
+  font-family: var(--font-mono), monospace;
+  font-size: 12px;
+  line-height: 1.7;
+  text-align: right;
+  white-space: pre;
+  color: var(--rad-ui-text-secondary);
+}
+
+[data-rad-ui-theme="dark"] .docs-code-gutter {
+  color: #a1a1aa;
+}
+
+pre.docs-syntax-pre .docs-code-body code.docs-code-block {
+  padding: 0 1rem 0 0;
+}
+
+pre.docs-syntax-pre .docs-code-body .docs-code-gutter + code.docs-code-block {
+  padding-left: 0;
+}
+
+.docs-api-table th,
+.docs-api-table td {
+  padding-top: 0.6rem;
+  padding-bottom: 0.6rem;
+  vertical-align: top;
+}

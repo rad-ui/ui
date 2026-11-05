@@ -20,7 +20,26 @@ const makeId = (value: string) =>
 const DocsTableOfContents = () => {
     const [items, setItems] = useState<HeadingItem[]>([]);
     const [activeId, setActiveId] = useState("");
+    const [progress, setProgress] = useState(0);
     const pathname = usePathname();
+
+    // How far down the article the reader is, 0 to 1, drawn as the fill of the list's rail.
+    useEffect(() => {
+        const viewport = getDocsViewport();
+        if (!(viewport instanceof HTMLElement)) return;
+        const update = () => {
+            const total = viewport.scrollHeight - viewport.clientHeight;
+            setProgress(total > 0 ? Math.min(1, Math.max(0, viewport.scrollTop / total)) : 0);
+        };
+        update();
+        viewport.addEventListener("scroll", update, { passive: true });
+        const resize = new ResizeObserver(update);
+        resize.observe(viewport);
+        return () => {
+            viewport.removeEventListener("scroll", update);
+            resize.disconnect();
+        };
+    }, [pathname]);
 
     useEffect(() => {
         let observer: IntersectionObserver | null = null;
@@ -111,11 +130,18 @@ const DocsTableOfContents = () => {
     return (
         <aside className="hidden xl:block">
             <div className="sticky top-7 pt-1">
-                <p className="mb-4 font-mono text-[0.65rem] font-semibold uppercase tracking-[0.18em] text-gray-950">
+                <p className="mb-3 font-mono text-[0.62rem] font-semibold uppercase tracking-[0.18em] text-gray-950">
                     On this page
                 </p>
-                <nav aria-label="Table of contents">
-                    <ul className="flex list-none flex-col gap-0.5 pl-0">
+                <nav aria-label="Table of contents" className="relative">
+                    {/* The rail: a faint track with a fill that grows as the reader scrolls. */}
+                    <span aria-hidden className="absolute bottom-0 left-0 top-0 w-px bg-gray-300" />
+                    <span
+                        aria-hidden
+                        className="absolute left-0 top-0 w-px bg-green-900 transition-[height] duration-150"
+                        style={{ height: `${progress * 100}%` }}
+                    />
+                    <ul className="flex list-none flex-col gap-px pl-0">
                         {items.map((item) => (
                             <li key={item.id}>
                                 <a
@@ -124,14 +150,13 @@ const DocsTableOfContents = () => {
                                         e.preventDefault();
                                         scrollToDocsAnchor(item.id);
                                     }}
-                                    className={`relative block border-l pl-3.5 transition-colors ${
-                                        item.level === 3
-                                            ? "ml-2 py-1 text-[0.84rem]"
-                                            : "py-1.5 text-[0.9rem]"
+                                    aria-current={activeId === item.id ? "location" : undefined}
+                                    className={`relative block py-1 leading-5 transition-colors ${
+                                        item.level === 3 ? "pl-6 text-[0.8rem]" : "pl-3.5 text-[0.84rem]"
                                     } ${
                                         activeId === item.id
-                                            ? "border-green-800 font-semibold text-gray-1000"
-                                            : "border-gray-300 text-gray-950 hover:border-gray-500 hover:text-gray-1000"
+                                            ? "font-medium text-gray-1000 before:absolute before:bottom-1 before:left-0 before:top-1 before:w-[2px] before:rounded-full before:bg-gray-1000"
+                                            : "text-gray-950 hover:text-gray-1000"
                                     }`}
                                 >
                                     {item.text}

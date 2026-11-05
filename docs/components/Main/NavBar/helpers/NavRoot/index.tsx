@@ -8,6 +8,8 @@ import { usePathname } from "next/navigation";
 import Link from "next/link";
 import { getActiveNavLink, getActiveProduct, getDocsProduct } from "@/components/navigation/products";
 import ProductSwitcher from "@/components/navigation/ProductSwitcher";
+import SearchTrigger from "@/components/navigation/SearchTrigger";
+import { RAD_UI_VERSION } from "@/utils/radVersion";
 import { Menu, Moon, Sun } from "lucide-react";
 
 const RadUILogo = () => {
@@ -111,6 +113,15 @@ const NavBar = ({ darkMode, setDarkMode, setThemeCookie }) => {
           <RadUILogo />
         </a>
         <ProductSwitcher current={product} />
+        {product.id === "ui" ? (
+          <Link
+            href="/docs/first-steps/changelog"
+            className="hidden rounded-md px-1.5 py-0.5 font-mono text-[0.7rem] font-medium text-gray-950 transition-colors hover:bg-gray-200 hover:text-gray-1000 sm:inline-block"
+            aria-label={`Rad UI version ${RAD_UI_VERSION}, see the changelog`}
+          >
+            v{RAD_UI_VERSION}
+          </Link>
+        ) : null}
       </div>
       {/* The centre cell stays in the grid at every breakpoint. Hiding it below
           `lg` would leave two children in a `1fr auto 1fr` track, pulling the
@@ -136,6 +147,7 @@ const NavBar = ({ darkMode, setDarkMode, setThemeCookie }) => {
         </ul>
       </div>
       <div className="flex items-center justify-end gap-1">
+        <SearchTrigger compact />
         <div className="hidden lg:flex lg:items-center lg:gap-1">
           <Button
             color="gray"

@@ -17,12 +17,12 @@ export function useMDXComponents(components: MDXComponents): MDXComponents {
       </Heading>
     ),
     h2: ({ children }) => (
-      <Heading as="h2" className="mb-4 mt-12 text-2xl font-semibold tracking-[-0.03em] text-gray-1000 sm:text-[1.65rem]">
+      <Heading as="h2" className="mb-3 mt-12 text-[1.5rem] font-semibold leading-[1.2] tracking-[-0.025em] text-gray-1000">
         {children}
       </Heading>
     ),
     h3: ({ children }) => (
-      <Heading as="h3" className="mb-3 mt-10 text-xl font-semibold tracking-[-0.02em] text-gray-1000">
+      <Heading as="h3" className="mb-2 mt-9 text-[1.125rem] font-semibold leading-[1.3] tracking-[-0.015em] text-gray-1000">
         {children}
       </Heading>
     ),
@@ -42,7 +42,7 @@ export function useMDXComponents(components: MDXComponents): MDXComponents {
       </Heading>
     ),
     p: ({ children }) => (
-      <Text className="mb-4 text-[0.98rem] leading-7 text-gray-900">
+      <Text className="mb-4 text-[0.95rem] leading-7 text-gray-1000/90">
         {children}
       </Text>
     ),
@@ -79,7 +79,7 @@ export function useMDXComponents(components: MDXComponents): MDXComponents {
       </ol>
     ),
     li: ({ children }) => (
-      <li className="text-[0.98rem] leading-7 text-gray-900">{children}</li>
+      <li className="text-[0.95rem] leading-7 text-gray-1000/90">{children}</li>
     ),
     a: ({ children, href, ...props }) => (
       <a
@@ -91,7 +91,7 @@ export function useMDXComponents(components: MDXComponents): MDXComponents {
       </a>
     ),
     blockquote: ({ children }) => (
-      <blockquote className="my-6 border-l-2 border-green-700 pl-4 text-gray-900">
+      <blockquote className="my-6 border-l-2 border-green-700 pl-4 text-gray-1000/90">
         {children}
       </blockquote>
     ),
