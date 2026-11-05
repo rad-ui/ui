@@ -9,6 +9,7 @@ export default () => {
                     <NavigationMenu.Link href="#" />
                 </NavigationMenu.Content>
             </NavigationMenu.Item>
+            <NavigationMenu.Viewport />
         </NavigationMenu.Root>
     )
 }

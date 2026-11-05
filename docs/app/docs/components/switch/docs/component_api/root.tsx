@@ -119,8 +119,33 @@ const data = {
             },
             type: "boolean",
             default: "false",
-        }
-    ]
+        },
+        { prop: { name: "readOnly", info_tooltips: "Show the state without letting the user change it; stays focusable and in the form, with aria-readonly." }, type: "boolean", default: "false" },
+    {
+      prop: {
+        name: "uncheckedValue",
+        info_tooltips: "Value submitted under name while off."
+      },
+      type: "string",
+      default: "--",
+    },
+    {
+      prop: {
+        name: "form",
+        info_tooltips: "id of a form elsewhere in the page."
+      },
+      type: "string",
+      default: "--",
+    },
+    {
+      prop: {
+        name: "inputRef",
+        info_tooltips: "Ref to the hidden checkbox input."
+      },
+      type: "Ref<HTMLInputElement>",
+      default: "--",
+    }
+  ]
 };
 
 export default data; 

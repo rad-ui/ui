@@ -21,7 +21,8 @@ const data = {
         prop: { name : "asChild", info_tooltips: 'Render the content as the child element instead of a default div wrapper.' },
         type: 'boolean',
         default: 'false',
-       }
+       },
+        { prop: { name: "hiddenUntilFound", info_tooltips: "Keep closed content searchable with the browser's find-in-page (hidden=\"until-found\"); a match opens the item." }, type: "boolean", default: "false" }
     ]
 }
 

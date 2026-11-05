@@ -1,7 +1,7 @@
 import { getSourceCodeFromPath } from '@/utils/parseSourceCode';
 
 // Import API documentation
-import button_api_SourceCode from './component_api/button.tsx';
+import button_api_SourceCode, { dataAttributes as button_data_attributes } from './component_api/button.tsx';
 import { ArrowRight } from 'lucide-react';
 import {
     createAriaReferenceRow,
@@ -39,6 +39,16 @@ export const Arrow = () => {
 export const api_documentation = {
     button: button_api_SourceCode
 };
+
+export const dataAttributes = button_data_attributes;
+
+export const linkCode = `import Button from "@radui/ui/Button";
+import Link from "next/link";
+
+// asChild puts the button's styles and behaviour on your own element, here a link.
+<Button asChild variant="outline">
+    <Link href="/pricing">See pricing</Link>
+</Button>`;
 
 // Component features
 export const features = [

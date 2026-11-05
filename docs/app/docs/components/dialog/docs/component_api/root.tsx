@@ -59,9 +59,9 @@ const data = {
        {
         prop : {
             name : "onOpenChange",
-            info_tooltips : "The function to handle the open change of the DialogRoot."
+            info_tooltips : "Called with the next open state. A handler with a second parameter also gets details: reason (trigger-press, outside-press, escape-key, focus-out, close-press…), event, and cancel() to keep the current state."
         },
-        type : "function",
+        type : "(open: boolean, details) => void",
         default : "--",
        },
        {
@@ -71,8 +71,35 @@ const data = {
         },
         type : "function",
         default : "--",
-       }
-    ]
+       },
+        { prop: { name: "handle", info_tooltips: "Connects triggers rendered outside the Root, made with createHandle(). Children can then be a function of the opening trigger's payload." }, type: "Handle", default: "--" },
+        { prop: { name: "onOpenChangeComplete", info_tooltips: "Called with true after the open animation finishes and with false after the close animation finishes (immediately when nothing animates)." }, type: "(open: boolean) => void", default: "--" },
+        { prop: { name: "modal", info_tooltips: "true traps focus, locks page scroll and lets the overlay block the page; 'trap-focus' only traps focus; false leaves the page usable (no focus trap or aria-modal)." }, type: "boolean | 'trap-focus'", default: "true" },
+    {
+      prop: {
+        name: "actionsRef",
+        info_tooltips: "Ref with close(), to close it from code (reason 'imperative-action')."
+      },
+      type: "Ref<{ close(): void }>",
+      default: "--",
+    },
+    {
+      prop: {
+        name: "triggerId",
+        info_tooltips: "With handle: the DOM id of the detached trigger the popup belongs to while open. It's anchored to that trigger and gets its payload, also when opened from code."
+      },
+      type: "string | null",
+      default: "--",
+    },
+    {
+      prop: {
+        name: "defaultTriggerId",
+        info_tooltips: "Uncontrolled triggerId: the trigger used when the popup opens without one, e.g. with defaultOpen."
+      },
+      type: "string | null",
+      default: "--",
+    }
+  ]
 }
 
 export default data;

@@ -1,0 +1,168 @@
+# Forms & validation
+
+How to build accessible forms with `Field` and `Form`: labels and errors wired for you, the browser's own validation, your own rules, and errors from the server.
+
+## The pieces
+
+| Part | What it does |
+| --- | --- |
+| `Field.Root` | Holds one field's state and links its parts. Takes `name`, `required`, `disabled`, `invalid`, `validate` and `validationMode`. |
+| `Field.Label` | A label pointed at the control. |
+| `Field.Control` | The input. Pass `asChild` to use `TextField`, `TextArea`, a native `select` or your own control. |
+| `Field.Description` | Help text, added to the control's accessible description. |
+| `Field.Error` | The error message. Renders only while the field is invalid and is announced when it appears. |
+| `Form` | Validates every Field on submit, focuses the first invalid one, and shows server errors on the right field. |
+
+## A field that validates
+
+The browser already knows how to check `required`, `type="email"`, `pattern`, `min`, `max` and length limits. Field uses those checks and shows the result in `Field.Error`. Without children, the error shows the browser's message.
+
+```tsx
+import Field from '@radui/ui/Field'
+import TextField from '@radui/ui/TextField'
+
+<Field.Root name="email" required>
+  <Field.Label>Email</Field.Label>
+  <Field.Control asChild>
+    <TextField type="email" />
+  </Field.Control>
+  <Field.Error />
+</Field.Root>
+```
+
+## Other Rad UI controls
+
+Checkbox, Switch, Select and NumberField can sit directly inside `Field.Root`, without `Field.Control`. They take the field's id, name, disabled and required state, and its description and error.
+
+```tsx
+<Field.Root name="plan" required>
+  <Field.Label>Plan</Field.Label>
+  <Select.Root>
+    <Select.Trigger>Choose a plan</Select.Trigger>
+    <Select.Content>…</Select.Content>
+  </Select.Root>
+  <Field.Description>You can change it later.</Field.Description>
+</Field.Root>
+```
+
+## One message per problem
+
+`match` shows an error only for one validity problem, so each can say something specific.
+
+```tsx
+<Field.Root name="email" required>
+  <Field.Label>Email</Field.Label>
+  <Field.Control type="email" />
+  <Field.Error match="valueMissing">Enter your email.</Field.Error>
+  <Field.Error match="typeMismatch">That doesn't look like an email.</Field.Error>
+</Field.Root>
+```
+
+The keys are the browser's `ValidityState` flags: `valueMissing`, `typeMismatch`, `patternMismatch`, `tooShort`, `tooLong`, `rangeUnderflow`, `rangeOverflow`, `stepMismatch`, `badInput` and `customError`.
+
+## Your own rules
+
+`validate` runs after the browser's checks pass. Return a message, several messages, or `null`. The message is also handed to the browser, so a plain `<form>` won't submit either.
+
+```tsx
+<Field.Root
+  name="username"
+  required
+  validate={(value) => (String(value).toLowerCase() === 'admin' ? 'That username is taken.' : null)}
+>
+  <Field.Label>Username</Field.Label>
+  <Field.Control />
+  <Field.Error />
+</Field.Root>
+```
+
+For a checklist such as password rules, return every failing message and render them with `Field.Validity`:
+
+```tsx
+<Field.Root
+  validationMode="onChange"
+  validate={(value) => [
+    String(value).length < 8 ? 'At least 8 characters' : null,
+    /\d/.test(String(value)) ? null : 'At least one number'
+  ].filter(Boolean) as string[]}
+>
+  <Field.Label>Password</Field.Label>
+  <Field.Control type="password" />
+  <Field.Validity>
+    {({ errors, shown }) => shown && <ul>{errors.map((error) => <li key={error}>{error}</li>)}</ul>}
+  </Field.Validity>
+</Field.Root>
+```
+
+## Async checks
+
+`validate` can return a promise, for checks that need the server. While it's pending, Field parts carry `data-validating` and `Field.Validity` reports `validating`. A slower, older check never overwrites a newer result. Add `validationDebounceTime` so it waits for typing to pause.
+
+```tsx
+<Field.Root
+  name="username"
+  validationMode="onChange"
+  validationDebounceTime={300}
+  validate={async (value) => ((await isTaken(String(value))) ? 'That username is taken.' : null)}
+>
+  <Field.Label>Username</Field.Label>
+  <Field.Control />
+  <Field.Error />
+</Field.Root>
+```
+
+A Form submit waits for pending checks: it treats the field as not yet valid and focuses it.
+
+## When errors show
+
+| `validationMode` | Errors first appear |
+| --- | --- |
+| `onSubmit` (default) | after a submit attempt |
+| `onBlur` | when the control loses focus |
+| `onChange` | as the user types |
+
+Once an error is showing, it updates as the user types, so it disappears as soon as the value is fixed. Set the mode on each Field, or once on `Form`.
+
+## Submitting with Form
+
+`Form` turns off the browser's validation bubbles and validates every Field itself. If any are invalid, it shows their errors and focuses the first one. Otherwise `onFormSubmit` receives the values.
+
+```tsx
+import Form from '@radui/ui/Form'
+
+<Form onFormSubmit={(values) => save(values)}>
+  <Field.Root name="name" required>…</Field.Root>
+  <Field.Root name="email" required>…</Field.Root>
+  <button type="submit">Save</button>
+</Form>
+```
+
+## Errors from the server
+
+Pass server errors to `errors`, keyed by field `name`. Each shows on its Field and clears as soon as the user edits that field.
+
+```tsx
+const [errors, setErrors] = useState({})
+
+<Form
+  errors={errors}
+  onFormSubmit={async (values) => {
+    const result = await createAccount(values)
+    if (!result.ok) setErrors(result.fieldErrors) // { email: 'Already registered' }
+  }}
+>
+  …
+</Form>
+```
+
+Without Form, set `invalid` on the Field and put the message in `Field.Error`.
+
+## Accessibility checklist
+
+- [ ] Every control has a `Field.Label` (or `aria-label`)
+- [ ] Help text is in `Field.Description`, not placeholder text
+- [ ] Errors say how to fix the problem, not only that there is one
+- [ ] Required fields are marked with `required`, not only an asterisk
+- [ ] The first invalid field receives focus after a failed submit (Form does this)
+
+Related: [Field](/docs/components/field), [Form](/docs/components/form), [Controlled & Uncontrolled Forms](/docs/guides/controlled-uncontrolled-forms), [Accessibility](/docs/guides/accessibility).

@@ -39,7 +39,8 @@ const data = {
         },
         type : "boolean",
         default : "false",
-       }
+       },
+        { prop: { name: "delay", info_tooltips: "Wait this many ms before showing the fallback, so it doesn't flash while a fast image loads." }, type: "number", default: "0" }
     ]
 }
 

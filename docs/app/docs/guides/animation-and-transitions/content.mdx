@@ -1,0 +1,118 @@
+# Animation & transitions
+
+Rad UI components carry data attributes for every state, so you can animate them with plain CSS. No animation library is needed.
+
+## The attributes
+
+| Attribute | Set on | Meaning |
+| --- | --- | --- |
+| `data-state="open"` / `"closed"` | popups, triggers, collapsibles | Current open state |
+| `data-starting-style` | popup content | Present for one frame after opening: the values a transition starts from |
+| `data-ending-style` | popup content | Present while closing: the values a transition ends at |
+| `data-side`, `data-align` | positioned popups | Where the popup ended up after collision handling |
+| `data-instant` | Tooltip content | The tooltip opened instantly from a `Tooltip.Provider` group: skip the entry animation |
+| `data-activation-direction` | `Tabs.Indicator` | Which way the active tab moved |
+| `data-nested-dialog-open`, `--nested-dialogs` | Dialog content | A dialog nested in this one is open, and how many |
+
+`data-starting-style` and `data-ending-style` are on Popover, Tooltip, Dialog, AlertDialog (content and overlay), DropdownMenu, ContextMenu, Menubar, HoverCard, Select and Combobox.
+
+## Enter and exit with one transition
+
+Put the hidden values on both the starting and ending attributes. The popup transitions from them when it opens and back to them when it closes, and stays mounted until the transition finishes.
+
+```css
+.popover-content {
+  transition: opacity 160ms ease, transform 160ms ease;
+}
+
+.popover-content[data-starting-style],
+.popover-content[data-ending-style] {
+  opacity: 0;
+  transform: scale(0.96);
+}
+```
+
+If a popup has no exit animation, it unmounts as soon as it closes, so nothing changes for components you don't animate.
+
+## Keyframe animations
+
+Keyframes work too. Rad UI waits for animations as well as transitions before unmounting.
+
+```css
+.dialog-content[data-state="open"] { animation: dialog-in 200ms ease-out; }
+.dialog-content[data-ending-style] { animation: dialog-out 150ms ease-in forwards; }
+
+@keyframes dialog-in { from { opacity: 0; transform: translateY(8px); } }
+@keyframes dialog-out { to { opacity: 0; transform: translateY(8px); } }
+```
+
+## Animate from the side it opens on
+
+Use `data-side` so a popup slides away from its trigger.
+
+```css
+.menu-content[data-side="bottom"][data-starting-style] { transform: translateY(-4px); }
+.menu-content[data-side="top"][data-starting-style] { transform: translateY(4px); }
+```
+
+## A sliding tab indicator
+
+`Tabs.Indicator` exposes the active tab's position as CSS variables.
+
+```css
+.tabs-indicator {
+  position: absolute;
+  left: var(--active-tab-left);
+  width: var(--active-tab-width);
+  bottom: 0;
+  height: 2px;
+  background: currentColor;
+  transition: left 200ms ease, width 200ms ease;
+}
+```
+
+## Stacked dialogs
+
+A dialog with another dialog open inside it gets `data-nested-dialog-open` and a `--nested-dialogs` count, so it can step back visually.
+
+```css
+.dialog-content[data-nested-dialog-open] {
+  transform: scale(calc(1 - 0.04 * var(--nested-dialogs)));
+  filter: brightness(0.96);
+  transition: transform 200ms ease, filter 200ms ease;
+}
+```
+
+## Fade the edges of a scroll area
+
+ScrollArea sets `--scroll-area-overflow-y-start` and `--scroll-area-overflow-y-end` to how far content extends past each edge, so a mask fades only where there's more to scroll.
+
+```css
+.scroll-area .rad-ui-scroll-area-viewport {
+  mask-image: linear-gradient(
+    to bottom,
+    transparent 0,
+    black min(24px, var(--scroll-area-overflow-y-start)),
+    black calc(100% - min(24px, var(--scroll-area-overflow-y-end))),
+    transparent 100%
+  );
+}
+```
+
+## Respect reduced motion
+
+The default theme follows the system's reduce-motion setting for you. Every `--rad-ui-motion-duration-*` token collapses to `--rad-ui-motion-duration-reduced` (0.01ms), so the theme's transitions and enter/exit animations finish at once. Components still get their animation events, so a closing Dialog or Popover unmounts on time. The `--rad-ui-transition-*` tokens keep colour changes and drop movement.
+
+Activity indicators are the exception. A Spinner keeps spinning and an indeterminate Progress moves slowly, because they tell people something is happening. A Skeleton stops pulsing.
+
+If your own styles use the motion tokens, they follow along. If they use fixed times, turn them off yourself:
+
+```css
+@media (prefers-reduced-motion: reduce) {
+  .my-panel { transition: none; }
+}
+```
+
+While a popup is closing it can't be clicked, and screen readers already treat it as closed, so a slow exit never traps anyone.
+
+Related: [Styling & Customization](/docs/guides/styling-and-customization), [Popover](/docs/components/popover), [Tabs](/docs/components/tabs), [Tooltip](/docs/components/tooltip).

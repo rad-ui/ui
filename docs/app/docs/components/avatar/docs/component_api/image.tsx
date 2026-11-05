@@ -31,7 +31,8 @@ const data = {
         },
         type : "string",
         default : "''",
-       }
+       },
+        { prop: { name: "onLoadingStatusChange", info_tooltips: "Called with loading, loaded or error as the image loads, fails or changes src (a missing src reports error)." }, type: "(status) => void", default: "--" }
     ]
 }
 

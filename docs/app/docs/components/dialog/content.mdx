@@ -12,6 +12,15 @@ import {code, anatomy, ariaReferences, keyboardShortcuts, api_documentation} fro
         <DialogExample />
     </Documentation.ComponentHero>
 
+    <Documentation.ComponentFeatures
+        features={[
+            "Traps focus while open and returns it to the trigger on close",
+            "Escape closes only the top dialog when dialogs are nested",
+            "Nested dialogs expose data-nested, data-nested-dialog-open and --nested-dialogs for stacked styling",
+            "Supports CSS enter and exit transitions with data-starting-style and data-ending-style"
+        ]}
+    />
+
     <Documentation.ApiReference
         anatomy={anatomy.code}
         tables={api_documentation}

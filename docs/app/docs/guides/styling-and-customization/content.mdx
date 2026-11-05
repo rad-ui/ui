@@ -15,13 +15,41 @@ Use these stable hooks when styling:
 | Surface | Example | Intended use |
 | --- | --- | --- |
 | `className` on parts | `<Button className="billing-cta" />` | local layout and app-specific styles |
-| `data-*` state attributes | `[data-state="open"]` | state-driven styling in your CSS |
+| `data-*` state attributes | `[data-state="open"]`, `[data-open]` | state-driven styling in your CSS |
 | `Theme` props | `appearance`, `accentColor`, `radius`, `scaling` | subtree-wide visual context |
 | `Theme classNamespace` | `classNamespace="rad-ui"` | generated part classes that match theme CSS |
 | `customRootClass` | per-component namespace override | incremental migrations |
 | documented CSS variables | `--rad-ui-radius-md` | tokenized styling when theme CSS is loaded |
 
 See [Usage](/docs/first-steps/usage) for `Theme` and `classNamespace` examples.
+
+## State attributes
+
+Every element with a `data-state` also carries a boolean attribute for it, so you can use a plain attribute selector or a Tailwind `data-*` variant:
+
+| `data-state` | Boolean attribute |
+| --- | --- |
+| `open` / `closed` | `data-open` / `data-closed` |
+| `checked` / `unchecked` / `indeterminate` | `data-checked` / `data-unchecked` / `data-indeterminate` |
+| `on` (toggles) | `data-pressed` |
+| `complete` (progress) | `data-complete` |
+| `dragging` (slider thumbs) | `data-dragging` |
+| `loading` (avatar images, progress) | `data-loading` |
+
+```css
+.menu-content[data-open] { animation: fade-in 150ms; }
+```
+
+```jsx
+<Popover.Content className="opacity-0 data-open:opacity-100" />
+```
+
+A few more describe what the user is doing:
+
+- Inside `Field.Root`, the field and its parts get `data-focused`, `data-touched`, `data-dirty`, `data-filled`, `data-valid` / `data-invalid`, `data-disabled` and `data-required`. Checkbox, Switch, Select and NumberField report these too.
+- `ScrollArea.Root` and its scrollbars get `data-scrolling` and `data-hovering`; the root gets `data-has-overflow-x` / `data-has-overflow-y`.
+- `Slider.Root` gets `data-dragging` during a drag, and `Avatar.Root` gets `data-loading` or `data-error` for its image.
+- Positioned popups get `data-side` and `data-align` with the side and alignment they ended up on after collision handling.
 
 ## CSS variable fallbacks
 
@@ -74,6 +102,21 @@ import Theme from '@radui/ui/Theme'
 - wrap primitives in your design-system components
 
 Rad UI should not force a specific CSS framework. Tailwind, CSS Modules, SCSS, and CSS-in-JS are all valid as long as they target public hooks.
+
+## Overriding the default theme with Tailwind
+
+The default theme's CSS isn't in a cascade layer. Unlayered CSS beats every layered rule whatever its specificity, and Tailwind v4 puts its utilities in a layer, so a class like `text-2xl` on a `Heading` loses to the theme's own font size.
+
+To let utilities win, import the theme into a layer of its own and place that layer between Tailwind's reset and its utilities:
+
+```css
+/* globals.css */
+@layer theme, base, radui, components, utilities;
+@import "@radui/ui/themes/default.css" layer(radui);
+@import "tailwindcss";
+```
+
+The first line fixes the order of the layers. Rad UI's styles still beat Tailwind's reset (`base`), so buttons keep their look, and your utilities beat Rad UI's styles. The layer statement has to come first: if Tailwind declares its layers before `radui` exists, `radui` ends up last and wins again.
 
 ## Customization decision tree
 

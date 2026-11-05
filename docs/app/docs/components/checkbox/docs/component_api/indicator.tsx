@@ -7,8 +7,16 @@ const data = {
         { name: "Default", id: "default" }
     ],
     data: [
-        { prop: { name: "className", info_tooltips: "Additional CSS classes for the indicator." }, type: "string", default: '""' }
-    ]
+        { prop: { name: "className", info_tooltips: "Additional CSS classes for the indicator." }, type: "string", default: '""' },
+    {
+      prop: {
+        name: "forceMount",
+        info_tooltips: "Keep it rendered while unchecked (with data-state=\"unchecked\"), for exit animations or reserved space."
+      },
+      type: "boolean",
+      default: "false",
+    }
+  ]
 }
 
 export default data

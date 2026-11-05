@@ -51,7 +51,9 @@ const data = {
             prop: { name: "customRootClass", info_tooltips: "Overrides the class namespace for the meter and its parts." },
             type: "string",
             default: "--"
-        }
+        },
+        { prop: { name: "format", info_tooltips: "Intl.NumberFormat options for the value text and the Value part; also sets aria-valuetext." }, type: "Intl.NumberFormatOptions", default: "--" },
+        { prop: { name: "locale", info_tooltips: "Locale for format." }, type: "string", default: "browser locale" }
     ]
 };
 

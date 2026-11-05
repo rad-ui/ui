@@ -23,11 +23,45 @@ const data = {
         { prop: { name: "asChild", info_tooltips: "Merges props onto the single child element instead of rendering a div." }, type: "boolean", default: "false" },
         { prop: { name: "onOpenAutoFocus", info_tooltips: "Called when focus moves into the content on open. Call preventDefault to keep focus on the trigger." }, type: "(event) => void", default: "--" },
         { prop: { name: "onCloseAutoFocus", info_tooltips: "Called when focus returns to the trigger on close." }, type: "(event) => void", default: "--" },
+        { prop: { name: "initialFocus", info_tooltips: "Where focus goes on open: true the first tabbable element, false stay on the trigger, a ref, or a function returning one of those. Defaults to the first tabbable element when modal." }, type: "boolean | RefObject | () => ...", default: "--" },
+        { prop: { name: "finalFocus", info_tooltips: "Where focus goes on close: true the trigger, false nowhere, a ref, or a function (resolved at close)." }, type: "boolean | RefObject | () => ...", default: "true" },
         { prop: { name: "onEscapeKeyDown", info_tooltips: "Called when Escape is pressed inside the popover." }, type: "(event: KeyboardEvent) => void", default: "--" },
         { prop: { name: "onPointerDownOutside", info_tooltips: "Called on an outside pointer press." }, type: "(event) => void", default: "--" },
         { prop: { name: "onFocusOutside", info_tooltips: "Called when focus moves outside the popover." }, type: "(event) => void", default: "--" },
-        { prop: { name: "onInteractOutside", info_tooltips: "Called for any outside interaction, pointer or focus." }, type: "(event) => void", default: "--" }
-    ]
+        { prop: { name: "onInteractOutside", info_tooltips: "Called for any outside interaction, pointer or focus." }, type: "(event) => void", default: "--" },
+    {
+      prop: {
+        name: "anchor",
+        info_tooltips: "Element, virtual element (anything with getBoundingClientRect), ref or function to position against instead of the trigger."
+      },
+      type: "Element | VirtualElement | RefObject | () => Element",
+      default: "--",
+    },
+    {
+      prop: {
+        name: "positionMethod",
+        info_tooltips: "CSS position of the floating element."
+      },
+      type: "\"absolute\" | \"fixed\"",
+      default: "\"fixed\"",
+    },
+    {
+      prop: {
+        name: "collisionAvoidance",
+        info_tooltips: "How it avoids overflowing its boundary: side flip/shift/none, align flip/shift/none, and whether to fall back to the other axis."
+      },
+      type: "{ side?, align?, fallbackAxisSide? }",
+      default: "--",
+    },
+    {
+      prop: {
+        name: "disableAnchorTracking",
+        info_tooltips: "Don't re-position when the trigger's layout shifts; scroll and resize still update it."
+      },
+      type: "boolean",
+      default: "false",
+    }
+  ]
 }
 
 export default data

@@ -1,0 +1,23 @@
+import Documentation from '@/components/layout/Documentation/Documentation';
+import FieldExample from "./docs/examples/FieldExample"
+import code, { anatomy, api_documentation, ariaReferences, features, keyboardShortcuts } from "./docs/codeUsage"
+
+<Documentation
+    title="Field"
+    description="Links a label, help text and an error message to any form control, so ids, aria-describedby and aria-invalid are always right."
+>
+    <Documentation.ComponentHero codeUsage={code}>
+        <FieldExample />
+    </Documentation.ComponentHero>
+
+    <Documentation.ComponentFeatures features={features} />
+
+    <Documentation.ApiReference
+        anatomy={anatomy.code}
+        tables={api_documentation}
+        order={['root', 'label', 'control', 'description', 'error', 'validity']}
+    />
+
+    <Documentation.Table title="Keyboard Interactions" columns={keyboardShortcuts.columns} data={keyboardShortcuts.data} />
+    <Documentation.Table title="ARIA References" columns={ariaReferences.columns} data={ariaReferences.data} />
+</Documentation>

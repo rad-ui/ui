@@ -28,6 +28,7 @@ export const docsNavigationSections = [
             { title:"Accordion", path:"/docs/components/accordion" },
             { title:"AlertDialog", path:"/docs/components/alert-dialog", is_new:true },
             { title:"AspectRatio", path:"/docs/components/aspect-ratio" },
+            { title:"Autocomplete", path:"/docs/components/autocomplete", is_preview:true },
             { title:"Avatar", path:"/docs/components/avatar" },
             { title:"AvatarGroup", path:"/docs/components/avatar-group" },
             { title:"Badge", path:"/docs/components/badge" },
@@ -46,11 +47,14 @@ export const docsNavigationSections = [
             { title:"ContextMenu", path:"/docs/components/context-menu", is_preview:true },
             { title:"DataList", path:"/docs/components/data-list", is_preview:true },
             { title:"Dialog", path:"/docs/components/dialog", is_new:true },
+            { title:"DirectionProvider", path:"/docs/components/direction-provider", is_preview:true },
             { title:"Disclosure", path:"/docs/components/disclosure", is_preview:true },
             { title:"Drawer", path:"/docs/components/drawer", is_preview:true },
             { title:"DropdownMenu", path:"/docs/components/dropdown-menu", is_preview:true },
             { title:"Em", path:"/docs/components/em" },
+            { title:"Field", path:"/docs/components/field", is_preview:true },
             { title:"Fieldset", path:"/docs/components/fieldset", is_preview:true },
+            { title:"Form", path:"/docs/components/form", is_preview:true },
             { title:"Heading", path:"/docs/components/heading" },
             { title:"HoverCard", path:"/docs/components/hover-card", is_preview:true },
             { title:"Kbd", path:"/docs/components/kbd" },
@@ -62,6 +66,7 @@ export const docsNavigationSections = [
             { title:"Minimap", path:"/docs/components/minimap", is_preview:true },
             { title:"NavigationMenu", path:"/docs/components/navigation-menu", is_preview:true },
             { title:"NumberField", path:"/docs/components/number-field", is_preview:true },
+            { title:"OTPField", path:"/docs/components/otp-field", is_preview:true },
             { title:"Popover", path:"/docs/components/popover" },
             { title:"Progress", path:"/docs/components/progress" },
             { title:"Quote", path:"/docs/components/quote", is_preview:true },
@@ -72,6 +77,7 @@ export const docsNavigationSections = [
             { title:"Select", path:"/docs/components/select", is_preview:true },
             { title:"Separator", path:"/docs/components/separator" },
             { title:"Skeleton", path:"/docs/components/skeleton", is_preview:true },
+            { title:"Slot", path:"/docs/components/slot", is_preview:true },
             { title:"Slider", path:"/docs/components/slider", is_preview:true },
             { title:"Spinner", path:"/docs/components/spinner", is_preview:true },
             { title:"Splitter", path:"/docs/components/splitter", is_preview:true },
@@ -157,6 +163,18 @@ export const docsNavigationSections = [
             {
                 title:"Controlled & Uncontrolled Forms",
                 path:"/docs/guides/controlled-uncontrolled-forms"
+            },
+            {
+                title:"Forms & Validation",
+                path:"/docs/guides/forms-and-validation"
+            },
+            {
+                title:"Animation & Transitions",
+                path:"/docs/guides/animation-and-transitions"
+            },
+            {
+                title:"TypeScript",
+                path:"/docs/guides/typescript"
             },
             {
                 title:"Hidden Input Strategies",

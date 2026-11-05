@@ -11,8 +11,34 @@ const data = {
         { prop: { name: "defaultOpen", info_tooltips: "Initial open state (uncontrolled)." }, type: "boolean", default: "false" },
         { prop: { name: "openDelay", info_tooltips: "Delay in ms before opening." }, type: "number", default: "100" },
         { prop: { name: "closeDelay", info_tooltips: "Delay in ms before closing." }, type: "number", default: "200" },
-        { prop: { name: "onOpenChange", info_tooltips: "Callback when open state changes." }, type: "function", default: "--" }
-    ]
+        { prop: { name: "onOpenChange", info_tooltips: "Callback when open state changes." }, type: "function", default: "--" },
+        { prop: { name: "handle", info_tooltips: "Connects detached triggers made with HoverCard.createHandle(); children can be a function of the hovered trigger's payload." }, type: "Handle", default: "--" },
+        { prop: { name: "onOpenChangeComplete", info_tooltips: "Called with true after the open animation finishes and with false after the close animation finishes (immediately when nothing animates)." }, type: "(open: boolean) => void", default: "--" },
+    {
+      prop: {
+        name: "actionsRef",
+        info_tooltips: "Ref with close(), to close it from code (reason 'imperative-action')."
+      },
+      type: "Ref<{ close(): void }>",
+      default: "--",
+    },
+    {
+      prop: {
+        name: "triggerId",
+        info_tooltips: "With handle: the DOM id of the detached trigger the popup belongs to while open. It's anchored to that trigger and gets its payload, also when opened from code."
+      },
+      type: "string | null",
+      default: "--",
+    },
+    {
+      prop: {
+        name: "defaultTriggerId",
+        info_tooltips: "Uncontrolled triggerId: the trigger used when the popup opens without one, e.g. with defaultOpen."
+      },
+      type: "string | null",
+      default: "--",
+    }
+  ]
 }
 
 export default data

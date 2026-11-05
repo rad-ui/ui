@@ -10,8 +10,16 @@ const data = {
         { prop: { name: "aria-label", info_tooltips: "Accessible name. Required when the button shows only an icon." }, type: "string", default: "--" },
         { prop: { name: "className", info_tooltips: "Class name applied to the button." }, type: "string", default: "--" },
         { prop: { name: "asChild", info_tooltips: "Merges props onto the single child element." }, type: "boolean", default: "false" },
-        { prop: { name: "disabled", info_tooltips: "Disables the button." }, type: "boolean", default: "false" }
-    ]
+        { prop: { name: "disabled", info_tooltips: "Disables the button." }, type: "boolean", default: "false" },
+    {
+      prop: {
+        name: "focusableWhenDisabled",
+        info_tooltips: "Keep a disabled item in the arrow-key order, announced as disabled."
+      },
+      type: "boolean",
+      default: "false",
+    }
+  ]
 }
 
 export default data

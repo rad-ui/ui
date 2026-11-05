@@ -1,6 +1,7 @@
 import Documentation from '@/components/layout/Documentation/Documentation';
 import SelectExample from "./docs/example_1"
-import { code, largeListCode, anatomy, ariaReferences, keyboardShortcuts, api_documentation } from "./docs/codeUsage"
+import CustomTriggerExample from "./docs/custom-trigger"
+import { code, largeListCode, customTriggerCode, anatomy, ariaReferences, keyboardShortcuts, api_documentation } from "./docs/codeUsage"
 
 <Documentation
     title="Select"
@@ -9,6 +10,16 @@ import { code, largeListCode, anatomy, ariaReferences, keyboardShortcuts, api_do
     <Documentation.ComponentHero codeUsage={code}>
         <SelectExample />
     </Documentation.ComponentHero>
+
+    <Documentation.Section title="Custom trigger display">
+        The trigger's children are its placeholder. Once an item is selected, the trigger shows that item's label instead.
+        To show something else, such as a shorter name, an icon or a colour swatch, pass `renderValue` to `Select.Trigger`.
+        It receives the selected value and the item's label.
+        <CustomTriggerExample />
+        <Documentation.CodeBlock language="tsx">
+            {customTriggerCode.javascript.code}
+        </Documentation.CodeBlock>
+    </Documentation.Section>
 
     <Documentation.Section title="Large Lists">
         Use a controlled value and keep each option's `value` and `label` stable when a Select has hundreds of options.
@@ -21,7 +32,7 @@ import { code, largeListCode, anatomy, ariaReferences, keyboardShortcuts, api_do
     <Documentation.ApiReference
         anatomy={anatomy.code}
         tables={api_documentation}
-        order={['root', 'item']}
+        order={['root', 'trigger', 'item', 'group_label', 'separator', 'value', 'icon', 'scroll_arrows']}
     />
 
     <Documentation.Table title="Keyboard Interactions" columns={keyboardShortcuts.columns} data={keyboardShortcuts.data} />

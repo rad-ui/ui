@@ -11,6 +11,11 @@ import {
 } from '../../shared/keyboardShortcuts';
 import root_api from './component_api/root.tsx';
 import item_api from './component_api/item.tsx';
+import checkbox_item_api from './component_api/checkbox_item.tsx';
+import radio_group_api from './component_api/radio_group.tsx';
+import radio_item_api from './component_api/radio_item.tsx';
+import item_indicator_api from './component_api/item_indicator.tsx';
+import group_api from './component_api/group.tsx';
 
 const example_1_SourceCode = await getSourceCodeFromPath('docs/app/docs/components/dropdown-menu/docs/example_1.tsx');
 const scss_SourceCode = await getSourceCodeFromPath('styles/themes/components/dropdown-menu.scss');
@@ -25,7 +30,12 @@ export const anatomy = { code: anatomy_SourceCode };
 
 export const api_documentation = {
     root: root_api,
-    item: item_api
+    item: item_api,
+    checkbox_item: checkbox_item_api,
+    radio_group: radio_group_api,
+    radio_item: radio_item_api,
+    item_indicator: item_indicator_api,
+    group: group_api
 };
 
 export const keyboardShortcuts = createKeyboardShortcutTable([

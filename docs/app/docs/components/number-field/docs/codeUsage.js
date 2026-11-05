@@ -1,5 +1,6 @@
 import { getSourceCodeFromPath } from '@/utils/parseSourceCode';
 import root_api from './component_api/root.tsx';
+import scrub_area_api from './component_api/scrub_area.tsx';
 import {
     createAriaReferenceRow,
     createAriaReferenceTable,
@@ -23,7 +24,8 @@ export const code = {
 export const anatomy = { code: anatomy_SourceCode };
 
 export const api_documentation = {
-    root: root_api
+    root: root_api,
+    scrub_area: scrub_area_api
 };
 
 export const keyboardShortcuts = createKeyboardShortcutTable([
@@ -33,11 +35,11 @@ export const keyboardShortcuts = createKeyboardShortcutTable([
     ),
     createKeyboardShortcutRow(
         DOCS_KEYBOARD_SHORTCUTS.ARROW_UP,
-        'Increments the current value by step when focus is on the input. Shift plus ArrowUp uses largeStep.'
+        'Increments the current value by step when focus is on the input. Shift plus ArrowUp uses largeStep; Alt/Option plus ArrowUp uses smallStep.'
     ),
     createKeyboardShortcutRow(
         DOCS_KEYBOARD_SHORTCUTS.ARROW_DOWN,
-        'Decrements the current value by step when focus is on the input. Shift plus ArrowDown uses largeStep.'
+        'Decrements the current value by step when focus is on the input. Shift plus ArrowDown uses largeStep; Alt/Option plus ArrowDown uses smallStep.'
     ),
     createKeyboardShortcutRow(
         DOCS_KEYBOARD_SHORTCUTS.PAGE_UP,

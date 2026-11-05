@@ -1,0 +1,23 @@
+import Documentation from '@/components/layout/Documentation/Documentation';
+import AutocompleteExample from "./docs/examples/AutocompleteExample"
+import code, { anatomy, api_documentation, ariaReferences, features, keyboardShortcuts } from "./docs/codeUsage"
+
+<Documentation
+    title="Autocomplete"
+    description="A text input with suggestions. The value is whatever the user types; picking a suggestion fills it in."
+>
+    <Documentation.ComponentHero codeUsage={code}>
+        <AutocompleteExample />
+    </Documentation.ComponentHero>
+
+    <Documentation.ComponentFeatures features={features} />
+
+    <Documentation.ApiReference
+        anatomy={anatomy.code}
+        tables={api_documentation}
+        order={['root', 'input', 'item', 'empty', 'clear']}
+    />
+
+    <Documentation.Table title="Keyboard Interactions" columns={keyboardShortcuts.columns} data={keyboardShortcuts.data} />
+    <Documentation.Table title="ARIA References" columns={ariaReferences.columns} data={ariaReferences.data} />
+</Documentation>

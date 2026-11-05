@@ -85,26 +85,55 @@ Trap focus inside the dialog; return focus to the opener when the palette closes
 
 ## Form field with label and error
 
-**Components:** `TextArea` or `NumberField` + your field wrapper  
-**State owner:** parent form / field component
+**Components:** `Field` + `TextArea` (or any control)  
+**State owner:** `Field` (validation), or your form for server errors
 
 ```tsx
+import Field from '@radui/ui/Field'
 import TextArea from '@radui/ui/TextArea'
 
-export function DescriptionField({ error, ...props }: DescriptionFieldProps) {
+export function DescriptionField({ error }: { error?: string }) {
   return (
-    <div>
-      <label htmlFor="description">Description</label>
-      <TextArea.Root>
-        <TextArea.Input id="description" aria-invalid={Boolean(error)} {...props} />
-      </TextArea.Root>
-      {error ? <p role="alert">{error}</p> : null}
-    </div>
+    <Field.Root name="description" required invalid={Boolean(error)}>
+      <Field.Label>Description</Field.Label>
+      <Field.Control asChild>
+        <TextArea />
+      </Field.Control>
+      <Field.Error>{error}</Field.Error>
+    </Field.Root>
   )
 }
 ```
 
-Wire `htmlFor` / `id` and `aria-invalid` in your wrapper — Rad UI exposes the primitives, not your validation messaging.
+Field links the label, help text and error to the control and sets `aria-invalid`, so there are no ids to wire by hand. See [Forms & Validation](/docs/guides/forms-and-validation).
+
+## One dialog for many rows
+
+**Components:** `Dialog` with a handle  
+**State owner:** the handle (`Dialog.createHandle()`)
+
+```tsx
+import Dialog from '@radui/ui/Dialog'
+
+const deleteDialog = Dialog.createHandle<Invoice>()
+
+{invoices.map((invoice) => (
+  <Dialog.Trigger key={invoice.id} handle={deleteDialog} payload={invoice}>Delete</Dialog.Trigger>
+))}
+
+<Dialog.Root handle={deleteDialog}>
+  {({ payload }) => (
+    <Dialog.Portal>
+      <Dialog.Content>
+        <Dialog.Title>Delete {(payload as Invoice)?.number}?</Dialog.Title>
+        <Dialog.Close>Cancel</Dialog.Close>
+      </Dialog.Content>
+    </Dialog.Portal>
+  )}
+</Dialog.Root>
+```
+
+One Root serves every row, and focus returns to the row's button on close. Popover supports handles the same way and anchors to whichever trigger opened it.
 
 ## Nested disclosure
 
@@ -112,6 +141,16 @@ Wire `htmlFor` / `id` and `aria-invalid` in your wrapper — Rad UI exposes the 
 **State owner:** `Accordion` (`type`, `value`, `onValueChange`)
 
 Use accordion for FAQ-style content inside a card shell. Avoid nesting multiple roving-focus containers (menus inside accordion headers) without testing keyboard order.
+
+## asChild hands over semantics
+
+`asChild` renders a part as your own element instead of its default one: a Trigger around your button component, a Field.Control on a TextArea. It's how you compose without the library anticipating every combination.
+
+The trade-off: **the part's behaviour and ARIA move onto your child.** A `Dialog.Trigger asChild` makes your element the dialog's trigger (`aria-haspopup`, `aria-expanded`, click to open); a `Button asChild` around a `<span>` gives it `role="button"`, focus and Enter/Space activation. Rad UI doesn't second-guess the element you pass, so check the result:
+
+- Use `asChild` to put a part's behaviour on an element that should have that role.
+- Don't use it to borrow a part's *look* for an element with a different role. A link that looks like a button should stay a link; `Button asChild` around an `<a href>` (or a router `Link`) keeps link semantics for exactly this reason.
+- When `asChild` changes the element type, check the accessibility tree or a screen reader.
 
 ## Recipe checklist
 

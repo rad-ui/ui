@@ -10,6 +10,7 @@ import {
     DOCS_ARIA_PATTERNS
 } from '../../shared/ariaReferences';
 import root_api from './component_api/root.tsx';
+import viewport_api from './component_api/viewport.tsx';
 
 const example_1_SourceCode = await getSourceCodeFromPath('docs/app/docs/components/navigation-menu/docs/example_1.tsx');
 const scss_SourceCode = await getSourceCodeFromPath('styles/themes/components/navigation-menu.scss');
@@ -23,7 +24,8 @@ export const code = {
 export const anatomy = { code: anatomy_SourceCode };
 
 export const api_documentation = {
-    root: root_api
+    root: root_api,
+    viewport: viewport_api
 };
 
 export const keyboardShortcuts = createKeyboardShortcutTable([
@@ -65,7 +67,7 @@ export const keyboardShortcuts = createKeyboardShortcutTable([
     ),
     createKeyboardShortcutRow(
         DOCS_KEYBOARD_SHORTCUTS.TAB,
-        'Moves focus out of the current group to the next focusable element.'
+        'Moves focus out of the current group to the next focusable element. With a Viewport, Tab from an open trigger enters its panel and Tab from the panel moves to the next trigger.'
     )
 ]);
 

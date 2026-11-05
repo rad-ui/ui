@@ -33,6 +33,14 @@ const data = {
             enum_values: ["button", "submit", "reset"],
             default: "'button'",
         },
+    {
+      prop: {
+        name: "highContrast",
+        info_tooltips: "Solid button filled with the text colour and labelled in the background colour (near-black on light, near-white on dark), for a main action without an accent hue. Default and solid variants; sets data-high-contrast."
+      },
+      type: "boolean",
+      default: "false",
+    },
         {
             prop: {
                 name: "className",
@@ -80,7 +88,52 @@ const data = {
             },
             type: "boolean",
             default: "false",
+        },
+        {
+            prop: {
+                name: "focusableWhenDisabled",
+                info_tooltips: "Keep a disabled button in the tab order with aria-disabled, so focus isn't lost when it disables itself during a request and keyboard users can still reach it. It still won't activate."
+            },
+            type: "boolean",
+            default: "false",
+        },
+        {
+            prop: {
+                name: "asChild",
+                info_tooltips: "Render your own element (for example a link) with the button's styles and behaviour instead of a <button>."
+            },
+            type: "boolean",
+            default: "false",
+        },
+        {
+            prop: {
+                name: "label",
+                info_tooltips: "Sets aria-label, for buttons whose content doesn't name them (icon-only buttons)."
+            },
+            type: "string",
+            default: "--",
+        },
+        {
+            prop: {
+                name: "description",
+                info_tooltips: "Sets aria-description, extra context read after the button's name."
+            },
+            type: "string",
+            default: "--",
         }
+    ]
+};
+
+export const dataAttributes = {
+    columns: [
+        { name: "Attribute", id: "attribute" },
+        { name: "Values", id: "values" }
+    ],
+    data: [
+        { id: "data-variant", attribute: "data-variant", values: "The variant prop, when set" },
+        { id: "data-size", attribute: "data-size", values: "The size prop, when set" },
+        { id: "data-color", attribute: "data-color", values: "The color prop, when set" },
+        { id: "data-disabled", attribute: "data-disabled", values: "Present when disabled" }
     ]
 };
 

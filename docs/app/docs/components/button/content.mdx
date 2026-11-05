@@ -1,7 +1,7 @@
 import PageDetails from '@/components/seo/PageDetails';
 import Documentation from '@/components/layout/Documentation/Documentation';
 import Button from '@radui/ui/Button';
-import codeUsage, { Arrow, api_documentation, ariaReferences, features, keyboardShortcuts } from './docs/codeUsage';
+import codeUsage, { Arrow, api_documentation, ariaReferences, dataAttributes, features, keyboardShortcuts, linkCode } from './docs/codeUsage';
 import { code as variantCodeUsage } from './docs/variantCodeUsage';
 import { code as sizeCodeUsage } from './docs/sizeCodeUsage';
 import { code as colorCodeUsage } from './docs/colorCodeUsage';
@@ -38,6 +38,13 @@ import ButtonColor from './examples/ButtonColor';
     <ButtonColor />
   </Documentation.ComponentHero>
 
+  <Documentation.Section title="As a link">
+    Use `asChild` to give a link (an `<a href>`, or your router's `Link`) the button's look. It stays a link: no `role="button"` or `type`, Enter follows it, and it keeps its place in the screen reader's links list. For other children, `asChild` hands the button's semantics to your element; see [asChild hands over semantics](/docs/guides/composition-recipes#aschild-hands-over-semantics).
+    <Documentation.CodeBlock language="tsx">
+      {linkCode}
+    </Documentation.CodeBlock>
+  </Documentation.Section>
+
   <Documentation.Table title="Keyboard Interactions" columns={keyboardShortcuts.columns} data={keyboardShortcuts.data} />
 
   <Documentation.Table title="ARIA References" columns={ariaReferences.columns} data={ariaReferences.data} />
@@ -49,6 +56,12 @@ import ButtonColor from './examples/ButtonColor';
       description={api_documentation.button.description}
       columns={api_documentation.button.columns}
       data={api_documentation.button.data}
+    />
+    <Documentation.Table
+      title="Data attributes"
+      description="Set on the rendered element, for styling."
+      columns={dataAttributes.columns}
+      data={dataAttributes.data}
     />
   </Documentation.Section>
 </Documentation>
