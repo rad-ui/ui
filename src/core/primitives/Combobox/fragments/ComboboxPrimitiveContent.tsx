@@ -1,5 +1,6 @@
 'use client';
 import React, { useContext } from 'react';
+import useLayoutEffect from '~/core/hooks/useLayoutEffect';
 import { ComboboxPrimitiveContext } from '../contexts/ComboboxPrimitiveContext';
 import Floater from '~/core/primitives/Floater';
 import { COMBOBOX_SEARCH_PART } from '../contexts/ComboboxSearchPart';
@@ -14,6 +15,14 @@ export type ComboboxPrimitiveContentProps = {
     position?: string;
     /** Keep the content mounted while closed (e.g. for exit animations). Inside a `Portal`, set `forceMount` on the Portal (it passes down): a closed Portal renders nothing, as in Radix. */
     forceMount?: boolean;
+    /** Preferred side of the trigger. Overrides the Root's `side`/`placement`. */
+    side?: 'top' | 'right' | 'bottom' | 'left';
+    /** Alignment against the trigger. Overrides the Root's `align`. */
+    align?: 'start' | 'center' | 'end';
+    /** Gap from the trigger, in px. Overrides the Root's `sideOffset`. */
+    sideOffset?: number;
+    /** Shift along the trigger, in px. Overrides the Root's `alignOffset`. */
+    alignOffset?: number;
     [key: string]: any;
 }
 
@@ -39,7 +48,7 @@ function getPlacementState(placement: string) {
 const ComboboxPrimitiveContent = React.forwardRef<
     React.ElementRef<'div'>,
     ComboboxPrimitiveContentProps & React.ComponentPropsWithoutRef<'div'>
->(({ children, className, style, onKeyDownCapture, forceMount = false, ...props }, forwardedRef) => {
+>(({ children, className, style, onKeyDownCapture, forceMount = false, side, align, sideOffset, alignOffset, ...props }, forwardedRef) => {
     const { forceMount: portalForceMount } = useContext(ComboboxPrimitivePortalContext);
     const {
         isOpen,
@@ -62,8 +71,18 @@ const ComboboxPrimitiveContent = React.forwardRef<
         finalFocus,
         transitionMounted,
         transitionStatus,
-        modal = false
+        modal = false,
+        setContentPlacement
     } = useContext(ComboboxPrimitiveContext);
+
+    // Positioning props on Content are handed to the Root, which places the list. Without this they
+    // were spread onto the DOM element (rad-ui/ui#2335).
+    useLayoutEffect(() => {
+        if (!setContentPlacement) return;
+        const set = side !== undefined || align !== undefined || sideOffset !== undefined || alignOffset !== undefined;
+        setContentPlacement(set ? { side, align, sideOffset, alignOffset } : null);
+    }, [setContentPlacement, side, align, sideOffset, alignOffset]);
+    useLayoutEffect(() => () => setContentPlacement?.(null), [setContentPlacement]);
     const mergedRef = Floater.useMergeRefs([refs.setFloating, forwardedRef]);
 
     // Closed, force-mounted content must never hold focus. A focus move queued while the list
