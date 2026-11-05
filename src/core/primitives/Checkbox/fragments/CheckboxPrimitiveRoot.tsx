@@ -4,6 +4,7 @@ import React, { forwardRef, ElementRef, ComponentPropsWithoutRef, useRef, useEff
 import CheckboxPrimitiveContext from '../context/CheckboxPrimitiveContext';
 import CheckboxPrimitiveTrigger from './CheckboxPrimitiveTrigger';
 import useControllableState from '~/core/hooks/useControllableState';
+import { useFormReset } from '~/core/hooks/useFormReset';
 
 export type CheckboxPrimitiveRootElement = ElementRef<typeof CheckboxPrimitiveTrigger>;
 export type CheckboxPrimitiveRootProps = {
@@ -49,13 +50,7 @@ const CheckboxPrimitiveRoot = forwardRef<CheckboxPrimitiveRootElement, CheckboxP
 
         // Return to the initial state when the owning form resets, like a native checkbox.
         const defaultCheckedRef = useRef(defaultChecked);
-        useEffect(() => {
-            const owner = inputRef.current?.form;
-            if (!owner) return;
-            const handleReset = () => setIsChecked(defaultCheckedRef.current);
-            owner.addEventListener('reset', handleReset);
-            return () => owner.removeEventListener('reset', handleReset);
-        }, [setIsChecked, form]);
+        useFormReset(() => inputRef.current?.form, () => setIsChecked(defaultCheckedRef.current), [setIsChecked, form]);
 
         const contextValues = {
             isChecked,

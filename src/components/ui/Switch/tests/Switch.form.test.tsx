@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, screen, fireEvent, act } from '@testing-library/react';
+import { render, screen, fireEvent, act, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import Switch from '../Switch';
 
@@ -52,7 +52,22 @@ describe('Switch form participation and prop merging', () => {
         act(() => {
             fireEvent.reset(screen.getByTestId('form'));
         });
-        expect(screen.getByRole('switch')).toHaveAttribute('aria-checked', 'false');
+        await waitFor(() => expect(screen.getByRole('switch')).toHaveAttribute('aria-checked', 'false'));
+    });
+
+    test('a cancelled form reset keeps the current state', async() => {
+        const user = userEvent.setup();
+        render(
+            <form data-testid="form" onReset={(event) => event.preventDefault()}>
+                <Switch.Root name="notify"><Switch.Thumb /></Switch.Root>
+            </form>
+        );
+        await user.click(screen.getByRole('switch'));
+        act(() => {
+            fireEvent.reset(screen.getByTestId('form'));
+        });
+        await act(() => new Promise((resolve) => setTimeout(resolve, 10)));
+        expect(screen.getByRole('switch')).toHaveAttribute('aria-checked', 'true');
     });
 
     test('consumer className is merged with the component class', () => {

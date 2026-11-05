@@ -10,6 +10,7 @@ import {
     createDataAccentColorAttribute
 } from '~/core/hooks/createDataAttribute';
 import useControllableState from '~/core/hooks/useControllableState';
+import { useFormReset } from '~/core/hooks/useFormReset';
 import composeEventHandlers from '~/core/hooks/composeEventHandlers';
 import { mergeRefs } from '~/core/utils/mergeRefs';
 import clsx from 'clsx';
@@ -97,14 +98,12 @@ const SwitchRoot = forwardRef<SwitchRootElement, SwitchRootProps>((fieldAwarePro
         if (typeof inputRef === 'function') inputRef(node);
         else if (inputRef) (inputRef as React.MutableRefObject<HTMLInputElement | null>).current = node;
     }, [inputRef]);
-    React.useEffect(() => {
+    useFormReset(
         // The hidden input knows its form even when `form` points outside the tree.
-        const owner = hiddenInputRef.current?.form ?? buttonRef.current?.closest('form');
-        if (!owner || !rendersFormInput) return;
-        const handleReset = () => setIsChecked(Boolean(defaultCheckedRef.current));
-        owner.addEventListener('reset', handleReset);
-        return () => owner.removeEventListener('reset', handleReset);
-    }, [rendersFormInput, setIsChecked, form]);
+        () => (rendersFormInput ? hiddenInputRef.current?.form ?? buttonRef.current?.closest('form') : null),
+        () => setIsChecked(Boolean(defaultCheckedRef.current)),
+        [rendersFormInput, setIsChecked, form]
+    );
 
     const contextValues = {
         checked: isChecked,

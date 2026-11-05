@@ -14,6 +14,7 @@ import FieldContext, {
 } from '../contexts/FieldContext';
 import FormContext from '~/components/ui/Form/contexts/FormContext';
 import useLayoutEffect from '~/core/hooks/useLayoutEffect';
+import { useFormReset } from '~/core/hooks/useFormReset';
 
 const COMPONENT_NAME = 'Field';
 
@@ -186,25 +187,17 @@ const FieldRoot = forwardRef<FieldRootElement, FieldRootProps>(({
     }, []);
 
     // A form reset clears what the user did: shown errors, touched and dirty.
-    React.useEffect(() => {
-        const form = (controlRef.current as ValidatableElement | null)?.form;
-        if (!form) return;
-        const handleReset = () => {
-            runIdRef.current += 1;
-            pendingRef.current = null;
-            setValidityShown(false);
-            setValidating(false);
-            setTouched(false);
-            setDirty(false);
-            // Re-check after the browser restores default values.
-            setTimeout(() => {
-                const control = controlRef.current as ValidatableElement | null;
-                if (control && 'value' in control) setFilled(isCheckable(control) ? control.checked : control.value !== '');
-                validate(false);
-            });
-        };
-        form.addEventListener('reset', handleReset);
-        return () => form.removeEventListener('reset', handleReset);
+    // It runs after the browser has restored the default values (and not at all for a cancelled reset).
+    useFormReset(() => (controlRef.current as ValidatableElement | null)?.form, () => {
+        runIdRef.current += 1;
+        pendingRef.current = null;
+        setValidityShown(false);
+        setValidating(false);
+        setTouched(false);
+        setDirty(false);
+        const control = controlRef.current as ValidatableElement | null;
+        if (control && 'value' in control) setFilled(isCheckable(control) ? control.checked : control.value !== '');
+        validate(false);
     }, [validate]);
 
     // Debounced validation for onChange mode, used by Field.Control.

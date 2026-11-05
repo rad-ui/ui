@@ -84,7 +84,7 @@ describe('Select regressions', () => {
         act(() => {
             fireEvent.reset(form);
         });
-        expect(new FormData(form).get('fruit')).toBe('');
+        await waitFor(() => expect(new FormData(form).get('fruit')).toBe(''));
     });
 
     test('supports controlled open state via open/onOpenChange', async() => {

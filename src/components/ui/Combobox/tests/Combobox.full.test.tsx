@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, screen, waitFor } from '@testing-library/react';
+import { render, screen, waitFor, fireEvent, act } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import axe from 'axe-core';
 import Combobox from '../Combobox';
@@ -71,6 +71,46 @@ describe('Combobox full behavior', () => {
         expect(trigger).toHaveTextContent('Apple');
         await userEvent.click(screen.getByText('submit'));
         expect(submittedValue).toBe('apple');
+    });
+
+    const FruitForm = ({ onReset }: { onReset?: React.FormEventHandler<HTMLFormElement> }) => (
+        <form data-testid="form" onReset={onReset}>
+            <Combobox.Root name="fruit" defaultValue="apple">
+                <Combobox.Trigger>trigger</Combobox.Trigger>
+                <Combobox.Portal>
+                    <Combobox.Content>
+                        <Combobox.Group>
+                            <Combobox.Item value="apple">Apple</Combobox.Item>
+                            <Combobox.Item value="banana">Banana</Combobox.Item>
+                        </Combobox.Group>
+                    </Combobox.Content>
+                </Combobox.Portal>
+            </Combobox.Root>
+        </form>
+    );
+
+    test('form reset restores the default value', async() => {
+        render(<FruitForm />);
+        const form = screen.getByTestId('form') as HTMLFormElement;
+        await userEvent.click(screen.getByRole('combobox'));
+        await userEvent.click(screen.getByText('Banana'));
+        expect(new FormData(form).get('fruit')).toBe('banana');
+
+        fireEvent.reset(form);
+        await waitFor(() => expect(new FormData(form).get('fruit')).toBe('apple'));
+        expect(screen.getByRole('combobox')).toHaveTextContent('Apple');
+    });
+
+    test('a cancelled form reset keeps the selected value', async() => {
+        render(<FruitForm onReset={(event) => event.preventDefault()} />);
+        const form = screen.getByTestId('form') as HTMLFormElement;
+        await userEvent.click(screen.getByRole('combobox'));
+        await userEvent.click(screen.getByText('Banana'));
+
+        fireEvent.reset(form);
+        await act(() => new Promise((resolve) => setTimeout(resolve, 10)));
+        expect(new FormData(form).get('fruit')).toBe('banana');
+        expect(screen.getByRole('combobox')).toHaveTextContent('Banana');
     });
 
     test('controlled and uncontrolled values work', async() => {

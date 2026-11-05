@@ -1,6 +1,7 @@
 import React, { forwardRef, ElementRef, ComponentPropsWithoutRef } from 'react';
 import RovingFocusGroup from '~/core/utils/RovingFocusGroup';
 import { useControllableState } from '~/core/hooks/useControllableState';
+import { useFormReset } from '~/core/hooks/useFormReset';
 import CheckboxGroupPrimitiveContext from '../context/CheckboxGroupPrimitiveContext';
 import { mergeRefs } from '~/core/utils/mergeRefs';
 import { useDirection } from '~/core/hooks/useDirection';
@@ -31,13 +32,7 @@ const CheckboxGroupPrimitiveRoot = forwardRef<CheckboxGroupPrimitiveRootElement,
     const defaultValueRef = React.useRef(defaultValue);
 
     // Return to the initial selection when the owning form resets, like native checkboxes.
-    React.useEffect(() => {
-        const form = rootRef.current?.closest('form');
-        if (!form) return;
-        const handleReset = () => setCheckedValues(defaultValueRef.current);
-        form.addEventListener('reset', handleReset);
-        return () => form.removeEventListener('reset', handleReset);
-    }, [setCheckedValues]);
+    useFormReset(() => rootRef.current?.closest('form'), () => setCheckedValues(defaultValueRef.current), [setCheckedValues]);
 
     return (
         <div ref={mergeRefs(ref, rootRef)} className={className} data-disabled={disabled ? '' : undefined} {...props}>
