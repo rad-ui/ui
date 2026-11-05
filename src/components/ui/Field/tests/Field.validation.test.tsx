@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, screen, fireEvent } from '@testing-library/react';
+import { render, screen, fireEvent, act, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import Field from '../Field';
 import TextField from '~/components/ui/TextField/TextField';
@@ -191,8 +191,31 @@ describe('Field validation', () => {
         expect(root).toHaveAttribute('data-dirty');
 
         fireEvent.reset(screen.getByTestId('form'));
-        expect(screen.queryByRole('alert')).not.toBeInTheDocument();
+        await waitFor(() => expect(screen.queryByRole('alert')).not.toBeInTheDocument());
         expect(root).not.toHaveAttribute('data-dirty');
         expect(root).not.toHaveAttribute('data-touched');
+    });
+
+    test('a cancelled form reset keeps shown errors, touched and dirty', async() => {
+        const user = userEvent.setup();
+        render(
+            <form data-testid="form" onReset={(event) => event.preventDefault()}>
+                <Field.Root required>
+                    <Field.Label>Name</Field.Label>
+                    <Field.Control />
+                    <Field.Error match="valueMissing">Enter your name</Field.Error>
+                </Field.Root>
+            </form>
+        );
+        const input = screen.getByLabelText('Name');
+        await user.type(input, 'a');
+        await user.clear(input);
+        fireEvent.invalid(input);
+        const root = input.closest('[data-slot="field-root"]');
+
+        fireEvent.reset(screen.getByTestId('form'));
+        await act(() => new Promise((resolve) => setTimeout(resolve, 10)));
+        expect(screen.getByRole('alert')).toBeInTheDocument();
+        expect(root).toHaveAttribute('data-dirty');
     });
 });

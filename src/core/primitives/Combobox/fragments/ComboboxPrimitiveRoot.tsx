@@ -4,6 +4,7 @@ import Primitive from '../../Primitive';
 import { ComboboxItemContext, ComboboxPrimitiveContext, type ComboboxContentPlacement } from '../contexts/ComboboxPrimitiveContext';
 import { createActiveIndexStore } from '~/core/utils/activeIndexStore';
 import useControllableState from '~/core/hooks/useControllableState';
+import { useFormReset } from '~/core/hooks/useFormReset';
 import Floater from '~/core/primitives/Floater';
 import { findItemLabel, labelFromItems, ComboboxItemsLabels } from '../utils/itemLabels';
 import { useRegisterDocumentOverlayOpen } from '~/core/hooks/useRegisterDocumentOverlayOpen';
@@ -304,15 +305,10 @@ const ComboboxPrimitiveRoot = React.forwardRef<
     const nativeSelectRef = React.useRef<HTMLSelectElement>(null);
     const mergedSelectRef = Floater.useMergeRefs([nativeSelectRef, inputRef]);
     const defaultValueRef = React.useRef(defaultValue);
-    React.useEffect(() => {
-        const form = nativeSelectRef.current?.form;
-        if (!form) return;
-        const handleReset = () => {
-            if (multiple) setMultipleValue((defaultValueRef.current as string[] | undefined) ?? EMPTY_VALUES);
-            else setSelectedValue((defaultValueRef.current as string | undefined) ?? '');
-        };
-        form.addEventListener('reset', handleReset);
-        return () => form.removeEventListener('reset', handleReset);
+    // Return to the default value when the owning form resets, like the native select it mirrors.
+    useFormReset(() => nativeSelectRef.current?.form, () => {
+        if (multiple) setMultipleValue((defaultValueRef.current as string[] | undefined) ?? EMPTY_VALUES);
+        else setSelectedValue((defaultValueRef.current as string | undefined) ?? '');
     }, [isFormChild, name, setSelectedValue, setMultipleValue, multiple]);
 
     // Positioning may be set on Content too (like Popover and Tooltip); there it wins over the Root's.

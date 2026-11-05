@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, screen, fireEvent, act } from '@testing-library/react';
+import { render, screen, fireEvent, act, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import Checkbox from '../Checkbox/Checkbox';
 import Switch from '../Switch/Switch';
@@ -61,7 +61,7 @@ describe('form attribute, inputRef and uncheckedValue', () => {
         await user.click(screen.getByRole('radio', { name: 'Two' }));
         expect(formData().get('plan')).toBe('two');
         act(() => { (document.getElementById('f') as HTMLFormElement).reset(); });
-        expect(formData().get('plan')).toBe('one');
+        await waitFor(() => expect(formData().get('plan')).toBe('one'));
     });
 });
 

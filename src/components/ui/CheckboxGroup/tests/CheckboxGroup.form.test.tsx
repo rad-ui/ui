@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, screen, fireEvent, act } from '@testing-library/react';
+import { render, screen, fireEvent, act, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import CheckboxGroup from '../CheckboxGroup';
 
@@ -37,7 +37,24 @@ describe('CheckboxGroup form participation and keyboard', () => {
         act(() => {
             fireEvent.reset(form);
         });
-        expect(new FormData(form).getAll('channels')).toEqual(['email']);
+        await waitFor(() => expect(new FormData(form).getAll('channels')).toEqual(['email']));
+    });
+
+    test('a cancelled form reset keeps the current selection', async() => {
+        const user = userEvent.setup();
+        render(
+            <form data-testid="form" onReset={(event) => event.preventDefault()}>
+                <Group name="channels" defaultValue={['email']} />
+            </form>
+        );
+        const form = screen.getByTestId('form') as HTMLFormElement;
+
+        await user.click(screen.getByText('push'));
+        act(() => {
+            fireEvent.reset(form);
+        });
+        await act(() => new Promise((resolve) => setTimeout(resolve, 10)));
+        expect(new FormData(form).getAll('channels')).toEqual(['email', 'push']);
     });
 
     test('arrow down moves focus through a vertically stacked group', async() => {

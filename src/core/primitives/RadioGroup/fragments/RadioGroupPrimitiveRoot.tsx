@@ -3,6 +3,7 @@ import Primitive from '../../Primitive';
 import RadioGroupContext from '../context/RadioGroupContext';
 import RovingFocusGroup from '~/core/utils/RovingFocusGroup';
 import useControllableState from '~/core/hooks/useControllableState';
+import { useFormReset } from '~/core/hooks/useFormReset';
 import composeEventHandlers from '~/core/hooks/composeEventHandlers';
 import { KEYBOARD_KEYS } from '~/core/utils/keyboard';
 import { useDirection } from '~/core/hooks/useDirection';
@@ -63,13 +64,7 @@ const RadioGroupPrimitiveRoot = React.forwardRef<RadioGroupPrimitiveRootElement,
         const defaultValueRef = React.useRef(defaultValue);
 
         // Native radios return to their default selection when their form resets.
-        React.useEffect(() => {
-            const owner = formInputRef.current?.form;
-            if (!owner) return;
-            const handleReset = () => setSelectedValue(defaultValueRef.current);
-            owner.addEventListener('reset', handleReset);
-            return () => owner.removeEventListener('reset', handleReset);
-        }, [setSelectedValue, name, required, form]);
+        useFormReset(() => formInputRef.current?.form, () => setSelectedValue(defaultValueRef.current), [setSelectedValue, name, required, form]);
 
         const sendItems = {
             selectedValue,

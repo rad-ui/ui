@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, screen, fireEvent, act } from '@testing-library/react';
+import { render, screen, fireEvent, act, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import Checkbox from '../Checkbox';
 
@@ -60,6 +60,21 @@ describe('Checkbox form mirror and labelling', () => {
         act(() => {
             fireEvent.reset(screen.getByTestId('form'));
         });
-        expect(screen.getByRole('checkbox')).toHaveAttribute('aria-checked', 'true');
+        await waitFor(() => expect(screen.getByRole('checkbox')).toHaveAttribute('aria-checked', 'true'));
+    });
+
+    test('a cancelled form reset keeps the current state', async() => {
+        const user = userEvent.setup();
+        render(
+            <form data-testid="form" onReset={(event) => event.preventDefault()}>
+                <Checkbox.Root aria-label="news" name="news" defaultChecked><Checkbox.Indicator /></Checkbox.Root>
+            </form>
+        );
+        await user.click(screen.getByRole('checkbox'));
+        act(() => {
+            fireEvent.reset(screen.getByTestId('form'));
+        });
+        await act(() => new Promise((resolve) => setTimeout(resolve, 10)));
+        expect(screen.getByRole('checkbox')).toHaveAttribute('aria-checked', 'false');
     });
 });

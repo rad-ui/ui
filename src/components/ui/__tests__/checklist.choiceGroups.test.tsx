@@ -1,5 +1,5 @@
 import React from 'react';
-import { act, render, screen, fireEvent } from '@testing-library/react';
+import { act, render, screen, fireEvent, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import CheckboxCards from '../CheckboxCards/CheckboxCards';
 import RadioCards from '../RadioCards/RadioCards';
@@ -55,7 +55,7 @@ describe('RadioCards checklist', () => {
         await user.click(radio('Team'));
         expect(new FormData(form).get('plan')).toBe('team');
         act(() => form.reset());
-        expect(radio('Basic')).toBeChecked();
+        await waitFor(() => expect(radio('Basic')).toBeChecked());
         expect(new FormData(form).get('plan')).toBe('basic');
     });
 });

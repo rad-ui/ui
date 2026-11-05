@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, screen, fireEvent, act } from '@testing-library/react';
+import { render, screen, fireEvent, act, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import RadioGroup from '../RadioGroup';
 
@@ -112,7 +112,24 @@ describe('RadioGroup form participation', () => {
         act(() => {
             fireEvent.reset(screen.getByTestId('form'));
         });
-        expect(screen.getByRole('radio', { name: 'A' })).toHaveAttribute('aria-checked', 'true');
+        await waitFor(() => expect(screen.getByRole('radio', { name: 'A' })).toHaveAttribute('aria-checked', 'true'));
         expect(new FormData(screen.getByTestId('form') as HTMLFormElement).get('plan')).toBe('a');
+    });
+
+    test('a cancelled form reset keeps the current value', async() => {
+        const user = userEvent.setup();
+        render(
+            <form data-testid="form" onReset={(event) => event.preventDefault()}>
+                <Group name="plan" defaultValue="a" />
+            </form>
+        );
+        await user.click(screen.getByRole('radio', { name: 'C' }));
+
+        act(() => {
+            fireEvent.reset(screen.getByTestId('form'));
+        });
+        await act(() => new Promise((resolve) => setTimeout(resolve, 10)));
+        expect(screen.getByRole('radio', { name: 'C' })).toHaveAttribute('aria-checked', 'true');
+        expect(new FormData(screen.getByTestId('form') as HTMLFormElement).get('plan')).toBe('c');
     });
 });
