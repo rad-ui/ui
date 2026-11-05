@@ -6,6 +6,7 @@ import Cookies from 'js-cookie';
 import { NavBarContext } from '@/components/Main/NavBar/NavBarContext';
 
 import NavBar from './NavBar';
+import SearchPalette from '@/components/navigation/SearchPalette';
 
 import Theme from '@radui/ui/Theme';
 
@@ -27,6 +28,7 @@ const THEME_SCRIPT = `try{if(document.cookie.split('; ').indexOf('${DARK_MODE_CO
 const MainLayout = ({ children }) => {
     const [darkMode, setDarkMode] = useState(true);
     const [isDocsNavOpen, setIsDocsNavOpen] = useState(false);
+    const [isSearchOpen, setIsSearchOpen] = useState(false);
     const [previewAppearance, setPreviewAppearance] = useState(null);
 
     useEffect(() => {
@@ -44,6 +46,8 @@ const MainLayout = ({ children }) => {
     const sendValues = {
         isDocsNavOpen,
         setIsDocsNavOpen,
+        isSearchOpen,
+        setIsSearchOpen,
         darkMode,
     };
 
@@ -68,6 +72,7 @@ const MainLayout = ({ children }) => {
                         {children}
                     </main>
                 </div>
+                <SearchPalette />
             </NavBarContext.Provider>
 
 
