@@ -1,7 +1,6 @@
 // Case studies: real products built on Rad UI. Each one says what the
 // product is, how it uses Rad UI, and what broke along the way, with the issues it led to.
-// Paudho and Awelgorithms are being moved onto Rad UI now: don't deploy the docs until both run on it, then
-// match their component lists and stories to what they actually use.
+// Paudho and Awelgorithms moved onto Rad UI on 2026-11-05: deploy these docs only once both are live.
 
 export type CaseStudy = {
     slug: string
@@ -138,7 +137,7 @@ export const caseStudies: CaseStudy[] = [
         name: "Paudho",
         href: "https://www.paudho.com",
         summary: "Gardening help for terraces, balconies and small farms in India: what to plant, when, and how.",
-        components: ["Button", "TextField", "Select", "Dialog", "Tabs", "Checkbox", "Badge", "Theme"],
+        components: ["Button", "Badge", "TextField", "TextArea", "Label", "Select", "Checkbox", "Switch", "RadioGroup", "Slider", "Progress", "Tabs", "Accordion", "Tooltip", "Popover", "Dialog", "ScrollArea", "Avatar", "Separator", "Slot"],
         sections: [
             {
                 question: "What is Paudho?",
@@ -149,19 +148,33 @@ export const caseStudies: CaseStudy[] = [
             {
                 question: "How does it use Rad UI?",
                 answer: [
-                    "The planner, plant library and shop are built from Rad UI components: selects and tabs to pick a city, a month or a plant type, dialogs to add plants to a plan, and badges for sowing seasons.",
-                    "Most of Paudho's visitors are on phones, often on slow connections, so the components need to work well on small screens and with a keyboard or screen reader as much as with touch.",
+                    "Every shared control in Paudho sits on a Rad UI part: the month picker and filters are Selects, plant rows use Checkboxes, the inventory and seed forms open in Dialogs, and row actions sit in Popovers. The app's own Tailwind classes give everything its look, so moving to Rad UI changed nothing visible.",
+                    "Most of Paudho's visitors are on phones, often on slow connections, so the parts have to work as well with touch as with a keyboard or a screen reader.",
+                ],
+            },
+            {
+                question: "What broke, and what changed because of it?",
+                answer: [
+                    "The move was checked screenshot by screenshot against the old version, and every difference was traced to a cause. Most came from extra wrapping elements: Dialog, Popover, Tooltip and Select roots render a div, which changed spacing in stacked layouts. Others were a link inside a Tooltip.Trigger being announced as a button, and positioning props that Select.Content silently ignored.",
+                    "Each one was worked around in the app and filed as an issue with a small example.",
                 ],
             },
         ],
-        issues: [],
+        issues: [
+            { number: 2332, title: "Tooltip.Trigger asChild: role and type leak onto a link" },
+            { number: 2333, title: "Roots render a wrapper div that changes the parent's layout" },
+            { number: 2334, title: "Types: children required on parts that work without it" },
+            { number: 2335, title: "Select.Content passes positioning props to the DOM" },
+            { number: 2336, title: "RadioGroup wraps its items in an extra group div" },
+            { number: 2337, title: "Select: open the list over the trigger, aligned to the selected item" },
+        ],
     },
     {
         slug: "awelgorithms",
         name: "Awelgorithms",
         href: "https://www.awelgorithms.com",
         summary: "A place to learn algorithms that measures your skill and unlocks practice problems as you improve.",
-        components: ["Button", "Tabs", "Dialog", "Progress", "Badge", "Accordion", "Tooltip", "Theme"],
+        components: ["Button", "TextField", "TextArea", "Select", "DropdownMenu", "Popover", "Tabs"],
         sections: [
             {
                 question: "What is Awelgorithms?",
@@ -172,12 +185,21 @@ export const caseStudies: CaseStudy[] = [
             {
                 question: "How does it use Rad UI?",
                 answer: [
-                    "Lessons, roadmaps and skill checks are built from Rad UI components: tabs to switch between a lesson and its practice, progress bars for each skill, accordions for hints, and dialogs for results.",
-                    "Learners spend long sessions in the app, often with only a keyboard, so focus handling and keyboard use matter as much as the look.",
+                    "Awelgorithms has its own hand-written look, so it uses Rad UI for behaviour only. Buttons and text fields are Rad UI parts carrying the app's own classes. The account menu and chat menus are DropdownMenus, the language picker is a Select, a lesson's views are Tabs, and the code editor's reset confirm is a Popover.",
+                    "Before the move, the menus placed themselves, closed on outside clicks and handled Escape with hand-written code. Rad UI does all of that now, and adds arrow-key navigation the hand-written menus never had.",
+                ],
+            },
+            {
+                question: "What broke?",
+                answer: [
+                    "Wrapping elements again. DropdownMenu.Content puts its items in an inner scroll div, and Select.Item wraps its children in a text span. Both broke the app's grid and flex layouts until the wrappers were unwrapped in CSS. Menu placement also lives on the Root, not on Content as it does for Popover and Tooltip.",
                 ],
             },
         ],
-        issues: [],
+        issues: [
+            { number: 2333, title: "Roots and contents add wrapper elements that change layout" },
+            { number: 2335, title: "Positioning props on Select and DropdownMenu live on the Root" },
+        ],
     },
 ]
 
