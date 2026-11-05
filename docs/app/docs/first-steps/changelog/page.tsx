@@ -96,7 +96,7 @@ export default async function ChangelogPage({
                     </code>
                     . Minor and patch sections follow{" "}
                     <a
-                        className="font-medium text-blue-900 underline decoration-blue-900/40 underline-offset-2 hover:text-blue-950 hover:decoration-blue-950"
+                        className="font-medium text-blue-950 underline decoration-blue-950/40 underline-offset-2 hover:text-blue-1000 hover:decoration-blue-950"
                         href="https://semver.org/"
                         rel="noreferrer"
                         target="_blank"
@@ -105,7 +105,7 @@ export default async function ChangelogPage({
                     </a>
                     . Source:{" "}
                     <a
-                        className="font-medium text-blue-900 underline decoration-blue-900/40 underline-offset-2 hover:text-blue-950 hover:decoration-blue-950"
+                        className="font-medium text-blue-950 underline decoration-blue-950/40 underline-offset-2 hover:text-blue-1000 hover:decoration-blue-950"
                         href="https://github.com/rad-ui/ui/blob/main/CHANGELOG.md"
                         rel="noreferrer"
                         target="_blank"
@@ -138,7 +138,7 @@ export default async function ChangelogPage({
                                 </h2>
                             </div>
                             <a
-                                className="inline-flex shrink-0 items-center gap-1.5 text-sm font-medium text-blue-900 underline decoration-blue-900/40 underline-offset-2 hover:text-blue-950 hover:decoration-blue-950"
+                                className="inline-flex shrink-0 items-center gap-1.5 text-sm font-medium text-blue-950 underline decoration-blue-950/40 underline-offset-2 hover:text-blue-1000 hover:decoration-blue-950"
                                 href={NPM_VERSION(release.version)}
                                 rel="noreferrer"
                                 target="_blank"

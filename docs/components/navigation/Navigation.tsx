@@ -35,7 +35,7 @@ const groupedComponents = componentGroups.map((group) => ({
 }))
 
 const Tag = ({ children }: { children: string }) => (
-    <span className="ml-auto pl-2 font-mono text-[0.6rem] font-medium uppercase tracking-[0.12em] text-gray-950/80">
+    <span className="ml-auto pl-2 font-mono text-[0.6rem] font-medium uppercase tracking-[0.12em] text-gray-950">
         {children}
     </span>
 )
@@ -95,7 +95,7 @@ const NavGroup = ({
                     className="shrink-0 text-gray-950 transition-transform duration-200 group-data-[state=open]:rotate-90"
                 />
                 <span className="truncate">{title}</span>
-                <span className="ml-auto font-mono text-[0.62rem] text-gray-950/70">{items.length}</span>
+                <span className="ml-auto font-mono text-[0.62rem] text-gray-950">{items.length}</span>
             </Collapsible.Trigger>
             <Collapsible.Content>
                 <ul className="mb-1 ml-[0.95rem] border-l border-gray-300 pl-1.5">
@@ -141,7 +141,7 @@ const UiDocsNavigation = ({ pathname, onNavigate }: { pathname: string | null; o
                             className="docs-nav-item relative mb-1 flex items-center rounded-md py-[0.3rem] pl-3 pr-2 text-[0.84rem] text-gray-950 transition-colors hover:bg-gray-100 hover:text-gray-1000 data-[active]:bg-gray-100 data-[active]:font-medium data-[active]:text-gray-1000"
                         >
                             All components
-                            <span className="ml-auto font-mono text-[0.62rem] text-gray-950/70">{components.length}</span>
+                            <span className="ml-auto font-mono text-[0.62rem] text-gray-950">{components.length}</span>
                         </Link>
                     </li>
                 </ul>

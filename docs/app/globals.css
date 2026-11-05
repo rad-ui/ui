@@ -936,13 +936,11 @@ pre.docs-syntax-pre code.docs-code-block {
   line-height: 1.7;
   text-align: right;
   white-space: pre;
-  color: var(--rad-ui-text-muted);
-  opacity: 0.7;
+  color: var(--rad-ui-text-secondary);
 }
 
 [data-rad-ui-theme="dark"] .docs-code-gutter {
-  color: #71717a;
-  opacity: 1;
+  color: #a1a1aa;
 }
 
 pre.docs-syntax-pre .docs-code-body code.docs-code-block {

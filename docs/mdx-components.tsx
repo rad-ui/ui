@@ -79,7 +79,7 @@ export function useMDXComponents(components: MDXComponents): MDXComponents {
       </ol>
     ),
     li: ({ children }) => (
-      <li className="text-[0.98rem] leading-7 text-gray-900">{children}</li>
+      <li className="text-[0.95rem] leading-7 text-gray-1000/90">{children}</li>
     ),
     a: ({ children, href, ...props }) => (
       <a
@@ -91,7 +91,7 @@ export function useMDXComponents(components: MDXComponents): MDXComponents {
       </a>
     ),
     blockquote: ({ children }) => (
-      <blockquote className="my-6 border-l-2 border-green-700 pl-4 text-gray-900">
+      <blockquote className="my-6 border-l-2 border-green-700 pl-4 text-gray-1000/90">
         {children}
       </blockquote>
     ),
