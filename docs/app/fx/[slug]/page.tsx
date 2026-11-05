@@ -17,7 +17,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
     if (!item) return {}
     return generateSeoMetadata({
         title: `${item.title} - Rad UI FX`,
-        description: `${item.description} Accessible by default, installable with the shadcn CLI.`,
+        description: `${item.description} A Rad UI FX React component for ${item.title}: respects reduced motion, works with screen readers and keyboards, and installs with the shadcn CLI.`,
         keywords: [item.title, `React ${item.title}`, 'accessible animation', 'Rad UI FX', 'shadcn registry', 'reduced motion'],
         canonicalUrl: `https://www.rad-ui.com/fx/${item.name}`
     })

@@ -2,7 +2,7 @@ import generateSeoMetadata from '@/utils/seo/generateSeoMetadata'
 
 const migrationGuidesMetadata = generateSeoMetadata({
   title: 'Migration guides | Rad UI',
-  description: 'Major-version migration guides and upgrade checklists for @radui/ui.',
+  description: "Upgrade guides for each major version of @radui/ui: what changed, what to rename, and a checklist to run before and after the upgrade.",
     canonicalUrl: "https://www.rad-ui.com/docs/guides/migration-guides"
 })
 

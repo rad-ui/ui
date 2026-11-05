@@ -2,7 +2,7 @@ import generateSeoMetadata from '@/utils/seo/generateSeoMetadata'
 
 const compositionRecipesMetadata = generateSeoMetadata({
   title: 'Composition recipes | Rad UI',
-  description: 'Common Rad UI composition patterns for dialogs, tabs, commands, and forms.',
+  description: "Ready-made patterns for composing Rad UI primitives into dialogs, tabs, command palettes and forms, with the wiring and focus handling worked out.",
     canonicalUrl: "https://www.rad-ui.com/docs/guides/composition-recipes"
 })
 

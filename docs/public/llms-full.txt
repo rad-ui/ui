@@ -39,6 +39,7 @@ export default function App() {
 - Accordion: https://www.rad-ui.com/docs/components/accordion
 - AlertDialog: https://www.rad-ui.com/docs/components/alert-dialog
 - AspectRatio: https://www.rad-ui.com/docs/components/aspect-ratio
+- Autocomplete: https://www.rad-ui.com/docs/components/autocomplete
 - Avatar: https://www.rad-ui.com/docs/components/avatar
 - AvatarGroup: https://www.rad-ui.com/docs/components/avatar-group
 - Badge: https://www.rad-ui.com/docs/components/badge
@@ -57,14 +58,18 @@ export default function App() {
 - ContextMenu: https://www.rad-ui.com/docs/components/context-menu
 - DataList: https://www.rad-ui.com/docs/components/data-list
 - Dialog: https://www.rad-ui.com/docs/components/dialog
+- DirectionProvider: https://www.rad-ui.com/docs/components/direction-provider
 - Disclosure: https://www.rad-ui.com/docs/components/disclosure
 - Drawer: https://www.rad-ui.com/docs/components/drawer
 - DropdownMenu: https://www.rad-ui.com/docs/components/dropdown-menu
 - Em: https://www.rad-ui.com/docs/components/em
+- Field: https://www.rad-ui.com/docs/components/field
 - Fieldset: https://www.rad-ui.com/docs/components/fieldset
+- Form: https://www.rad-ui.com/docs/components/form
 - Heading: https://www.rad-ui.com/docs/components/heading
 - HoverCard: https://www.rad-ui.com/docs/components/hover-card
 - Kbd: https://www.rad-ui.com/docs/components/kbd
+- Label: https://www.rad-ui.com/docs/components/label
 - Link: https://www.rad-ui.com/docs/components/link
 - LiveRegion: https://www.rad-ui.com/docs/components/live-region
 - Menubar: https://www.rad-ui.com/docs/components/menubar
@@ -72,6 +77,7 @@ export default function App() {
 - Minimap: https://www.rad-ui.com/docs/components/minimap
 - NavigationMenu: https://www.rad-ui.com/docs/components/navigation-menu
 - NumberField: https://www.rad-ui.com/docs/components/number-field
+- OTPField: https://www.rad-ui.com/docs/components/otp-field
 - Popover: https://www.rad-ui.com/docs/components/popover
 - Progress: https://www.rad-ui.com/docs/components/progress
 - Quote: https://www.rad-ui.com/docs/components/quote
@@ -82,6 +88,7 @@ export default function App() {
 - Select: https://www.rad-ui.com/docs/components/select
 - Separator: https://www.rad-ui.com/docs/components/separator
 - Skeleton: https://www.rad-ui.com/docs/components/skeleton
+- Slot: https://www.rad-ui.com/docs/components/slot
 - Slider: https://www.rad-ui.com/docs/components/slider
 - Spinner: https://www.rad-ui.com/docs/components/spinner
 - Splitter: https://www.rad-ui.com/docs/components/splitter
@@ -119,6 +126,9 @@ export default function App() {
 - Screen Reader Testing: https://www.rad-ui.com/docs/guides/screen-reader-testing
 - Keyboard Interaction Spec: https://www.rad-ui.com/docs/guides/keyboard-interaction-spec
 - Controlled & Uncontrolled Forms: https://www.rad-ui.com/docs/guides/controlled-uncontrolled-forms
+- Forms & Validation: https://www.rad-ui.com/docs/guides/forms-and-validation
+- Animation & Transitions: https://www.rad-ui.com/docs/guides/animation-and-transitions
+- TypeScript: https://www.rad-ui.com/docs/guides/typescript
 - Hidden Input Strategies: https://www.rad-ui.com/docs/guides/hidden-input-strategies
 - Composition Recipes: https://www.rad-ui.com/docs/guides/composition-recipes
 - Design System Integration: https://www.rad-ui.com/docs/guides/design-system-integration
