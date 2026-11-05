@@ -8,7 +8,7 @@ import { stateData } from '~/core/utils/stateAttributes';
 
 export type MenubarTriggerElement = ElementRef<typeof MenuPrimitive.Trigger>;
 export type MenubarTriggerProps = {
-  children: React.ReactNode;
+  children?: React.ReactNode;
   className?: string;
 } & ComponentPropsWithoutRef<typeof MenuPrimitive.Trigger>;
 

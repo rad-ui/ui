@@ -8,7 +8,7 @@ import { stateData } from '~/core/utils/stateAttributes';
 import { useHandleTriggerRegistration } from '~/core/utils/popupHandle';
 
 export type DialogPrimitiveTriggerProps = {
-    children: React.ReactNode;
+    children?: React.ReactNode;
     asChild?: boolean;
     className?: string;
     disabled?: boolean;

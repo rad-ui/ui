@@ -7,7 +7,7 @@ import { useHandleTriggerRegistration } from '~/core/utils/popupHandle';
 import { stateData } from '~/core/utils/stateAttributes';
 
 export type MenuPrimitiveTriggerProps = {
-    children: React.ReactNode
+    children?: React.ReactNode
     className?: string
     asChild?: boolean
     /** Open the menu connected to this handle, even when rendered outside its Root. */
