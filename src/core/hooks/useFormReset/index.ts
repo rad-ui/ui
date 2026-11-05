@@ -10,6 +10,10 @@ import React from 'react';
  * event has finished dispatching. The restore is therefore deferred to a macrotask, which also
  * runs after the browser has restored the native controls, and skipped for a cancelled reset.
  *
+ * Each reset event gets its own timer: a second reset (cancelled or not) never drops the restore of
+ * the one before it, and re-registering the listener when `deps` change leaves pending restores
+ * alone. Only unmounting clears them.
+ *
  * `getForm` is read inside the effect, so it may look up refs. `deps` re-runs the lookup, like
  * the dependency list of the `useEffect` it replaces.
  */
@@ -23,25 +27,33 @@ export function useFormReset(
         onResetRef.current = onReset;
     });
 
+    const timersRef = React.useRef(new Set<ReturnType<typeof setTimeout>>());
+
     React.useEffect(() => {
         const form = getForm();
         if (!form) return;
-        let timer: ReturnType<typeof setTimeout> | undefined;
+        const timers = timersRef.current;
         const handleReset = (event: Event) => {
-            if (timer !== undefined) clearTimeout(timer);
-            timer = setTimeout(() => {
-                timer = undefined;
+            const timer = setTimeout(() => {
+                timers.delete(timer);
                 if (event.defaultPrevented) return;
                 onResetRef.current();
             });
+            timers.add(timer);
         };
         form.addEventListener('reset', handleReset);
-        return () => {
-            form.removeEventListener('reset', handleReset);
-            if (timer !== undefined) clearTimeout(timer);
-        };
+        return () => form.removeEventListener('reset', handleReset);
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, deps);
+
+    // Pending restores outlive dependency changes; they die with the component.
+    React.useEffect(() => {
+        const timers = timersRef.current;
+        return () => {
+            timers.forEach((timer) => clearTimeout(timer));
+            timers.clear();
+        };
+    }, []);
 }
 
 export default useFormReset;
