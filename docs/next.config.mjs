@@ -80,6 +80,11 @@ const nextConfig = {
                 destination: '/docs/first-steps/introduction',
                 permanent: true,
             },
+            {
+                source: '/built-with',
+                destination: '/case-studies',
+                permanent: true,
+            },
         ]
     },
 
