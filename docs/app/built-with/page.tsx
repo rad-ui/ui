@@ -23,6 +23,13 @@ const products = [
             "A browser-based editor for beat-synced kinetic typography videos. Its controls, dialogs, sliders and inspector fields are Rad UI.",
         components: ["Button", "Dialog", "Select", "ToggleGroup", "Slider", "Switch", "NumberField", "TextField", "TextArea", "Progress", "Badge", "Theme"],
     },
+    {
+        name: "Fiery Panda Studios",
+        href: "https://fierypandastudios.com",
+        summary:
+            "The website of an indie game studio in Hyderabad making pixel-art action games in Godot.",
+        components: ["Heading", "Badge", "Button", "Theme"],
+    },
 ]
 
 const badgeSnippet = `<a href="https://www.rad-ui.com/built-with?ref=your-product">Built with Rad UI</a>`
