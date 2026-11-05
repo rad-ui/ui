@@ -11,6 +11,7 @@ type SelectTriggerElement = React.ElementRef<typeof ComboboxPrimitive.Trigger>;
 export type SelectTriggerProps = React.ComponentPropsWithoutRef<typeof ComboboxPrimitive.Trigger> & {
     customRootClass?: string;
     placeholder?: boolean;
+    renderValue?: (value: string, label: string) => React.ReactNode;
 };
 
 const SelectTrigger = React.forwardRef<SelectTriggerElement, SelectTriggerProps>(({ customRootClass, children, className, disabled, placeholder, onFocus, onBlur, ...props }, forwardedRef) => {
@@ -51,7 +52,7 @@ const SelectTrigger = React.forwardRef<SelectTriggerElement, SelectTriggerProps>
 
         </ComboboxPrimitive.Trigger>
     );
-});
+}) as React.ForwardRefExoticComponent<SelectTriggerProps & React.RefAttributes<SelectTriggerElement>>;
 
 SelectTrigger.displayName = 'SelectTrigger';
 

@@ -1,6 +1,6 @@
 import Documentation from '@/components/layout/Documentation/Documentation';
 import SelectExample from "./docs/example_1"
-import { code, largeListCode, anatomy, ariaReferences, keyboardShortcuts, api_documentation } from "./docs/codeUsage"
+import { code, largeListCode, renderValueCode, anatomy, ariaReferences, keyboardShortcuts, api_documentation } from "./docs/codeUsage"
 
 <Documentation
     title="Select"
@@ -9,6 +9,14 @@ import { code, largeListCode, anatomy, ariaReferences, keyboardShortcuts, api_do
     <Documentation.ComponentHero codeUsage={code}>
         <SelectExample />
     </Documentation.ComponentHero>
+
+    <Documentation.Section title="Custom trigger value">
+        Before a value is selected, the trigger displays its children as a placeholder. Once selected, it displays the item's label: its `label` prop, its text content, or its value as a fallback. Items hidden inside custom components may display their value until the list mounts.
+        Use `renderValue` to customize the selected display. It receives the value and resolved label, and is called only when a value is selected. Returning `null` or `undefined` falls back to the default display.
+        <Documentation.CodeBlock language="tsx">
+            {renderValueCode.javascript.code}
+        </Documentation.CodeBlock>
+    </Documentation.Section>
 
     <Documentation.Section title="Large Lists">
         Use a controlled value and keep each option's `value` and `label` stable when a Select has hundreds of options.
@@ -21,7 +29,7 @@ import { code, largeListCode, anatomy, ariaReferences, keyboardShortcuts, api_do
     <Documentation.ApiReference
         anatomy={anatomy.code}
         tables={api_documentation}
-        order={['root', 'item']}
+        order={['root', 'trigger', 'item']}
     />
 
     <Documentation.Table title="Keyboard Interactions" columns={keyboardShortcuts.columns} data={keyboardShortcuts.data} />

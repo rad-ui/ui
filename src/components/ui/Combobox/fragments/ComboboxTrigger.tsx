@@ -9,6 +9,7 @@ type ComboboxTriggerElement = React.ElementRef<typeof ComboboxPrimitive.Trigger>
 export type ComboboxTriggerProps = React.ComponentPropsWithoutRef<typeof ComboboxPrimitive.Trigger> & {
     customRootClass?: string;
     placeholder?: boolean;
+    renderValue?: (value: string, label: string) => React.ReactNode;
 };
 
 const ComboboxTrigger = React.forwardRef<ComboboxTriggerElement, ComboboxTriggerProps>(({ customRootClass, children, disabled, placeholder, className, ...props }, forwardedRef) => {
@@ -27,7 +28,7 @@ const ComboboxTrigger = React.forwardRef<ComboboxTriggerElement, ComboboxTrigger
             {children}
         </ComboboxPrimitive.Trigger>
     );
-});
+}) as React.ForwardRefExoticComponent<ComboboxTriggerProps & React.RefAttributes<ComboboxTriggerElement>>;
 
 ComboboxTrigger.displayName = 'ComboboxTrigger';
 

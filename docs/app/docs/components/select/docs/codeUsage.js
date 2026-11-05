@@ -10,10 +10,12 @@ import {
     DOCS_KEYBOARD_SHORTCUTS
 } from '../../shared/keyboardShortcuts';
 import root_api from './component_api/root.tsx';
+import trigger_api from './component_api/trigger.tsx';
 import item_api from './component_api/item.tsx';
 
 const example_1_SourceCode = await getSourceCodeFromPath('docs/app/docs/components/select/docs/example_1.tsx');
 const largeList_SourceCode = await getSourceCodeFromPath('docs/app/docs/components/select/docs/large-list.tsx');
+const renderValue_SourceCode = await getSourceCodeFromPath('docs/app/docs/components/select/docs/render-value.tsx');
 const scss_SourceCode = await getSourceCodeFromPath('styles/themes/components/select.scss');
 const anatomy_SourceCode = await getSourceCodeFromPath('docs/app/docs/components/select/docs/anatomy.tsx');
 
@@ -26,10 +28,15 @@ export const largeListCode = {
     javascript: { code: largeList_SourceCode }
 };
 
+export const renderValueCode = {
+    javascript: { code: renderValue_SourceCode }
+};
+
 export const anatomy = { code: anatomy_SourceCode };
 
 export const api_documentation = {
     root: root_api,
+    trigger: trigger_api,
     item: item_api
 };
 
