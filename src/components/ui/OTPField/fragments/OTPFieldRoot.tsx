@@ -1,6 +1,7 @@
 'use client';
 
 import React, { forwardRef, ElementRef, ComponentPropsWithoutRef } from 'react';
+import { useDirection } from '~/core/hooks/useDirection';
 import clsx from 'clsx';
 import Primitive from '~/core/primitives/Primitive';
 import { useComponentClass } from '~/components/ui/Theme/useComponentClass';
@@ -82,6 +83,7 @@ const OTPFieldRoot = forwardRef<OTPFieldRootElement, OTPFieldRootProps>(({
     const onValueInvalidRef = React.useRef(onValueInvalid);
     onValueInvalidRef.current = onValueInvalid;
     const rootClass = useComponentClass(customRootClass, COMPONENT_NAME);
+    const dir = useDirection(props.dir) ?? 'ltr';
     const [value, setValue] = useControllableState<string>(valueProp, defaultValue, onValueChange);
     const valueRef = React.useRef(value);
     valueRef.current = value;
@@ -157,12 +159,13 @@ const OTPFieldRoot = forwardRef<OTPFieldRootElement, OTPFieldRootProps>(({
         autoComplete,
         disabled,
         readOnly,
+        dir,
         registerInput,
         indexOf,
         focusSlot,
         insertAt,
         removeAt
-    }), [rootClass, value, length, validationType, type, mask, inputMode, autoComplete, disabled, readOnly, registerInput, indexOf, focusSlot, insertAt, removeAt]);
+    }), [rootClass, value, length, validationType, type, mask, inputMode, autoComplete, disabled, readOnly, dir, registerInput, indexOf, focusSlot, insertAt, removeAt]);
 
     const complete = value.length === length;
 
@@ -173,6 +176,7 @@ const OTPFieldRoot = forwardRef<OTPFieldRootElement, OTPFieldRootProps>(({
                 role="group"
                 className={clsx(rootClass, className)}
                 {...props}
+                dir={props.dir ?? (dir === 'rtl' ? 'rtl' : undefined)}
                 data-slot="otp-field-root"
                 data-complete={complete ? '' : undefined}
                 data-disabled={disabled ? '' : undefined}

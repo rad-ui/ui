@@ -19,6 +19,8 @@ export interface MenubarContextProps {
     activeIndex: number;
     setActiveItem: (id: string) => void;
     contentInitialFocus?: number;
+    /** Reading direction: in right-to-left menubars ArrowLeft opens the next menu. */
+    dir?: 'ltr' | 'rtl';
 }
 
 const MenubarContext = React.createContext<MenubarContextProps|null>(null);

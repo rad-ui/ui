@@ -45,4 +45,31 @@ describe('Menubar RTL', () => {
         await user.click(trigger);
         expect(screen.getByText('New')).toBeInTheDocument();
     });
+
+    test('ArrowLeft opens the next menu and ArrowRight the previous one in rtl', async() => {
+        const user = userEvent.setup();
+        render(
+            <Theme>
+                <Menubar.Root dir="rtl">
+                    {['File', 'Edit', 'View'].map((name) => (
+                        <Menubar.Menu key={name}>
+                            <Menubar.Trigger>{name}</Menubar.Trigger>
+                            <Menubar.Portal>
+                                <Menubar.Content>
+                                    <Menubar.Item>{`${name} item`}</Menubar.Item>
+                                </Menubar.Content>
+                            </Menubar.Portal>
+                        </Menubar.Menu>
+                    ))}
+                </Menubar.Root>
+            </Theme>
+        );
+
+        await user.click(screen.getByText('File'));
+        expect(screen.getByText('File item')).toBeInTheDocument();
+        await user.keyboard('{ArrowLeft}');
+        expect(await screen.findByText('Edit item')).toBeInTheDocument();
+        await user.keyboard('{ArrowRight}');
+        expect(await screen.findByText('File item')).toBeInTheDocument();
+    });
 });
