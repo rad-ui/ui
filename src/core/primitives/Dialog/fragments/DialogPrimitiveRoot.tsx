@@ -1,5 +1,6 @@
 'use client';
 import React, { forwardRef } from 'react';
+import { needsHostElement } from '~/core/utils/hostElement';
 import { DialogPrimitiveContext } from '../context/DialogPrimitiveContext';
 import { DialogNestingContext } from '../context/DialogNestingContext';
 import Floater from '~/core/primitives/Floater';
@@ -141,18 +142,23 @@ const DialogPrimitiveRootInner = forwardRef<HTMLDivElement, DialogPrimitiveRootP
 
     useHandleTriggerId(handle, triggerId, defaultTriggerId, Boolean(isOpen));
     const contextProps = { isOpen, handleOpenChange, floaterContext, handleOverlayClick, getReferenceProps, getFloatingProps, getItemProps, refs, floatingStyles, nested: Boolean(parentNesting), openChildCount, onOpenChangeComplete, modal, isTopModal };
+    const content = typeof children === 'function' ? children({ payload: handleState?.payload }) : children;
     return (
         <DialogNestingContext.Provider value={nesting}>
         <DialogPrimitiveContext.Provider value={contextProps}>
             <Floater.FloatingNode id={nodeId}>
-                <div
-                    ref={ref}
-                    {...stateData(isOpen ? 'open' : 'closed')}
-                    {...props}
-                    className={className}
-                >
-                    {typeof children === 'function' ? children({ payload: handleState?.payload }) : children}
-                </div>
+                {needsHostElement(ref, { ...props, className })
+                    ? (
+                        <div
+                            ref={ref}
+                            {...stateData(isOpen ? 'open' : 'closed')}
+                            {...props}
+                            className={className}
+                        >
+                            {content}
+                        </div>
+                    )
+                    : content}
             </Floater.FloatingNode>
         </DialogPrimitiveContext.Provider>
         </DialogNestingContext.Provider>

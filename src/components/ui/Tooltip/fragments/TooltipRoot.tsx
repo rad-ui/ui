@@ -1,5 +1,6 @@
 import React, { useContext, useRef } from 'react';
 import useLayoutEffect from '~/core/hooks/useLayoutEffect';
+import { needsHostElement } from '~/core/utils/hostElement';
 import type { PopupHandle } from '~/core/utils/popupHandle';
 import { tooltipHandleIds } from '../context/tooltipHandleIds';
 import { anchorTracking, collisionMiddleware, ContentPositioning, samePositioning, toPlacement } from '~/core/utils/placement';
@@ -239,11 +240,12 @@ const TooltipRoot = React.forwardRef<TooltipRootElement, TooltipRootProps>(
             role
         ]);
 
+        const content = typeof children === 'function' ? (children as (state: { payload: unknown }) => React.ReactNode)({ payload: handleState?.payload }) : children;
         return (
             <TooltipContext.Provider value={{ isOpen, setIsOpen, data, interactions, context, arrowRef, rootClass, isInstantPhase, onOpenChangeComplete, setPositioning, disabled, triggerDisabledRef }}>
-                <div ref={ref} data-slot="tooltip-root" {...props}>
-                    {typeof children === 'function' ? (children as (state: { payload: unknown }) => React.ReactNode)({ payload: handleState?.payload }) : children}
-                </div>
+                {needsHostElement(ref, props)
+                    ? <div ref={ref} data-slot="tooltip-root" {...props}>{content}</div>
+                    : content}
             </TooltipContext.Provider>
         );
     }

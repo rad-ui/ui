@@ -35,7 +35,7 @@ const PopoverRoot = forwardRef<PopoverRootElement, PopoverRootProps>(({
         <PopoverContext.Provider value={contextValue}>
             <PopoverPrimitive.Root
                 ref={ref}
-                className={clsx(rootClass, className)}
+                className={className ? clsx(rootClass, className) : undefined}
                 data-slot="popover-root"
                 {...props}
             >

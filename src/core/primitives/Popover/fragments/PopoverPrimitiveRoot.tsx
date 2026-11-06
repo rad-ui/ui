@@ -1,6 +1,7 @@
 'use client';
 
 import React, { forwardRef } from 'react';
+import { needsHostElement } from '~/core/utils/hostElement';
 import Floater from '~/core/primitives/Floater';
 import Primitive from '~/core/primitives/Primitive';
 import { useControllableState } from '~/core/hooks/useControllableState';
@@ -329,12 +330,17 @@ const PopoverPrimitiveRootInner = forwardRef<HTMLDivElement, PopoverPrimitiveRoo
         activeTrigger
     ]);
 
+    const content = typeof children === 'function' ? children({ payload: handleState?.payload }) : children;
     return (
         <PopoverPrimitiveContext.Provider value={contextValue}>
             <Floater.FloatingNode id={nodeId}>
-                <Primitive.div ref={ref} {...stateData(isOpen ? 'open' : 'closed')} {...props}>
-                    {typeof children === 'function' ? children({ payload: handleState?.payload }) : children}
-                </Primitive.div>
+                {needsHostElement(ref, props)
+                    ? (
+                        <Primitive.div ref={ref} {...stateData(isOpen ? 'open' : 'closed')} {...props}>
+                            {content}
+                        </Primitive.div>
+                    )
+                    : content}
             </Floater.FloatingNode>
         </PopoverPrimitiveContext.Provider>
     );
