@@ -93,7 +93,7 @@ describe('ButtonPrimitive asChild semantics', () => {
         expectNoUnexpectedHydrationWarnings(warn, error);
         warn.mockRestore();
         error.mockRestore();
-        check(container.firstElementChild!.querySelector('a, span')!);
+        check(container.querySelector('a, span')!);
         container.remove();
     });
 });

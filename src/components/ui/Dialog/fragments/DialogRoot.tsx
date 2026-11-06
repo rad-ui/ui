@@ -31,7 +31,7 @@ const DialogRoot = forwardRef<DialogRootElement, DialogRootProps>(({ children, c
     }), [rootClass, titleId, descriptionId]);
 
     return (
-        <DialogPrimitive.Root ref={ref} className={clsx(rootClass, className)} {...props}>
+        <DialogPrimitive.Root ref={ref} className={className ? clsx(rootClass, className) : undefined} {...props}>
             {typeof children === 'function'
                 // With a handle, children can read the opening trigger's payload.
                 ? (state: { payload: unknown }) => (
