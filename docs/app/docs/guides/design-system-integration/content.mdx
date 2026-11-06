@@ -90,23 +90,27 @@ Document focus return and nested dialog rules in your design-system docs so prod
 
 ## Recipe: form field composition
 
-Combine labels, descriptions, and validation messaging in your layer; keep Rad UI inputs headless.
+Wrap `Field` once so every form in the product gets the same label, help text and error layout. `Field` wires the ids, `aria-describedby` and `aria-invalid`; your wrapper decides where they sit.
 
 ```tsx
-import TextArea from '@radui/ui/TextArea'
+import Field from '@radui/ui/Field'
+import TextField from '@radui/ui/TextField'
 
-export function Field({ label, error, ...inputProps }: FieldProps) {
+export function TextInput({ label, hint, name, ...inputProps }: TextInputProps) {
   return (
-    <label>
-      <span>{label}</span>
-      <TextArea.Root>
-        <TextArea.Input aria-invalid={Boolean(error)} {...inputProps} />
-      </TextArea.Root>
-      {error ? <span role="alert">{error}</span> : null}
-    </label>
+    <Field.Root name={name} className="ds-field">
+      <Field.Label>{label}</Field.Label>
+      <Field.Control asChild>
+        <TextField {...inputProps} />
+      </Field.Control>
+      {hint ? <Field.Description>{hint}</Field.Description> : null}
+      <Field.Error />
+    </Field.Root>
   )
 }
 ```
+
+Server errors and custom rules come through `Field.Root`'s `invalid` and `validate` props; see [Forms and validation](/docs/guides/forms-and-validation).
 
 ## Boundaries to respect
 

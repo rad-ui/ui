@@ -10,6 +10,12 @@ import { code, anatomy, api_documentation, ariaReferences, keyboardShortcuts } f
         <LinkExample />
     </Documentation.ComponentHero>
 
+    <Documentation.ComponentFeatures features={[
+        "A native anchor with the theme's link styling, sizes and colours",
+        "asChild wraps a router link so client-side navigation keeps the styling",
+        "External links can carry rel and target like any anchor"
+    ]} />
+
     <Documentation.Table title="Keyboard Interactions" columns={keyboardShortcuts.columns} data={keyboardShortcuts.data} />
 
     <Documentation.Table title="ARIA References" columns={ariaReferences.columns} data={ariaReferences.data} />

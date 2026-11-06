@@ -1,125 +1,44 @@
 # Accessibility
 
-Accessibility is not an add on in Rad UI.  
-It is a core design constraint.
+Rad UI owns the parts of accessibility that are easy to get wrong and tedious to repeat: roles and states, keyboard handling, focus, dismissal, announcements. What it cannot own is yours: labels, contrast of your own colours, and the content inside.
 
-Rad UI components are built to be usable by everyone, including users who rely on keyboards, screen readers, or other assistive technologies. We handle the hard, easy-to-get-wrong parts of accessibility so you do not have to reimplement them for every component.
+This page says what the library does, what it leaves to you, and how to check both.
 
-Keyboard interactions, focus management, and ARIA semantics are treated as first class behavior, not optional extras.
+## What each component does
 
-As standards evolve, Rad UI evolves with them.
+Every interactive component follows the matching [WAI-ARIA Authoring Practices](https://www.w3.org/WAI/ARIA/apg/patterns/) pattern, and its page documents the keyboard map and the ARIA references it implements. In short:
 
-If you find an accessibility issue or have suggestions for improvement, please report it on our GitHub issues tracker:  
-https://github.com/rad-ui/ui/issues
+- **Roles and states** are set for you and kept in sync: `aria-expanded` on a trigger, `aria-checked` on a switch, `aria-selected` on a tab, `aria-invalid` on a field that failed validation. Native elements are used where one exists (a `button`, a `label`, a hidden `input` for form submission) and ARIA only where it is needed.
+- **Keyboard**: composite widgets (menus, tabs, radio groups, toolbars, trees) are one tab stop; arrow keys move inside them, `Home` and `End` jump, typeahead finds items in lists. `Enter` and `Space` activate, `Escape` dismisses. Disabled items are skipped.
+- **Focus**: dialogs trap focus while open and return it to the trigger on close; menus and popovers return focus too; nested dialogs close one at a time with `Escape`. Initial focus goes to the first sensible element, and every overlay has an `initialFocus` and `finalFocus` escape hatch.
+- **Dismissal**: outside press and `Escape` close popups, and the event details say why, so you can veto a close ("discard changes?").
+- **Announcements**: `Toast`, `Field.Error` and `LiveRegion` announce changes without moving focus. `Combobox` and `Select` report the active option through `aria-activedescendant`.
+- **Pointer, touch and keyboard** get the same behaviour. `Slider`, `Splitter` and `Drawer` work with drag, arrow keys and touch.
 
----
+## What stays with you
 
-## WAI-ARIA Compliance
+- **Names.** Give every control an accessible name: a visible `Field.Label`, a `label` with `htmlFor`, or `aria-label` for icon-only buttons. A `Dialog` needs a `Dialog.Title`; a `Tooltip` is not a name for its trigger.
+- **Contrast.** Clarity's text and controls meet WCAG AA in both appearances, and this site's CI checks every page for it. The moment you use your own colours, that becomes your check: [WebAIM's contrast checker](https://webaim.org/resources/contrastchecker/) for pairs, axe in the browser for whole pages.
+- **Focus visibility.** Clarity styles `:focus-visible` with a ring. If you restyle a component, keep a visible focus indicator with at least 3:1 contrast against its surroundings. Style `:focus-visible`, not `:focus`, so pointer clicks don't leave a ring behind.
+- **More than colour.** Pair every colour cue with a second one, and use the `data-*` attributes that already exist:
 
-Rad UI follows WAI-ARIA authoring practices wherever applicable.
+  | State | Not enough | Enough |
+  | --- | --- | --- |
+  | Error | red border | red border + `aria-invalid` + a message in `Field.Error` |
+  | Selected | hue change | icon or weight change keyed off `data-state="on"` |
+  | Disabled | faded colour | `data-disabled` + `aria-disabled` + a non-interactive cursor |
 
-Components are implemented with appropriate roles, states, and properties to ensure they work correctly with screen readers and other assistive technologies. We regularly review and refine these implementations to stay aligned with current best practices.
+- **Motion.** Clarity follows `prefers-reduced-motion`: motion tokens collapse to an instant duration, while a `Spinner` keeps turning because it carries meaning. If your CSS uses fixed durations, add the media query yourself ([Animation and transitions](/docs/guides/animation-and-transitions#respect-reduced-motion)).
+- **Forced colours.** In Windows High Contrast the browser drops your colours. Clarity swaps its focus ring for a system-colour outline and keeps the fills that carry state (the Switch thumb, the Radio dot, the Slider range, the Tabs indicator, a pressed Toggle, the highlighted menu item). Check your own parts under `@media (forced-colors: active)` and use `Highlight` and `CanvasText`.
 
-ARIA is used deliberately and only when necessary. Native semantics are preferred whenever possible.
+## Adjusting the defaults
 
----
+Every part spreads its props onto the element it renders, so `aria-label`, `aria-describedby` and `aria-hidden` work directly. `asChild` moves a part's behaviour and ARIA onto your own element; use it to give a role to an element that should have it, not to borrow a part's look for an element with a different role ([Composition recipes](/docs/guides/composition-recipes#aschild-hands-over-semantics)). When a component's default behaviour is wrong for your case, prefer its documented props (`modal`, `initialFocus`, `disablePointerDismissal`) over removing attributes.
 
-## Keyboard Navigation
+## Checking your work
 
-All Rad UI components are designed to be fully operable using a keyboard.
+1. Unplug the mouse. Reach every control with `Tab`, operate it with the keys on the component's page, and watch where focus lands after each overlay closes.
+2. Run axe (the browser extension or `axe-core` in tests) on each screen in both appearances.
+3. Walk the main flows with a screen reader once per release: VoiceOver on macOS and iOS, NVDA on Windows. [Screen reader testing](/docs/guides/screen-reader-testing) has a per-flow script.
 
-Supported interactions include:
-- Tab and Shift + Tab for navigation
-- Arrow keys for directional movement
-- Enter and Space for activation
-- Escape for dismissal where applicable
-
-Keyboard behavior follows platform conventions so interactions feel familiar and predictable.
-
-Some components are still being enhanced as part of ongoing accessibility work. Keyboard support is continuously expanding and improving across the library.
-
-If you encounter unexpected behavior, please report it.
-
----
-
-## Contrast and Color Accessibility
-
-Rad UI takes contrast and color accessibility seriously.
-
-Default themes aim to meet WCAG minimum contrast requirements for text and interactive elements. This helps ensure content remains readable for users with low vision or color vision deficiencies.
-
-Rad UI does not lock you into a color system. If you are using a custom theme or design tokens, it is your responsibility to ensure contrast requirements are met.
-
-We recommend validating custom color combinations using tools such as:  
-https://webaim.org/resources/contrastchecker/
-
-Accessibility is a shared responsibility between the component library and the design system built on top of it.
-
----
-
-## Focus visible and non-color affordances
-
-Keyboard users must be able to see **which element is focused**. Color alone must never be the only indicator of state, selection, or errors.
-
-### `:focus-visible` guidance
-
-- Style **keyboard focus** with `:focus-visible`, not bare `:focus`, so pointer clicks do not leave a persistent ring on mouse users.
-- Ensure the focus indicator has **sufficient contrast** against adjacent backgrounds (WCAG 2.2 focus appearance guidance).
-- Preserve Rad UI's default focus behavior when wrapping components; do not remove outlines without providing an equivalent visible indicator.
-
-```css
-/* Example app-level focus ring */
-:where(button, [role='menuitem'], [role='tab']):focus-visible {
-  outline: 2px solid var(--focus-ring, #005fcc);
-  outline-offset: 2px;
-}
-```
-
-### Non-color requirements
-
-Pair color with at least one additional cue:
-
-| State | Avoid | Prefer |
-| --- | --- | --- |
-| Error | red border only | red border + `aria-invalid` + text message |
-| Selected | hue change only | selected icon, weight, or `data-state="on"` styling |
-| Disabled | faded color only | `data-disabled` + `aria-disabled` + non-interactive cursor |
-
-The default theme supports forced-colours mode (Windows **High Contrast** and similar). In that mode the browser removes box-shadows and replaces your colours with the person's system colours. So the theme gives keyboard focus a system-colour outline instead of its shadow ring, and it keeps the fills that carry state: the Switch thumb, the Radio dot, the Slider range and thumb, Progress, the Tabs indicator, pressed toggles and the highlighted item in a menu or list. If you style these parts yourself, check them with `@media (forced-colors: active)` and use system colours such as `Highlight` and `CanvasText`.
-
----
-
-## Focus Management
-
-Correct focus behavior is essential for accessible interfaces.
-
-Rad UI automatically manages focus for interactive components such as dialogs, menus, popovers, and dropdowns. When a component opens, focus moves into it. When it closes, focus returns to the element that triggered it.
-
-Components that require it implement focus trapping to ensure keyboard users do not accidentally tab outside active UI.
-
-These behaviors are handled by default so you do not need to reimplement them or remember edge cases.
-
----
-
-## Customizable Accessibility Behavior
-
-Rad UI is accessible by default, but not rigid.
-
-You can override or extend accessibility behavior when necessary. Components allow you to:
-- Add or modify ARIA attributes such as aria-label, aria-describedby, and aria-hidden
-- Adjust roles or semantics to fit custom interaction models
-- Disable certain default behaviors when building advanced or non-standard interfaces
-
-This flexibility makes Rad UI suitable for complex applications with specialized accessibility requirements.
-
----
-
-## Accessibility as a Community Effort
-
-Accessibility is ongoing work.
-
-We actively rely on feedback from developers and users to identify gaps, edge cases, and real world issues. All accessibility related bug reports and improvements are treated as high priority.
-
-If you have experience in accessibility or discover a better pattern, contributions are welcome.
-
-Together, we can build UI primitives that raise the baseline for the web.
+Found a gap? Accessibility reports are triaged first: [open an issue](https://github.com/rad-ui/ui/issues) with the screen reader, browser and the announcement you got versus the one you expected.

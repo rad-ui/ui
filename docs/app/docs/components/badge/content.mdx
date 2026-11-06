@@ -10,13 +10,17 @@ import BadgeColor from './examples/BadgeColor';
 
 <Documentation 
     title={`Badge`} 
-    description={`
-        Badges are used to display a small amount of information. They are used in the sidebar, and in the chat.
-    `}
+    description="A small label for a status, a category or a count. Soft, solid and outline variants in every accent colour."
 >
     <Documentation.ComponentHero codeUsage={codeUsage}>
         <Badge>Badge</Badge>
     </Documentation.ComponentHero>
+
+    <Documentation.ComponentFeatures features={[
+        "Solid, soft and outline variants in every theme colour",
+        "Three sizes that follow the theme scale",
+        "Renders a span, so it sits inline with text and inside buttons"
+    ]} />
 
     <Documentation.ComponentHero title='Variants' codeUsage={variantCodeUsage}>
                 <BadgeVariants />

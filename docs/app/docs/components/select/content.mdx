@@ -11,6 +11,15 @@ import { code, largeListCode, customTriggerCode, anatomy, ariaReferences, keyboa
         <SelectExample />
     </Documentation.ComponentHero>
 
+    <Documentation.ComponentFeatures features={[
+        "Single or multiple selection with a trigger that shows the selected label",
+        "Renders a native select for form submission, required validation and reset",
+        "Arrow keys move through options, typeahead jumps, Enter selects, Escape closes",
+        "alignItemWithTrigger opens the list over the trigger with the selected option in place, like a native select",
+        "Groups, separators, icons and a clear button; portal rendering with collision handling",
+        "items maps values to labels so the trigger renders the selection before the list mounts"
+    ]} />
+
     <Documentation.Section title="Custom trigger display">
         The trigger's children are its placeholder. Once an item is selected, the trigger shows that item's label instead.
         To show something else, such as a shorter name, an icon or a colour swatch, pass `renderValue` to `Select.Trigger`.

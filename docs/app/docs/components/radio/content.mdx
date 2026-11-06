@@ -10,6 +10,12 @@ import { code, anatomy, api_documentation, ariaReferences, keyboardShortcuts } f
         <RadioExample />
     </Documentation.ComponentHero>
 
+    <Documentation.ComponentFeatures features={[
+        "A single radio input for custom layouts outside RadioGroup",
+        "Checked state through aria-checked; Space selects",
+        "Takes the group's name and value for forms when used inside one"
+    ]} />
+
     <Documentation.ApiReference
         anatomy={anatomy.code}
         tables={api_documentation}

@@ -4,6 +4,20 @@ Common integration issues when using Rad UI in SSR frameworks, with portals, and
 
 For baseline SSR and no-JS guidance, see [SSR & No-JS Fallback](/docs/guides/ssr-and-no-js-fallback).
 
+## Components render unstyled
+
+**Symptom:** The theme CSS is imported, but every component looks like plain HTML.
+
+**Cause**
+
+- `Theme` has no `classNamespace`. Without it the library emits no class names, so Clarity's `.rad-ui-*` selectors match nothing.
+- Or the components sit outside the `Theme` subtree that sets the namespace.
+
+**What to try**
+
+- Wrap the app in `<Theme classNamespace="rad-ui">` and keep `import "@radui/ui/themes/default.css"` in the same bundle.
+- Check one element in the inspector: a styled Button has `class="rad-ui-button"`.
+
 ## Hydration mismatches
 
 **Symptom:** React warns that server HTML did not match the client, often on overlay or theme components.

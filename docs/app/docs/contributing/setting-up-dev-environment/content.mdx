@@ -63,19 +63,13 @@ pnpm dev
 
 ## Testing local library changes in the docs app
 
-If you are changing the library and want the docs app to consume your local build:
-
-From the repository root:
+The docs app consumes the published `@radui/ui`. To point it at your local build instead, run from the repository root:
 
 ```bash
-npm run build:rollup
-npm link
+npm run docs:live
 ```
 
-Then from `docs`:
+It builds the library, swaps `docs/node_modules/@radui/ui` for the local build and starts the docs dev server. Rebuild in another terminal to pick up later changes. `npm run docs:fixed` (or any `pnpm install` in `docs/`) returns to the published version. Live mode never touches `docs/package.json`, so it cannot be committed by accident.
 
-```bash
-pnpm link @radui/ui
-pnpm dev
-```
+The docs app must never import from `../src` or anywhere outside `docs/`; `pnpm check:boundary` enforces it and runs before every build.
 

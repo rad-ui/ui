@@ -4,32 +4,11 @@ Minimal setup patterns for using Rad UI in **Vite**, **Next.js App Router**, and
 
 For SSR pitfalls, see [Troubleshooting](/docs/guides/troubleshooting).
 
-## Shared setup
-
-Install the package:
-
-```bash
-npm install @radui/ui
-```
-
-Import components from per-component entrypoints:
-
-```tsx
-import Button from '@radui/ui/Button'
-import Theme from '@radui/ui/Theme'
-```
-
-Optional default theme styles:
-
-```tsx
-import '@radui/ui/themes/default.css'
-```
-
-Wrap interactive UI with `Theme` when you use Rad UI's tokenized styles or generated `classNamespace` classes.
+The pieces are the same everywhere: per-component imports, an optional `import '@radui/ui/themes/default.css'`, and a `Theme` around the app when you use the theme or `classNamespace`. What differs is where the CSS import and the client boundary go.
 
 ## Vite + React
 
-Vite works with Rad UI out of the box. No special SSR configuration is required for a client-rendered SPA.
+A client-rendered SPA needs no setup beyond the imports.
 
 ```tsx
 // src/main.tsx
@@ -112,9 +91,8 @@ export default function HomePage() {
 
 **Notes**
 
-- Import Rad UI only from files marked with `'use client'` when they use state, effects, or event handlers.
-- Keep server components free of interactive Rad UI imports unless they only re-export static markup wrappers you control.
-- The docs app in this repository is a Next.js App Router consumer and is built in CI for compatibility smoke coverage.
+- Rad UI components are client components themselves, so a server component such as `layout.tsx` can render `Theme` or a `Button` directly; `providers.tsx` is only needed when you add client state around them. A file that *reads* `Dialog.Root` or any other part must be a client component, or use a namespace import (`import * as Dialog from '@radui/ui/Dialog'`).
+- This site is a Next.js App Router app built on the published package in CI.
 
 ## Remix
 

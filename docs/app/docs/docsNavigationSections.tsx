@@ -121,10 +121,6 @@ export const docsNavigationSections = [
                 path:"/docs/guides/design-token-contract"
             },
             {
-                title:"Date, Time & Timezones",
-                path:"/docs/guides/date-time-and-timezones"
-            },
-            {
                 title:"Internationalization",
                 path:"/docs/guides/internationalization"
             },
@@ -161,10 +157,6 @@ export const docsNavigationSections = [
                 path:"/docs/guides/screen-reader-testing"
             },
             {
-                title:"Keyboard Interaction Spec",
-                path:"/docs/guides/keyboard-interaction-spec"
-            },
-            {
                 title:"Controlled & Uncontrolled Forms",
                 path:"/docs/guides/controlled-uncontrolled-forms"
             },
@@ -181,7 +173,7 @@ export const docsNavigationSections = [
                 path:"/docs/guides/typescript"
             },
             {
-                title:"Hidden Input Strategies",
+                title:"Form submission",
                 path:"/docs/guides/hidden-input-strategies"
             },
             {
@@ -285,6 +277,18 @@ export const docsNavigationSections = [
             {
                 title:"Component Docs: Features",
                 path:"/docs/contributing/component-docs-features"
+            },
+            {
+                title:"Keyboard Interaction Spec",
+                path:"/docs/guides/keyboard-interaction-spec"
+            },
+            {
+                title:"IME / Input Method QA",
+                path:"/docs/guides/ime-input-method-qa"
+            },
+            {
+                title:"Mobile & Touch QA",
+                path:"/docs/guides/mobile-touch-qa"
             }
         ]
     }

@@ -10,6 +10,12 @@ import { code, anatomy, api_documentation, ariaReferences, keyboardShortcuts } f
         <TextAreaExample />
     </Documentation.ComponentHero>
 
+    <Documentation.ComponentFeatures features={[
+        "A native textarea with the theme's sizes, colours and radius",
+        "resize controls whether the user can drag the corner",
+        "Submits under name like any textarea; works inside Field.Root with Field.Control asChild"
+    ]} />
+
     <Documentation.Table title="Keyboard Interactions" columns={keyboardShortcuts.columns} data={keyboardShortcuts.data} />
 
     <Documentation.Table title="ARIA References" columns={ariaReferences.columns} data={ariaReferences.data} />

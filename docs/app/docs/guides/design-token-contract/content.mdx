@@ -1,112 +1,72 @@
 # Design token contract
 
-Canonical `--rad-ui-*` tokens for Rad UI's styled layers. The headless component core does **not** require these variables; they apply when you import theme CSS or use Clarity/baremetal styles.
+The `--rad-ui-*` custom properties that Clarity, the default theme, is built from. They exist once you import `@radui/ui/themes/default.css`; the headless components never read them. Override them to retheme Clarity, or read them from your own CSS so your parts and Rad UI's share one scale.
 
-Source of truth in the repository:
+The source of truth is `styles/cssTokens/` in the repository; `styles/jsTokens/` mirrors the names for JavaScript, and `src/tokenGen/` generates both.
 
-- `styles/cssTokens/` — CSS custom property definitions
-- `styles/jsTokens/` — JS token maps referencing CSS variables
-- `src/tokenGen/` — generation pipeline
+## Naming
 
-## Naming convention
+Every public token starts with `--rad-ui-`, then a family and a name in kebab-case: `--rad-ui-color-gray-100`, `--rad-ui-radius-md`, `--rad-ui-spacing-4`.
 
-All public theme variables use the prefix `--rad-ui-` with kebab-case segments:
+## Families
 
-```txt
---rad-ui-<category>-<name>
---rad-ui-color-gray-100
---rad-ui-radius-md
---rad-ui-spacing-4
-```
-
-Semantic accent tokens are scoped by `Theme` attributes such as `data-rad-ui-accent-color`.
-
-## Token families
-
-| Family | Examples | Used for |
+| Family | Tokens | Notes |
 | --- | --- | --- |
-| Color scales | `--rad-ui-color-gray-100`, `--rad-ui-color-indigo-9` | surfaces, borders, text |
-| Radius | `--rad-ui-radius-sm` … `--rad-ui-radius-full` | corners |
-| Spacing | `--rad-ui-spacing-1` … `--rad-ui-spacing-12` | padding, gaps |
-| Typography | `--rad-ui-font-sans`, `--rad-ui-font-size-3` | text styles |
-| Shadows | `--rad-ui-shadow-sm`, `--rad-ui-shadow-md` | elevation |
-| Motion | `--rad-ui-motion-duration-fast`, `--rad-ui-motion-easing-standard` | transitions |
-| Z-index | `--rad-ui-z-index-overlay`, `--rad-ui-z-index-portal` | stacking |
+| Colour scales | `--rad-ui-color-<ramp>-<step>`, steps `50 100 200 300 400 500 600 700 800 900 950 1000` | 31 ramps: `gray`, `mauve`, `slate`, `sage`, `olive`, `sand`, `tomato`, `red`, `ruby`, `crimson`, `pink`, `plum`, `purple`, `violet`, `iris`, `indigo`, `blue`, `cyan`, `teal`, `jade`, `green`, `grass`, `brown`, `bronze`, `gold`, `sky`, `mint`, `lime`, `yellow`, `amber`, `orange`. A step is its distance from the page background, so the same step reads the same in light and dark. |
+| Accent | `--rad-ui-color-accent-<step>` | The same 12 steps, pointed at whichever ramp `Theme accentColor` names. |
+| Semantic colour | `--rad-ui-surface-canvas / -panel / -subtle / -muted / -hover / -inverse`, `--rad-ui-text-primary / -secondary / -muted / -strong / -inverse`, `--rad-ui-border-soft / -default / -strong` | What components read for backgrounds, text and borders. Override these to move every component at once. |
+| Status | `--rad-ui-info-*`, `--rad-ui-success-*`, `--rad-ui-warning-*` | Callout, Badge and Field states. |
+| Radius | `--rad-ui-radius-none / -sm / -md / -lg / -xl / -full`, `--rad-ui-control-radius-sm / -md / -lg / -pill` | `Theme radius` sets the control radii. |
+| Spacing | `--rad-ui-spacing-0 1 2 3 4 5 6 8 10 12` | Padding and gaps. |
+| Density | `--rad-ui-density-gap-xs … -xl`, `--rad-ui-component-font-size-dense / -comfortable` | `Theme scaling`. |
+| Typography | `--rad-ui-font-size-1 … -5` (with `-1-5` and `-2-5` half steps), `--rad-ui-font-weight-regular / -medium / -semibold / -bold`, `--rad-ui-line-height-1 … -4` | |
+| Elevation | `--rad-ui-shadow-none / -xs … -xl`, `--rad-ui-elevation-xs … -lg` (each a `-background`, `-border` and `-shadow`) | Popups and cards. |
+| Focus | `--rad-ui-focus-ring-shadow` and its `-inset`, `-offset`, `-outset`, `-contained` variants, `--rad-ui-ring-strong` | Every `:focus-visible` ring. |
+| Motion | `--rad-ui-motion-duration-instant / -fast / -normal / -slow / -slower / -reduced`, `--rad-ui-motion-easing-standard / -entrance / -exit / -emphasized / -spring / -linear`, `--rad-ui-transition-*` | Durations collapse to `-reduced` under `prefers-reduced-motion`. |
+| Overlay | `--rad-ui-overlay-scrim`, `--rad-ui-overlay-width-sm / -md / -lg`, `--rad-ui-overlay-max-height-md`, `--rad-ui-overlay-viewport-gutter` | Dialog, Drawer, menus. |
+| Stacking | `--rad-ui-z-index-base / -sticky / -dropdown / -overlay / -portal` | |
+| Component | `--rad-ui-button-*`, `--rad-ui-badge-*`, `--rad-ui-dialog-*`, `--rad-ui-drawer-*`, `--rad-ui-table-*`, … | Per-component knobs that read the families above; listed on each component's Styles tab. |
 
-## Component expectations
+`Theme` writes its settings to the container as `data-rad-ui-theme`, `data-rad-ui-accent-color`, `data-rad-ui-radius` and `data-rad-ui-scaling`, and the stylesheet selects token values by them. That is why a nested `Theme` can change accent or appearance for one section.
 
-Styled Rad UI layers should:
+## Overriding
 
-1. Read layout and color from token variables, not hard-coded hex in component SCSS.
-2. Use semantic `data-*` attributes for state; tokens supply the values in CSS.
-3. Respect `Theme` appearance (`data-rad-ui-theme`) for light/dark palettes.
-4. Keep motion on tokenized durations/easings so `prefers-reduced-motion` can be applied consistently.
-
-## Consumer contract
-
-When importing `@radui/ui/themes/default.css`:
-
-- You may rely on documented `--rad-ui-*` names in your own CSS.
-- Override tokens on `Theme` containers or `:root` for product branding.
-- Do not depend on undocumented internal class selectors.
-
-When using Rad UI headlessly:
-
-- Tokens are optional; bring your own design tokens and map them in wrappers.
-
-## Complete token sets
-
-Rad UI-provided styled layers assume that the theme CSS supplies a complete token set for the component styles being used.
-
-Supported:
-
-- import a Rad UI theme CSS file and override selected `--rad-ui-*` variables
-- scope overrides to `:root`, a `Theme` container, or another stable application boundary
-- leave all non-overridden variables inherited from the imported theme
-
-Unsupported:
-
-- importing only a small subset of token definitions and expecting every styled component to recover
-- removing required token families used by loaded component CSS
-- relying on browser-invalid CSS declarations caused by missing variables
-
-Partial overrides are supported when they sit on top of a complete theme. Partial token definitions are not a complete theme by themselves.
-
-## Fallback values
-
-Inline CSS fallback values such as `var(--rad-ui-radius-md, 6px)` are not the public customization contract for Rad UI styled layers.
-
-Rad UI may use fallback values where they make a declaration resilient during development, migration, or progressive token rollout. Treat those fallbacks as internal implementation details unless a variable's documentation explicitly says otherwise.
-
-Consumers should provide the documented variables they depend on instead of depending on fallback branches. Missing documented variables are unsupported configuration, not a guaranteed graceful-degradation path.
-
-## Safe override pattern
-
-Prefer additive token overrides:
+Override on top of the full theme, never instead of it:
 
 ```css
 @import "@radui/ui/themes/default.css";
 
 :root {
   --rad-ui-radius-md: 8px;
-  --rad-ui-spacing-4: 1rem;
+  --rad-ui-font-size-3: 0.9375rem;
 }
 
-[data-rad-ui-theme][data-rad-ui-accent-color="brand"] {
-  --rad-ui-color-accent-9: #3157d5;
+[data-rad-ui-theme="dark"] {
+  --rad-ui-surface-panel: #111;
 }
 ```
 
-Avoid replacement strategies that redefine only a handful of variables without importing or generating the rest of the theme contract.
+Scope overrides to `:root`, a `Theme` container or any stable ancestor. Everything you don't override keeps the theme's value. Defining only a handful of tokens without importing the stylesheet is not a theme: component CSS reads every family, and a missing token leaves the declaration invalid rather than falling back to a Rad UI default.
 
-## Adding or changing tokens
+The `var(--token, fallback)` branches you may see inside the theme CSS are implementation detail for migrations, not an API. Provide the tokens you depend on.
 
-1. Update `styles/cssTokens/` and regenerate via `npm run generate-tokens`.
-2. Mirror changes in `styles/jsTokens/` when Tailwind/JS consumers need the name.
-3. Document new public variables if components expose them as styling hooks.
-4. Run visual review on Clarity components affected by the token change.
+## Using tokens in your own CSS
 
-## Related docs
+Read them like any custom property, so your components follow the same appearance and accent switches as Rad UI's:
 
-- [Usage](/docs/first-steps/usage) for `Theme` and optional theme CSS import
-- [Clarity design system](https://github.com/rad-ui/ui/blob/main/knowledge/design_system/clarity_design_system.md) in the repository knowledge docs
+```css
+.sidebar {
+  background: var(--rad-ui-surface-subtle);
+  border-right: 1px solid var(--rad-ui-border-soft);
+  color: var(--rad-ui-text-primary);
+  transition: background var(--rad-ui-motion-duration-fast) var(--rad-ui-motion-easing-standard);
+}
+```
+
+The Tailwind preset exposes the colour ramps as utilities ([Usage](/docs/first-steps/usage#tailwind-preset)); the other families are CSS only.
+
+## Changing the contract
+
+Adding or renaming a token is a library change: update `styles/cssTokens/`, run `npm run generate-tokens`, mirror the name in `styles/jsTokens/` when Tailwind or JavaScript consumers need it, document it here, and check the Clarity components that read it. Removing or renaming a documented token is a breaking change.
+
+Related: [Usage](/docs/first-steps/usage), [Styling and customization](/docs/guides/styling-and-customization), [Clarity design system notes](https://github.com/rad-ui/ui/blob/main/knowledge/design_system/clarity_design_system.md).

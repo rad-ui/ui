@@ -10,6 +10,14 @@ import { code, anatomy, api_documentation } from "./docs/codeUsage"
         <ThemeExample />
     </Documentation.ComponentHero>
 
+    <Documentation.ComponentFeatures features={[
+        "appearance sets light or dark for everything inside; nested Themes can differ",
+        "accentColor picks the ramp that --rad-ui-color-accent-* resolves to",
+        "radius and scaling adjust control radii and density through tokens",
+        "classNamespace turns on generated class names such as rad-ui-button for the default stylesheet",
+        "Exposes its settings as data attributes on its container for your own CSS"
+    ]} />
+
     <Documentation.ApiReference
         anatomy={anatomy.code}
         tables={api_documentation}

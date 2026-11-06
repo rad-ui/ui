@@ -10,6 +10,14 @@ import { code, anatomy, ariaReferences, keyboardShortcuts, api_documentation } f
         <SliderExample />
     </Documentation.ComponentHero>
 
+    <Documentation.ComponentFeatures features={[
+        "Single value or a range with several thumbs; thumbs can push, swap or stop at each other",
+        "Arrow keys step, Shift steps by largeStep, PageUp and PageDown step by a multiple, Home and End jump",
+        "Horizontal or vertical, with step marks and custom marks",
+        "Each thumb submits its value through a hidden input and is announced with aria-valuetext",
+        "onValueChange fires while dragging; onValueCommit fires when the drag ends"
+    ]} />
+
     <Documentation.ApiReference
         anatomy={anatomy.code}
         tables={api_documentation}

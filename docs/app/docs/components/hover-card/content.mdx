@@ -12,6 +12,12 @@ import HoverCardSizes from './examples/HoverCardSizes';
         <HoverCardExample />
     </Documentation.ComponentHero>
 
+    <Documentation.ComponentFeatures features={[
+        "Opens after a delay on hover and closes after a delay on leave",
+        "Stays open while the pointer moves into the card",
+        "Collision-aware positioning with an optional arrow; portal rendering"
+    ]} />
+
     <Documentation.Table title="Keyboard Interactions" columns={keyboardShortcuts.columns} data={keyboardShortcuts.data} />
 
     <Documentation.Table title="ARIA References" columns={ariaReferences.columns} data={ariaReferences.data} />

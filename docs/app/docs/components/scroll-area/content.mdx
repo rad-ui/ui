@@ -10,6 +10,13 @@ import { code, anatomy, api_documentation, ariaReferences, fullPageRestoration, 
         <ScrollAreaExample />
     </Documentation.ComponentHero>
 
+    <Documentation.ComponentFeatures features={[
+        "Custom scrollbars on top of native scrolling, so wheel, touch and keyboard behave as usual",
+        "type controls when scrollbars show: always, on hover, while scrolling, or auto",
+        "Exposes data-has-overflow-x/y and how far content extends past each edge as CSS variables",
+        "Vertical, horizontal and both orientations, with a corner part where they meet"
+    ]} />
+
     <Documentation.Section title="Full-page scroll containers">
         Use `scrollRestoration="manual"` when ScrollArea is the page-level scroller and the viewport should reset after navigation.
         Keep the default `auto` behavior for nested scroll regions, code blocks, chat panes, virtualized lists, and other areas that should preserve their current scroll offset across rerenders.
