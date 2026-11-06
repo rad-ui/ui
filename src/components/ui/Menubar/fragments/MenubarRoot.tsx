@@ -165,8 +165,9 @@ const MenubarRoot = forwardRef<MenubarRootElement, MenubarRootProps>(({ children
         openMenuOnHover,
         activeIndex,
         setActiveItem,
+        dir,
         contentInitialFocus
-    }), [rootClass, registerItem, unregisterItem, items, updateItemState, updateItemTrigger, navigateMenu, openMenuOnHover, activeIndex, setActiveItem, contentInitialFocus]);
+    }), [rootClass, registerItem, unregisterItem, items, updateItemState, updateItemTrigger, navigateMenu, openMenuOnHover, activeIndex, setActiveItem, contentInitialFocus, dir]);
 
     return (
         <MenubarContext.Provider value={contextValue} >

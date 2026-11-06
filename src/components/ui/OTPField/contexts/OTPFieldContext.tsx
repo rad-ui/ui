@@ -17,6 +17,8 @@ export type OTPFieldContextValue = {
     autoComplete?: string;
     disabled: boolean;
     readOnly: boolean;
+    /** Reading direction: in right-to-left layouts ArrowLeft moves to the next slot. */
+    dir: 'ltr' | 'rtl';
     /** Registers a slot's input; returns an unregister function. */
     registerInput: (element: HTMLInputElement) => () => void;
     /** The slot index of an input, from its position in the document. */

@@ -21,7 +21,7 @@ const OTPFieldInput = forwardRef<OTPFieldInputElement, OTPFieldInputProps>(({
     ...props
 }, ref) => {
     const context = useOTPFieldContext('Input');
-    const { rootClass, value, valueRef, length, validationType, type, inputMode, autoComplete, disabled, readOnly, registerInput, indexOf, focusSlot, insertAt, removeAt } = context;
+    const { rootClass, value, valueRef, length, validationType, type, inputMode, autoComplete, disabled, readOnly, dir, registerInput, indexOf, focusSlot, insertAt, removeAt } = context;
     const elementRef = React.useRef<HTMLInputElement | null>(null);
     const mergedRef = React.useMemo(() => mergeRefs(ref, elementRef), [ref]);
     const [index, setIndex] = React.useState(-1);
@@ -105,13 +105,13 @@ const OTPFieldInput = forwardRef<OTPFieldInputElement, OTPFieldInputProps>(({
                     removeAt(index);
                     break;
                 case 'ArrowLeft':
+                case 'ArrowRight': {
                     event.preventDefault();
-                    focusSlot(index - 1);
+                    // "Previous" is the slot before in reading order: to the left, or to the right in RTL.
+                    const back = (event.key === 'ArrowLeft') !== (dir === 'rtl');
+                    focusSlot(back ? index - 1 : Math.min(index + 1, valueRef.current.length));
                     break;
-                case 'ArrowRight':
-                    event.preventDefault();
-                    focusSlot(Math.min(index + 1, valueRef.current.length));
-                    break;
+                }
                 case 'Home':
                     event.preventDefault();
                     focusSlot(0);

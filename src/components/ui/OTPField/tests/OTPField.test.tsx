@@ -2,6 +2,7 @@ import React from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import OTPField from '../OTPField';
+import DirectionProvider from '~/components/ui/DirectionProvider/DirectionProvider';
 
 const Code = (props: Partial<React.ComponentProps<typeof OTPField.Root>>) => (
     <OTPField.Root length={4} aria-label="Verification code" {...props}>
@@ -108,6 +109,27 @@ describe('OTPField', () => {
         expect(slots()[3]).toHaveFocus();
         await user.keyboard('{Home}');
         expect(slots()[0]).toHaveFocus();
+    });
+
+    test('arrow keys follow the reading direction in right-to-left layouts', async() => {
+        const user = userEvent.setup();
+        const { unmount } = render(<Code defaultValue="1234" dir="rtl" />);
+        await user.click(slots()[1]);
+        await user.keyboard('{ArrowLeft}');
+        expect(slots()[2]).toHaveFocus();
+        await user.keyboard('{ArrowRight}{ArrowRight}');
+        expect(slots()[0]).toHaveFocus();
+        unmount();
+
+        render(
+            <DirectionProvider dir="rtl">
+                <Code defaultValue="1234" />
+            </DirectionProvider>
+        );
+        await user.click(slots()[1]);
+        await user.keyboard('{ArrowLeft}');
+        expect(slots()[2]).toHaveFocus();
+        expect(slots()[0].closest('[data-slot="otp-field-root"]')).toHaveAttribute('dir', 'rtl');
     });
 
     test('submits the code through a hidden input', () => {

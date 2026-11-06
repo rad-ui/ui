@@ -17,7 +17,7 @@ const MenubarContent = forwardRef<MenubarContentElement, MenubarContentProps>(({
         console.warn('MenubarContent should be used in the MenubarRoot');
         return null;
     }
-    const { rootClass, navigateMenu, contentInitialFocus } = context;
+    const { rootClass, navigateMenu, contentInitialFocus, dir } = context;
     const { onKeyDown, ...restProps } = props;
 
     const setContentRef = React.useCallback((node: HTMLDivElement | null) => {
@@ -43,15 +43,11 @@ const MenubarContent = forwardRef<MenubarContentElement, MenubarContentProps>(({
 
         if (event.defaultPrevented) return;
 
-        if (event.key === 'ArrowLeft') {
+        if (event.key === 'ArrowLeft' || event.key === 'ArrowRight') {
             event.preventDefault();
-            navigateMenu(-1);
-            return;
-        }
-
-        if (event.key === 'ArrowRight') {
-            event.preventDefault();
-            navigateMenu(1);
+            // The previous menu is to the left, or to the right in a right-to-left menubar.
+            const back = (event.key === 'ArrowLeft') !== (dir === 'rtl');
+            navigateMenu(back ? -1 : 1);
         }
     };
 
