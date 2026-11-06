@@ -27,4 +27,4 @@ Use a short bullet list (3–8 items). Each bullet is one concrete behavior.
 
 ## Where to add
 
-Add a `## Features` section to the component `content.mdx` or a short intro paragraph above the hero example until a dedicated block is wired in the docs layout.
+Export a `features` array from the page's `docs/codeUsage.js` and render it with `<Documentation.ComponentFeatures features={features} />` right after the hero. The block renders the list with check marks and adds a "Features" entry to the page's table of contents.

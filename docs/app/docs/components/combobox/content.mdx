@@ -10,6 +10,15 @@ import { code, largeListCode, anatomy, ariaReferences, keyboardShortcuts, api_do
         <ComboboxExample />
     </Documentation.ComponentHero>
 
+    <Documentation.ComponentFeatures features={[
+        "Type to filter the list; the filter is replaceable and can match on contains, starts-with or ends-with",
+        "Single or multiple selection, with chips for the selected values",
+        "Renders a native select for form submission, required validation and reset",
+        "Arrow keys move through options, typeahead jumps, Enter selects, Escape closes",
+        "Positions the list like Popover: side, align, collision handling, portal rendering",
+        "items maps values to labels so the trigger can show the selection before the list mounts"
+    ]} />
+
     <Documentation.Section title="Large Lists">
         Keep option `value` and `label` stable when a Combobox has hundreds of options.
         This incremental pattern keeps keyboard navigation responsive by mounting more matching rows before focus reaches the list boundary.

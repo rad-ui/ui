@@ -10,6 +10,12 @@ import { code, anatomy, api_documentation, ariaReferences, keyboardShortcuts } f
         <DisclosureExample />
     </Documentation.ComponentHero>
 
+    <Documentation.ComponentFeatures features={[
+        "Several show/hide items from an items array, or composed from Root, Item, Trigger and Content",
+        "Each trigger carries aria-expanded and aria-controls",
+        "forceMount keeps closed content in the DOM for transitions"
+    ]} />
+
     <Documentation.ApiReference
         anatomy={anatomy.code}
         tables={api_documentation}

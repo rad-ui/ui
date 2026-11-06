@@ -10,6 +10,13 @@ import { code, anatomy, ariaReferences, keyboardShortcuts, api_documentation } f
         <RadioCardsExample />
     </Documentation.ComponentHero>
 
+    <Documentation.ComponentFeatures features={[
+        "Single-select where each option is a card with its own layout",
+        "Arrow keys move the selection; the selected card is the group's one tab stop",
+        "A hidden input submits the selected value under name and resets with the form",
+        "Controlled with value and onValueChange, or uncontrolled with defaultValue"
+    ]} />
+
     <Documentation.ApiReference
         anatomy={anatomy.code}
         tables={api_documentation}

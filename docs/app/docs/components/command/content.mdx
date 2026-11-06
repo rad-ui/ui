@@ -10,6 +10,14 @@ import { anatomy, api_documentation, ariaReferences, code, keyboardShortcuts } f
         <CommandExample />
     </Documentation.ComponentHero>
 
+    <Documentation.ComponentFeatures features={[
+        "Filters items as you type, with keywords for matches beyond the label",
+        "Groups with headings, separators, an empty state and a loading state",
+        "Arrow keys move the highlighted item; Enter selects it; loop wraps the list",
+        "Command.Dialog mounts the palette in a modal with focus trapping and Escape to close",
+        "Highlighted and selected items are announced through aria-activedescendant"
+    ]} />
+
     <Documentation.ApiReference
         anatomy={anatomy.code}
         tables={api_documentation}

@@ -10,6 +10,13 @@ import { code, anatomy, ariaReferences, keyboardShortcuts, api_documentation } f
         <CheckboxGroupExample />
     </Documentation.ComponentHero>
 
+    <Documentation.ComponentFeatures features={[
+        "One value array for the whole group, controlled or uncontrolled",
+        "A parent checkbox with allValues checks or clears every item and shows the mixed state",
+        "Arrow keys move between items in either orientation; Space toggles",
+        "Every item is a native checkbox under the group's name, so the form receives each checked value"
+    ]} />
+
     <Documentation.ApiReference
         anatomy={anatomy.code}
         tables={api_documentation}

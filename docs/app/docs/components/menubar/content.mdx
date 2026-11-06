@@ -10,6 +10,13 @@ import { code, anatomy, ariaReferences, keyboardShortcuts, api_documentation } f
         <MenubarExample />
     </Documentation.ComponentHero>
 
+    <Documentation.ComponentFeatures features={[
+        "A horizontal row of menus: ArrowLeft and ArrowRight move between them, ArrowDown opens",
+        "Each menu has the full DropdownMenu item set, including submenus",
+        "Moving the pointer across open triggers switches menus without clicking",
+        "Escape closes the open menu and returns focus to its trigger"
+    ]} />
+
     <Documentation.ApiReference
         anatomy={anatomy.code}
         tables={api_documentation}

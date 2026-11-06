@@ -10,6 +10,13 @@ import { code, largeDataCode, anatomy, api_documentation, ariaReferences, keyboa
         <TreeExample />
     </Documentation.ComponentHero>
 
+    <Documentation.ComponentFeatures features={[
+        "Nested items with expand and collapse, controlled through expanded and onExpandedChange",
+        "ArrowUp and ArrowDown move between visible items, ArrowRight expands or descends, ArrowLeft collapses or ascends",
+        "Selection through isSelected and onToggleSelect",
+        "Items carry aria-level, aria-expanded and aria-selected"
+    ]} />
+
     <Documentation.Section title="Large Data">
         Model large trees as collapsed branches and keep each node's `label` stable.
         Tree only mounts a branch group while its parent item is expanded, so deep file trees can defer most child nodes until users open that branch.

@@ -5,11 +5,16 @@ import { api_documentation } from "./docs/codeUsage";
 
 <Documentation 
     title='Avatar Group' 
-    description={`Avatar Group is used to represent a group of users or a brand. They are used in the header, sidebar, and in the chat.`}
+    description="Several avatars overlapped in a row for a team, a thread or a set of collaborators."
 >
     <Documentation.ComponentHero codeUsage={codeUsage}>
         <Example1 />
     </Documentation.ComponentHero>
+
+    <Documentation.ComponentFeatures features={[
+        "Overlaps a row of Avatar parts with a configurable size and colour",
+        "Each item keeps Avatar's image loading states and fallback"
+    ]} />
     <Documentation.ApiReference
         anatomy={anatomy.code}
         tables={api_documentation}

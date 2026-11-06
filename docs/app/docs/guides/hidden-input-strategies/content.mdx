@@ -1,69 +1,75 @@
-# Hidden input strategies
+# Form submission
 
-How to submit Rad UI composite controls with native HTML forms and server handlers.
+Rad UI's form controls submit with a native `<form>` without any wiring: each one renders the native input a form expects, keeps it in sync, and takes part in `required` validation and reset. You only need a hidden input of your own for a control you built yourself.
 
-## When you need hidden inputs
+## What each control submits
 
-Use hidden inputs when:
+| Control | Renders | Submits under `name` |
+| --- | --- | --- |
+| `TextField`, `TextArea`, `Autocomplete` | the native input itself | the text |
+| `NumberField` | a visible input plus a hidden one | the parsed number, not the formatted text |
+| `OTPField` | one input per slot plus a hidden one | the whole code as one string |
+| `Checkbox`, `Switch` | a hidden `<input type="checkbox">` | `value` (default `on`) while checked; nothing while unchecked, or `uncheckedValue` if you set it |
+| `CheckboxGroup`, `CheckboxCards` | one hidden checkbox per item | every checked item's value, as repeated fields |
+| `Radio`, `RadioGroup`, `RadioCards` | a hidden input | the selected value |
+| `Select`, `Combobox` | a hidden native `<select>` | the selected value, or several with `multiple` |
+| `Slider` | a hidden input per thumb | each thumb's value |
 
-- the server expects classic `application/x-www-form-urlencoded` or `multipart/form-data`
-- JavaScript may be disabled after first paint
-- you want progressive enhancement alongside Rad UI visuals
-
-Headless Rad UI primitives often render buttons, divs, or custom roles — they are not always native `<input>` elements.
-
-## Pattern: mirror state in a hidden input
-
-Keep the Rad UI control as the interactive surface; sync its value into a hidden native input on change.
-
-```tsx
-import Select from '@radui/ui/Select'
-
-export function CountryField({ name = 'country' }: { name?: string }) {
-  const [value, setValue] = useState('')
-
-  return (
-    <>
-      <input type="hidden" name={name} value={value} />
-      <Select.Root value={value} onValueChange={setValue}>
-        <Select.Trigger aria-label="Country" />
-        <Select.Content>
-          <Select.Item value="us">United States</Select.Item>
-          <Select.Item value="ca">Canada</Select.Item>
-        </Select.Content>
-      </Select.Root>
-    </>
-  )
-}
-```
-
-## Multi-select and array fields
-
-For multiple values, use indexed names or a single JSON hidden field — match what your server parser expects.
+Give the control a `name` and read it from `FormData` or on the server as you would any input:
 
 ```tsx
-<input type="hidden" name="tags" value={selected.join(',')} />
+<form onSubmit={(event) => {
+  event.preventDefault()
+  const data = new FormData(event.currentTarget)
+  data.get('plan')          // 'pro'
+  data.getAll('channels')   // ['email', 'push']
+}}>
+  <RadioGroup.Root name="plan" defaultValue="free">…</RadioGroup.Root>
+  <CheckboxGroup.Root name="channels" defaultValue={['email']}>…</CheckboxGroup.Root>
+  <button type="submit">Save</button>
+</form>
 ```
 
-Document the serialization format in your API or form handler.
+## Validation
 
-## Checkbox and switch booleans
+`required` on any of these controls reaches the native input, so `form.checkValidity()`, the browser's submit check and `Field` all see it. `Field.Root` adds labels, descriptions and error messages around any control; [Forms and validation](/docs/guides/forms-and-validation) covers it.
 
-Mirror checked state:
+## Reset
+
+A form reset returns every control to its `defaultValue` or `defaultChecked`, like native inputs. A reset you cancel with `event.preventDefault()` in the form's `onReset` leaves them as they are.
+
+## A control outside the form
+
+The hidden inputs accept the `form` attribute, so a control rendered outside the `<form>` element (in a dialog, a sticky bar, a portal) still submits with it:
 
 ```tsx
-<input type="hidden" name="notifications" value={checked ? 'on' : 'off'} />
+<form id="settings">…</form>
+
+<Switch.Root name="notifications" form="settings">
+  <Switch.Thumb />
+</Switch.Root>
 ```
 
-Or use a native checkbox visually hidden for no-JS fallback while Rad UI handles the styled control when JS is available.
+Supported on `Checkbox`, `Switch`, `RadioGroup`, `Combobox`, `Select`, `Slider`, `NumberField` and `OTPField`.
 
-## Composite controls checklist
+## When you still need your own hidden input
 
-- [ ] Hidden `name` matches server contract
-- [ ] Controlled Rad UI state and hidden value stay in sync on every change
-- [ ] Default/unselected states serialize predictably (empty string vs omitted field)
-- [ ] Server-side validation does not rely on client-only ARIA state
+Only for controls that are not form controls: a `ToggleGroup` used as a filter, a `Tabs` value you want to post, a custom composite. Mirror the state into a hidden input and keep the two in sync:
 
-## Related guidance
+```tsx
+const [view, setView] = useState('list')
 
-See [Controlled vs uncontrolled forms](/docs/guides/controlled-uncontrolled-forms) for state ownership patterns.
+<input type="hidden" name="view" value={view} />
+<ToggleGroup.Root type="single" value={[view]} onValueChange={(next) => setView(next[0] ?? view)}>
+  <ToggleGroup.Item value="list">List</ToggleGroup.Item>
+  <ToggleGroup.Item value="grid">Grid</ToggleGroup.Item>
+</ToggleGroup.Root>
+```
+
+For several values, pick a serialization your server parses: repeated fields (`name="tags"` once per value) or one joined string.
+
+## Without JavaScript
+
+The hidden inputs are rendered on the server, so a submitted form still carries the control's default values before hydration. The controls themselves need JavaScript to change; for a page that must work without it, render a native `<select>` or `<input>` in a `<noscript>` block.
+
+Related: [Controlled and uncontrolled](/docs/guides/controlled-uncontrolled-forms), [Field](/docs/components/field), [Form](/docs/components/form).

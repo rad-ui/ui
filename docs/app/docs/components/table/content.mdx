@@ -4,13 +4,19 @@ import {code, anatomy, api_documentation} from "./docs/codeUsage"
 
 <Documentation
     title={`Table`}
-    description='Table is a component that displays data in a structured format. It is used to display data in a table format.'
+    description="Rows and columns of data with a header row, optional resizable columns, and alignment and size variants."
 >
 
     {/* Component Hero */}
     <Documentation.ComponentHero codeUsage={code}>
         <TableExample />
     </Documentation.ComponentHero>
+
+    <Documentation.ComponentFeatures features={[
+        "Head, body, rows and cells with the right table semantics for screen readers",
+        "Optional resizable columns, by drag or keyboard, with controlled or uncontrolled widths",
+        "Alignment per column and size and variant from the theme"
+    ]} />
 
     <Documentation.ApiReference
         anatomy={anatomy.code}

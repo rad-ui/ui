@@ -1,131 +1,80 @@
 # Usage
 
-For framework-specific setup (Vite, Next.js App Router, Remix), see [Framework usage](/docs/guides/framework-usage).
+How Rad UI fits into an app once it is installed: imports, `Theme`, class namespaces and the Tailwind preset. For the install itself and a first component, see [Installation](/docs/first-steps/installation); for Vite, Next.js and Remix specifics, [Framework usage](/docs/guides/framework-usage).
 
-## Importing components
-Integrating Rad UI into your project is straightforward. Whether you're looking for a headless library with full flexibility or a quick way to prototype with a default theme, Rad UI has you covered. Here’s how you can get started.
+## Imports
 
-To use Rad UI components, import them from per-component entrypoints:
+Every component has its own entry point. Import the one you use:
 
 ```tsx
 import Button from "@radui/ui/Button";
+import Dialog from "@radui/ui/Dialog";
 ```
 
-See [Barrel export policy](/docs/contributing/barrel-export-policy) for why root barrel imports are discouraged in application code.
+Compound components are objects of parts: `Dialog.Root`, `Dialog.Trigger`, `Dialog.Content`. In a React Server Component file use a namespace import instead (`import * as Dialog from "@radui/ui/Dialog"`); see [TypeScript](/docs/guides/typescript#server-components).
 
-## Using components
-Once you've imported the components you need, you can start using them right away. Here's an example of how to integrate Rad UI’s Button component into your app:
+The root `@radui/ui` barrel exists for compatibility. Prefer the per-component paths in application code: they keep bundles small and make it obvious which components a file depends on ([Barrel export policy](/docs/contributing/barrel-export-policy)).
 
-```tsx
-const ComponentDemo = () => {
-    return (
-        <Button>Click me</Button>
-    )
-}
-```
+## Wrap components in your own
 
-We recommend wrapping Rad UI components with your own abstractions to streamline usage, customize behavior, and remove unnecessary features. See the [Design system integration](/docs/guides/design-system-integration) cookbook for recipes. This approach offers the flexibility to ensure consistency and maintainability across your project, while still taking full advantage of Rad UI’s powerful APIs. By abstracting components in this way, you can tailor them to fit your specific needs and provide your team with a consistent, centralized API. If your project already has a design system in place, you don't have to follow Rad UI's default API; you’re free to adapt it to align with your own system's requirements.
+Most teams wrap Rad UI parts once and export the wrapper as their design system's API: the wrapper fixes the variants, styles and defaults, and the Rad UI part keeps the behaviour. [Design system integration](/docs/guides/design-system-integration) has recipes; [TypeScript](/docs/guides/typescript) shows how to type the wrapper.
 
+## Styles are opt-in
 
-## Importing base styles
-Rad UI is headless by default. Components work without built-in visual styles, so you can bring your own design system, utility classes, CSS Modules, SCSS, or any other styling approach. Read [Styling and customization](/docs/guides/styling-and-customization) for supported hooks and what to avoid overriding.
+Components render without any library CSS. You have three options, and they combine:
 
-For how theme tokens and fallback values work, see [CSS variable fallbacks](/docs/guides/css-variable-fallbacks).
-
-If you want Rad UI's default design system styles, import the default theme stylesheet explicitly:
+- **Bring your own.** Style the parts through `className` and their `data-*` state attributes with Tailwind, CSS Modules, SCSS or plain CSS. [Styling and customization](/docs/guides/styling-and-customization) lists the supported hooks.
+- **Clarity, the default theme.** Import it once and turn on the generated class names it targets (next section).
+- **The Tailwind preset.** Rad UI's colour scales as Tailwind utilities, with or without Clarity.
 
 ```tsx
 import "@radui/ui/themes/default.css";
 ```
 
-If you prefer to use your own styles, you do not need to import any Rad UI CSS. Alternatively, you can import only the styles you need by referring to the specific component’s documentation page.
-
-
 ## Theme
-Rad UI provides a `Theme` component that sets shared visual context for a subtree. Use it to configure things like appearance and accent color, and to opt into generated component classes when you want to target Rad UI's default styles or your own namespaced design system CSS.
 
-### Basic usage
-You can configure global settings such as appearance and accent color to align with your product or design system:
+`Theme` sets the visual context for everything inside it: appearance, accent colour, radius and scale. Nest it to change those for one section.
 
 ```tsx
 import Theme from "@radui/ui/Theme";
 
-const App = () => {
-    return (
-        <Theme appearance="dark" accentColor="gray">
-            <YourApp />
-        </Theme>
-    )
-}
+const App = () => (
+    <Theme appearance="dark" accentColor="blue">
+        <YourApp />
+    </Theme>
+);
 ```
 
-This keeps visual preferences in one place and makes them easy to apply consistently across your app.
+`Theme` exposes its settings on its container as `data-rad-ui-theme`, `data-rad-ui-accent-color`, `data-rad-ui-radius` and `data-rad-ui-scaling`, so your own CSS can key off them. The full prop list is on the [Theme](/docs/components/theme) page.
 
-### Using `classNamespace`
-By default, `Theme` does **not** add generated component classes on its own.
+### `classNamespace`
 
-This means the following stays classless from the library's point of view:
-
-```tsx
-<Theme>
-    <Accordion.Root />
-</Theme>
-```
-
-If you want generated classes for a subtree, pass `classNamespace`:
+By default `Theme` adds no class names to components; styling happens through `data-*` attributes. Pass `classNamespace` to get a stable class on every part:
 
 ```tsx
 <Theme classNamespace="rad-ui">
-    <Accordion.Root />
+    <Accordion.Root />   {/* renders class="rad-ui-accordion-root" */}
 </Theme>
 ```
 
-This generates namespaced classes such as:
-
-```html
-<div class="rad-ui-accordion-root"></div>
-```
-
-Use `classNamespace` when:
-
-- you want to use Rad UI's default theme stylesheet
-- you want to namespace your own design system CSS
-- you want a stable class contract for styling component parts
-
-If you are importing the default Rad UI CSS, wrap that subtree with `Theme classNamespace="rad-ui"` so the generated class names match the selectors in the stylesheet:
+Clarity's selectors expect the `rad-ui` namespace, so the theme needs both the stylesheet and `classNamespace="rad-ui"`:
 
 ```tsx
 import "@radui/ui/themes/default.css";
 import Theme from "@radui/ui/Theme";
 
-const App = () => {
-    return (
-        <Theme classNamespace="rad-ui" appearance="dark" accentColor="gray">
-            <YourApp />
-        </Theme>
-    )
-}
+const App = () => (
+    <Theme classNamespace="rad-ui" appearance="dark" accentColor="gray">
+        <YourApp />
+    </Theme>
+);
 ```
 
-If you are bringing your own styles, choose any namespace that fits your system:
+With your own stylesheet, pick any namespace (`classNamespace="acme"` gives `acme-accordion-root`, `acme-accordion-item`, and so on). A single component can opt out of the namespace with `customRootClass`, which is how you restyle one component while the rest stays on Clarity.
 
-```tsx
-<Theme classNamespace="acme">
-    <Accordion.Root />
-</Theme>
-```
+## Tailwind preset
 
-This generates classes like `acme-accordion-root`, `acme-accordion-item`, and `acme-accordion-trigger`.
-
-For the full `Theme` API, see the dedicated Theme component docs.
-
-
-
-## Tailwind presets
-Rad UI provides first-class support for Tailwind CSS, allowing you to easily integrate Rad UI's design system tokens into your Tailwind setup. By importing the appropriate preset, you gain access to a wide range of design tokens, making it seamless to build and customize your UI.
-
-### For Tailwind CSS v4
-Import the preset as CSS, after Tailwind itself, in your global stylesheet:
+Import the preset after Tailwind in your global stylesheet:
 
 ```css
 /* globals.css */
@@ -133,43 +82,25 @@ Import the preset as CSS, after Tailwind itself, in your global stylesheet:
 @import "@radui/ui/themes/tailwind-presets/default.css";
 ```
 
-That exposes the Rad UI colour ramps as Tailwind utilities:
-
-```tsx
-<div className="bg-gray-100 text-gray-1000 border-gray-300" />
-```
-
-Every value resolves through a `--rad-ui-*` custom property defined by the Rad UI
-theme CSS, so switching themes — including dark mode — re-resolves the utilities
-without a rebuild. Opacity modifiers such as `bg-gray-500/90` are composed by
-Tailwind itself and work as usual.
+It exposes every Rad UI colour ramp as utilities (`bg-gray-100`, `text-gray-1000`, `border-gray-300`, and the same for `blue`, `red`, `green`, …). Each value resolves through a `--rad-ui-*` custom property, so switching the theme or appearance re-resolves the utilities without a rebuild; opacity modifiers such as `bg-gray-500/90` work as usual.
 
 ### The numbers follow the theme, not light and dark
 
-In the preset, a colour's number says how far it sits from the page background, not
-how light it is. Low numbers are close to the background and high numbers are far from
-it, in light and dark mode alike, so one class works in both:
+A colour's number is its distance from the page background, in both appearances. Low numbers sit close to the background, high numbers far from it, so one class reads correctly in light and dark mode:
 
 | Class | Light theme | Dark theme |
 | --- | --- | --- |
 | `bg-red-100` | pale red tint | deep red tint |
 | `text-red-900` | dark red | light red |
 
-This is on purpose: you write each colour once and it stays readable when the
-appearance changes. It differs from plain Tailwind, where `red-300` is always a light
-red. So for text that must stand out on any background, use a high number
-(`text-red-900`), and for subtle fills a low one (`bg-red-100`). Don't reach for
-`text-red-300` to get "light red on dark": in dark mode it's close to the background.
+This differs from plain Tailwind, where `red-300` is always a light red. For text that must stand out, use a high number (`text-red-900`); for subtle fills, a low one (`bg-red-100`). Don't reach for `text-red-300` to get "light red on dark": in dark mode it is close to the background.
 
-Note that the preset covers colours only. Spacing, radius, shadow, blur and
-typography utilities keep Tailwind's own defaults, so your existing utilities are
-unchanged.
+The preset covers colours only. Spacing, radius, shadow and typography utilities keep Tailwind's defaults.
 
-### Prior versions
-The v4 preset replaces the JavaScript preset that shipped for Tailwind CSS v3,
-which was imported through `presets` in `tailwind.config.js`. If you are still on
-v3, upgrade Tailwind before upgrading Rad UI — the v3 preset has been removed.
+### Utilities that lose to the theme
 
+Clarity's CSS is not in a cascade layer and Tailwind v4's utilities are, so a utility such as `text-2xl` on a `Heading` loses to the theme's font size. Import the theme into a layer of its own to let utilities win; [Styling and customization](/docs/guides/styling-and-customization#overriding-the-default-theme-with-tailwind) shows the three lines.
 
+### Tailwind v3
 
-
+The v4 CSS preset replaced the JavaScript preset for Tailwind v3. Upgrade Tailwind before upgrading Rad UI; the v3 preset is gone.

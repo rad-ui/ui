@@ -8,6 +8,14 @@ import { code, anatomy, api_documentation, keyboardShortcuts, ariaReferences } f
     {/* TODO: NavigationMenu live example temporarily disabled */}
     <Documentation.UnderConstruction />
 
+    <Documentation.ComponentFeatures features={[
+        "Triggers open content panels in a shared viewport that animates between them",
+        "Opens on hover with delays, and on Enter, Space or ArrowDown",
+        "Arrow keys move between triggers; Escape closes the panel",
+        "Links are plain anchors, so the menu stays crawlable and works with routers through asChild",
+        "Horizontal or vertical orientation and collision-aware panel placement"
+    ]} />
+
     <Documentation.ApiReference
         anatomy={anatomy.code}
         tables={api_documentation}

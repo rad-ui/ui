@@ -10,6 +10,13 @@ import { code, anatomy, ariaReferences, keyboardShortcuts, api_documentation } f
         <CollapsibleExample />
     </Documentation.ComponentHero>
 
+    <Documentation.ComponentFeatures features={[
+        "Open state is controlled with open and onOpenChange, or uncontrolled with defaultOpen",
+        "The trigger carries aria-expanded and aria-controls for the content",
+        "hiddenUntilFound keeps closed content searchable with the browser's find",
+        "Exposes data-state for CSS transitions, and keeps content mounted while one finishes"
+    ]} />
+
     <Documentation.ApiReference
         anatomy={anatomy.code}
         tables={api_documentation}

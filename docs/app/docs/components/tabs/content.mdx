@@ -8,13 +8,21 @@ import {code, anatomy, ariaReferences, keyboardShortcuts, api_documentation} fro
 
 <Documentation
     title={`Tabs`}
-    description='Tabs are used to switch between different views of a component.'
+    description="Switch between views in place. The triggers are one tab stop, arrow keys move between them, and the panel follows the selection."
 >
 
     {/* Component Hero */}
     <Documentation.ComponentHero codeUsage={code}>
         <TabsExample />
     </Documentation.ComponentHero>
+
+    <Documentation.ComponentFeatures features={[
+        "One tab stop for the list; arrow keys move between triggers, Home and End jump",
+        "activationMode switches panels on focus or only on Enter and Space",
+        "Horizontal or vertical, right-to-left aware, with loop at the ends",
+        "Tabs.Indicator exposes the active tab's position as CSS variables for a sliding underline",
+        "forceMount keeps inactive panels mounted when their state must survive"
+    ]} />
 
     <Documentation.ApiReference
         anatomy={anatomy.code}

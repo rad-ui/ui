@@ -10,6 +10,13 @@ import { code, anatomy, api_documentation, ariaReferences, keyboardShortcuts } f
         <CheckboxCardsExample />
     </Documentation.ComponentHero>
 
+    <Documentation.ComponentFeatures features={[
+        "Multi-select where each option is a card you can lay out freely",
+        "Arrow keys move between cards; Space toggles the focused one",
+        "Each card is a native checkbox for forms, with a shared name",
+        "Controlled with value and onValueChange, or uncontrolled with defaultValue"
+    ]} />
+
     <Documentation.ApiReference
         anatomy={anatomy.code}
         tables={api_documentation}
