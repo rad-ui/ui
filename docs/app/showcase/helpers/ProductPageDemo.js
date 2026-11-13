@@ -99,8 +99,8 @@ const ProductPageDemo = () => {
             <div className="px-5 py-6 sm:px-8 sm:py-8">
                 <Breadcrumb.Root>
                     <Breadcrumb.List>
-                        <Breadcrumb.Item><Breadcrumb.Link href="#">Shop</Breadcrumb.Link><Breadcrumb.Separator /></Breadcrumb.Item>
-                        <Breadcrumb.Item><Breadcrumb.Link href="#">Audio</Breadcrumb.Link><Breadcrumb.Separator /></Breadcrumb.Item>
+                        <Breadcrumb.Item><Breadcrumb.Link href="#" className="inline-flex min-h-6 items-center">Shop</Breadcrumb.Link><Breadcrumb.Separator /></Breadcrumb.Item>
+                        <Breadcrumb.Item><Breadcrumb.Link href="#" className="inline-flex min-h-6 items-center">Audio</Breadcrumb.Link><Breadcrumb.Separator /></Breadcrumb.Item>
                         <Breadcrumb.Item><Breadcrumb.Page>Waveform One</Breadcrumb.Page></Breadcrumb.Item>
                     </Breadcrumb.List>
                 </Breadcrumb.Root>
@@ -178,10 +178,32 @@ const ProductPageDemo = () => {
                         </div>
 
                         <div className="mt-6 flex flex-wrap items-center gap-3">
-                            <NumberField.Root value={quantity} onValueChange={setQuantity} min={1} max={5} step={1}>
-                                <NumberField.Decrement aria-label="Decrease quantity">−</NumberField.Decrement>
-                                <NumberField.Input aria-label="Quantity" className="w-12! text-center" />
-                                <NumberField.Increment aria-label="Increase quantity">+</NumberField.Increment>
+                            {/* The stacked steppers are 16px tall, too small to tap. On touch screens they sit
+                                on either side of the input at 44px instead. https://github.com/rad-ui/ui/issues/2359 */}
+                            <NumberField.Root
+                                value={quantity}
+                                onValueChange={setQuantity}
+                                min={1}
+                                max={5}
+                                step={1}
+                                className="pointer-coarse:h-11! pointer-coarse:grid-cols-[2.75rem_3rem_2.75rem]! pointer-coarse:grid-rows-1!"
+                            >
+                                <NumberField.Decrement
+                                    aria-label="Decrease quantity"
+                                    className="pointer-coarse:col-start-1! pointer-coarse:row-start-1! pointer-coarse:h-full! pointer-coarse:w-11! pointer-coarse:min-w-11! pointer-coarse:border-l-0! pointer-coarse:border-t-0!"
+                                >
+                                    −
+                                </NumberField.Decrement>
+                                <NumberField.Input
+                                    aria-label="Quantity"
+                                    className="w-12! text-center pointer-coarse:col-start-2! pointer-coarse:row-start-1! pointer-coarse:row-end-2! pointer-coarse:border-l! pointer-coarse:border-gray-600! pointer-coarse:px-0!"
+                                />
+                                <NumberField.Increment
+                                    aria-label="Increase quantity"
+                                    className="pointer-coarse:col-start-3! pointer-coarse:row-start-1! pointer-coarse:h-full! pointer-coarse:w-11! pointer-coarse:min-w-11!"
+                                >
+                                    +
+                                </NumberField.Increment>
                             </NumberField.Root>
                             <Button size="large" className="flex-1 justify-center" onClick={addHeadphones}>
                                 {justAdded ? <><Check className="h-4 w-4" /> Added to bag</> : <><ShoppingBag className="h-4 w-4" /> Add to bag</>}

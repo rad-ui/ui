@@ -6,8 +6,9 @@ import Badge from "@radui/ui/Badge"
 import Button from "@radui/ui/Button"
 import Separator from "@radui/ui/Separator"
 import TextField from "@radui/ui/TextField"
-import Tooltip from "@radui/ui/Tooltip"
-import { FileText, Hash, Image as ImageIcon, Phone, Pin, Plus, Search, SendHorizontal, Video } from "lucide-react"
+import { FileText, Hash, Image as ImageIcon, Info, Menu, Phone, Pin, Plus, Search, SendHorizontal, Video } from "lucide-react"
+
+import { DrawerPanel, IconButton } from "./showcaseUi"
 
 const people = {
     nina: { name: "Nina Patel", role: "Design lead", initials: "NP", img: 47, online: true },
@@ -72,24 +73,15 @@ const PersonAvatar = ({ id, size }) => {
     )
 }
 
-const IconButton = ({ label, children }) => (
-    <Tooltip.Root>
-        <Tooltip.Trigger
-            aria-label={label}
-            className="grid h-8 w-8 place-items-center rounded-md text-gray-950 transition-colors hover:bg-gray-200 hover:text-gray-1000"
-        >
-            {children}
-        </Tooltip.Trigger>
-        <Tooltip.Content>{label}</Tooltip.Content>
-    </Tooltip.Root>
-)
-
 const nowLabel = () => new Date().toLocaleTimeString([], { hour: "numeric", minute: "2-digit" }).replace(/\s?[AP]M$/i, "")
 
 const MessagingDemo = () => {
     const [channels, setChannels] = useState(initialChannels)
     const [activeId, setActiveId] = useState("launch")
     const [draft, setDraft] = useState("")
+    // Below `md` the channel list lives in a drawer; below `xl` the details pane does.
+    const [channelsOpen, setChannelsOpen] = useState(false)
+    const [detailsOpen, setDetailsOpen] = useState(false)
     const listRef = useRef(null)
 
     const active = channels.find((channel) => channel.id === activeId)
@@ -102,6 +94,7 @@ const MessagingDemo = () => {
     const openChannel = (id) => {
         setActiveId(id)
         setChannels((all) => all.map((channel) => (channel.id === id ? { ...channel, unread: 0 } : channel)))
+        setChannelsOpen(false)
     }
 
     const send = (event) => {
@@ -139,9 +132,106 @@ const MessagingDemo = () => {
         }))
     }
 
+    const otherUnread = channels.reduce((sum, channel) => sum + (channel.id === activeId ? 0 : channel.unread), 0)
+
+    const sidebar = (
+        <>
+            <div className="px-3">
+                <TextField aria-label="Search messages" placeholder="Search" startSlot={<Search className="h-4 w-4" />} />
+            </div>
+
+            <nav aria-label="Channels" className="mt-5 min-h-0 flex-1 overflow-y-auto px-2">
+                <p className="px-2 pb-1.5 text-xs font-medium text-gray-950">Channels</p>
+                <ul className="space-y-0.5">
+                    {channels.map((channel) => {
+                        const isActive = channel.id === activeId
+                        return (
+                            <li key={channel.id}>
+                                <button
+                                    type="button"
+                                    onClick={() => openChannel(channel.id)}
+                                    aria-current={isActive ? "page" : undefined}
+                                    className={`flex w-full items-center gap-2 rounded-md px-2 py-1.5 text-left text-sm transition-colors ${
+                                        isActive ? "bg-gray-300 font-medium text-gray-1000" : "text-gray-950 hover:bg-gray-200"
+                                    }`}
+                                >
+                                    <Hash className="h-4 w-4 shrink-0 text-gray-950" />
+                                    <span className={`truncate ${channel.unread ? "font-semibold text-gray-1000" : ""}`}>{channel.name}</span>
+                                    {channel.unread ? (
+                                        <span className="ml-auto rounded-full bg-gray-1000 px-1.5 text-[11px] font-semibold leading-5 text-gray-50">{channel.unread}</span>
+                                    ) : null}
+                                </button>
+                            </li>
+                        )
+                    })}
+                </ul>
+
+                <p className="px-2 pb-1.5 pt-5 text-xs font-medium text-gray-950">Direct messages</p>
+                <ul className="space-y-0.5">
+                    {["nina", "leo", "jun"].map((id) => (
+                        <li key={id} className="flex items-center gap-2.5 rounded-md px-2 py-1.5 text-sm text-gray-950">
+                            <span className="relative">
+                                <PersonAvatar id={id} size="small" />
+                                {people[id].online ? (
+                                    <span className="absolute -bottom-0.5 -right-0.5 h-2.5 w-2.5 rounded-full border-2 border-gray-100 bg-green-800" />
+                                ) : null}
+                            </span>
+                            <span className="truncate">{people[id].name}</span>
+                        </li>
+                    ))}
+                </ul>
+            </nav>
+        </>
+    )
+
+    const details = (
+        <>
+            <h3 className="text-sm font-semibold">About</h3>
+            <p className="mt-1 text-sm leading-relaxed text-gray-950">{active.topic}</p>
+
+            <div className="py-5"><Separator /></div>
+
+            <div className="flex items-center justify-between">
+                <h3 className="text-sm font-semibold">Members</h3>
+                <Badge variant="soft" size="small">{active.members.length}</Badge>
+            </div>
+            <ul className="mt-3 space-y-3">
+                {active.members.map((id) => (
+                    <li key={id} className="flex items-center gap-3">
+                        <PersonAvatar id={id} size="small" />
+                        <div className="min-w-0">
+                            <p className="truncate text-sm font-medium">{people[id].name}</p>
+                            <p className="truncate text-xs text-gray-950">{people[id].role}</p>
+                        </div>
+                        {people[id].online ? <span className="ml-auto h-2 w-2 rounded-full bg-green-800" aria-label="Online" /> : null}
+                    </li>
+                ))}
+            </ul>
+
+            <div className="py-5"><Separator /></div>
+
+            <h3 className="flex items-center gap-1.5 text-sm font-semibold"><Pin className="h-3.5 w-3.5" /> Pinned</h3>
+            {active.pinned.length ? (
+                <ul className="mt-3 space-y-2">
+                    {active.pinned.map(({ icon: Icon, label, meta }) => (
+                        <li key={label} className="flex items-center gap-3 rounded-lg px-1 py-1">
+                            <span className="grid h-9 w-9 shrink-0 place-items-center rounded-md bg-gray-200 text-gray-950"><Icon className="h-4 w-4" /></span>
+                            <div className="min-w-0">
+                                <p className="truncate text-sm font-medium">{label}</p>
+                                <p className="text-xs text-gray-950">{meta}</p>
+                            </div>
+                        </li>
+                    ))}
+                </ul>
+            ) : (
+                <p className="mt-2 text-sm text-gray-950">Nothing pinned yet.</p>
+            )}
+        </>
+    )
+
     return (
         <div className="grid h-[720px] grid-cols-1 text-gray-1000 md:grid-cols-[240px_minmax(0,1fr)] xl:grid-cols-[240px_minmax(0,1fr)_280px]">
-            {/* Sidebar */}
+            {/* Sidebar: a column from `md` up, a drawer below it */}
             <aside className="hidden min-h-0 flex-col border-r border-gray-400 bg-gray-100 md:flex">
                 <div className="flex items-center justify-between px-4 pb-3 pt-4">
                     <div className="flex items-center gap-2.5">
@@ -150,56 +240,29 @@ const MessagingDemo = () => {
                     </div>
                     <IconButton label="New message"><Plus className="h-4 w-4" /></IconButton>
                 </div>
-                <div className="px-3">
-                    <TextField aria-label="Search messages" placeholder="Search" startSlot={<Search className="h-4 w-4" />} />
-                </div>
-
-                <nav aria-label="Channels" className="mt-5 min-h-0 flex-1 overflow-y-auto px-2">
-                    <p className="px-2 pb-1.5 text-xs font-medium text-gray-950">Channels</p>
-                    <ul className="space-y-0.5">
-                        {channels.map((channel) => {
-                            const isActive = channel.id === activeId
-                            return (
-                                <li key={channel.id}>
-                                    <button
-                                        type="button"
-                                        onClick={() => openChannel(channel.id)}
-                                        aria-current={isActive ? "page" : undefined}
-                                        className={`flex w-full items-center gap-2 rounded-md px-2 py-1.5 text-left text-sm transition-colors ${
-                                            isActive ? "bg-gray-300 font-medium text-gray-1000" : "text-gray-950 hover:bg-gray-200"
-                                        }`}
-                                    >
-                                        <Hash className="h-4 w-4 shrink-0 text-gray-950" />
-                                        <span className={`truncate ${channel.unread ? "font-semibold text-gray-1000" : ""}`}>{channel.name}</span>
-                                        {channel.unread ? (
-                                            <span className="ml-auto rounded-full bg-gray-1000 px-1.5 text-[11px] font-semibold leading-5 text-gray-50">{channel.unread}</span>
-                                        ) : null}
-                                    </button>
-                                </li>
-                            )
-                        })}
-                    </ul>
-
-                    <p className="px-2 pb-1.5 pt-5 text-xs font-medium text-gray-950">Direct messages</p>
-                    <ul className="space-y-0.5">
-                        {["nina", "leo", "jun"].map((id) => (
-                            <li key={id} className="flex items-center gap-2.5 rounded-md px-2 py-1.5 text-sm text-gray-950">
-                                <span className="relative">
-                                    <PersonAvatar id={id} size="small" />
-                                    {people[id].online ? (
-                                        <span className="absolute -bottom-0.5 -right-0.5 h-2.5 w-2.5 rounded-full border-2 border-gray-100 bg-green-800" />
-                                    ) : null}
-                                </span>
-                                <span className="truncate">{people[id].name}</span>
-                            </li>
-                        ))}
-                    </ul>
-                </nav>
+                {sidebar}
             </aside>
+            <DrawerPanel open={channelsOpen} onOpenChange={setChannelsOpen} title="Northwind" closeAbove="(min-width: 768px)">
+                <div className="px-3 pb-3">
+                    <Button variant="soft" className="w-full justify-center">
+                        <Plus className="h-4 w-4" />
+                        New message
+                    </Button>
+                </div>
+                {sidebar}
+            </DrawerPanel>
 
             {/* Conversation */}
             <section aria-label={`#${active.name}`} className="flex min-h-0 min-w-0 flex-col bg-gray-50">
-                <header className="flex items-center gap-3 border-b border-gray-400 px-4 py-3 sm:px-5">
+                <header className="flex items-center gap-3 border-b border-gray-400 px-2 py-3 sm:px-5 md:px-5">
+                    <span className="relative md:hidden">
+                        <IconButton label="Open channels" onClick={() => setChannelsOpen(true)}><Menu className="h-5 w-5" /></IconButton>
+                        {otherUnread ? (
+                            <span className="pointer-events-none absolute right-1 top-1 h-2 w-2 rounded-full bg-blue-800 ring-2 ring-gray-50">
+                                <span className="sr-only">{otherUnread} unread in other channels</span>
+                            </span>
+                        ) : null}
+                    </span>
                     <div className="min-w-0 flex-1">
                         <h2 className="flex items-center gap-1 text-[15px] font-semibold">
                             <Hash className="h-4 w-4 text-gray-950" />
@@ -215,22 +278,11 @@ const MessagingDemo = () => {
                     <div className="flex items-center">
                         <IconButton label="Start a call"><Phone className="h-4 w-4" /></IconButton>
                         <IconButton label="Start a video call"><Video className="h-4 w-4" /></IconButton>
+                        <span className="xl:hidden">
+                            <IconButton label="Open channel details" onClick={() => setDetailsOpen(true)}><Info className="h-4 w-4" /></IconButton>
+                        </span>
                     </div>
                 </header>
-
-                {/* Mobile channel switcher */}
-                <div className="flex gap-1.5 overflow-x-auto border-b border-gray-400 px-4 py-2 md:hidden [scrollbar-width:none]">
-                    {channels.map((channel) => (
-                        <Button
-                            key={channel.id}
-                            size="small"
-                            variant={channel.id === activeId ? "solid" : "soft"}
-                            onClick={() => openChannel(channel.id)}
-                        >
-                            #{channel.name}
-                        </Button>
-                    ))}
-                </div>
 
                 <ol ref={listRef} className="min-h-0 flex-1 space-y-5 overflow-y-auto px-4 py-5 sm:px-5" aria-live="polite">
                     <li className="flex items-center gap-3 text-xs font-medium text-gray-950" aria-hidden="true">
@@ -263,7 +315,7 @@ const MessagingDemo = () => {
                                                         aria-pressed={pressed}
                                                         aria-label={`${emoji} ${count}, ${pressed ? "remove" : "add"} reaction`}
                                                         onClick={() => toggleReaction(message.id, emoji)}
-                                                        className={`flex items-center gap-1 rounded-full border px-2 py-0.5 text-xs transition-colors ${
+                                                        className={`flex min-h-6 items-center gap-1 rounded-full border px-2 text-xs transition-colors pointer-coarse:min-h-8 pointer-coarse:px-2.5 ${
                                                             pressed ? "border-gray-800 bg-gray-200 font-semibold" : "border-gray-400 hover:border-gray-700"
                                                         }`}
                                                     >
@@ -296,49 +348,13 @@ const MessagingDemo = () => {
                 </form>
             </section>
 
-            {/* Details */}
+            {/* Details: a column from `xl` up, a drawer below it */}
             <aside aria-label="Channel details" className="hidden min-h-0 flex-col overflow-y-auto border-l border-gray-400 bg-gray-100 px-5 py-4 xl:flex">
-                <h3 className="text-sm font-semibold">About</h3>
-                <p className="mt-1 text-sm leading-relaxed text-gray-950">{active.topic}</p>
-
-                <div className="py-5"><Separator /></div>
-
-                <div className="flex items-center justify-between">
-                    <h3 className="text-sm font-semibold">Members</h3>
-                    <Badge variant="soft" size="small">{active.members.length}</Badge>
-                </div>
-                <ul className="mt-3 space-y-3">
-                    {active.members.map((id) => (
-                        <li key={id} className="flex items-center gap-3">
-                            <PersonAvatar id={id} size="small" />
-                            <div className="min-w-0">
-                                <p className="truncate text-sm font-medium">{people[id].name}</p>
-                                <p className="truncate text-xs text-gray-950">{people[id].role}</p>
-                            </div>
-                            {people[id].online ? <span className="ml-auto h-2 w-2 rounded-full bg-green-800" aria-label="Online" /> : null}
-                        </li>
-                    ))}
-                </ul>
-
-                <div className="py-5"><Separator /></div>
-
-                <h3 className="flex items-center gap-1.5 text-sm font-semibold"><Pin className="h-3.5 w-3.5" /> Pinned</h3>
-                {active.pinned.length ? (
-                    <ul className="mt-3 space-y-2">
-                        {active.pinned.map(({ icon: Icon, label, meta }) => (
-                            <li key={label} className="flex items-center gap-3 rounded-lg px-1 py-1">
-                                <span className="grid h-9 w-9 shrink-0 place-items-center rounded-md bg-gray-200 text-gray-950"><Icon className="h-4 w-4" /></span>
-                                <div className="min-w-0">
-                                    <p className="truncate text-sm font-medium">{label}</p>
-                                    <p className="text-xs text-gray-950">{meta}</p>
-                                </div>
-                            </li>
-                        ))}
-                    </ul>
-                ) : (
-                    <p className="mt-2 text-sm text-gray-950">Nothing pinned yet.</p>
-                )}
+                {details}
             </aside>
+            <DrawerPanel open={detailsOpen} onOpenChange={setDetailsOpen} side="right" title={`#${active.name}`} closeAbove="(min-width: 1280px)">
+                <div className="px-5 pb-5 pt-2">{details}</div>
+            </DrawerPanel>
         </div>
     )
 }

@@ -22,6 +22,7 @@ import Toast, { createToastManager } from "@radui/ui/Toast"
 import Toggle from "@radui/ui/Toggle"
 import Tooltip from "@radui/ui/Tooltip"
 import {
+    ChevronUp,
     Clock3,
     Disc3,
     Heart,
@@ -34,6 +35,7 @@ import {
     MoreHorizontal,
     Music2,
     Pause,
+    Menu,
     Play,
     Plus,
     Repeat,
@@ -50,6 +52,8 @@ import {
     VolumeX,
     X,
 } from "lucide-react"
+
+import { DrawerPanel, touchTarget, useMediaQuery } from "../helpers/showcaseUi"
 
 /* ------------------------------------------------------------------ data */
 
@@ -146,6 +150,8 @@ const mediaSliderCss = `
 .sw-media-slider:hover .rad-ui-slider-range,.sw-media-slider:focus-within .rad-ui-slider-range{background-color:var(--rad-ui-color-green-900)}
 .sw-media-slider .rad-ui-slider-thumb{width:12px;height:12px;margin-left:4px;border:0;background-color:var(--rad-ui-color-gray-1000);box-shadow:var(--rad-ui-shadow-sm);opacity:0;transition:opacity .15s}
 .sw-media-slider:hover .rad-ui-slider-thumb,.sw-media-slider .rad-ui-slider-thumb:focus-visible{opacity:1}
+@media (hover:none){.sw-media-slider .rad-ui-slider-thumb{opacity:1}}
+@media (pointer:coarse){.sw-media-slider .rad-ui-slider{min-height:28px}.sw-media-slider .rad-ui-slider-thumb{width:16px;height:16px}.sw-media-slider .rad-ui-slider-thumb::after{content:"";position:absolute;inset:-8px}}
 `
 
 const IconButton = ({ label, onClick, active, shortcut, className = "", children }) => (
@@ -154,7 +160,7 @@ const IconButton = ({ label, onClick, active, shortcut, className = "", children
             aria-label={label}
             aria-pressed={active}
             onClick={onClick}
-            className={`grid h-8 w-8 place-items-center rounded-full transition-colors ${active ? "text-green-950" : "text-gray-950 hover:text-gray-1000"} ${className}`}
+            className={`grid h-8 w-8 place-items-center rounded-full transition-colors ${touchTarget} ${active ? "text-green-950" : "text-gray-950 hover:text-gray-1000"} ${className}`}
         >
             {children}
         </Tooltip.Trigger>
@@ -224,6 +230,11 @@ const MusicApp = () => {
     const [paletteOpen, setPaletteOpen] = useState(false)
     const [createOpen, setCreateOpen] = useState(false)
     const [draft, setDraft] = useState({ name: "", description: "", isPublic: true })
+    // Small screens: the sidebar, the full player and the queue each move into a drawer.
+    const [navOpen, setNavOpen] = useState(false)
+    const [playerOpen, setPlayerOpen] = useState(false)
+    const [queueOpen, setQueueOpen] = useState(false)
+    const queueColumnFits = useMediaQuery("(min-width: 1280px)")
 
     const findPlaylist = useCallback((id) => playlists.find((item) => item.id === id), [playlists])
     const playlist = findPlaylist(playlistId)
@@ -399,83 +410,196 @@ const MusicApp = () => {
 
     const allTracks = playlists.flatMap((entry) => entry.tracks.map((item, index) => ({ ...item, index, playlistId: entry.id })))
 
+    const sidebarNav = (
+        <>
+            <nav aria-label="Main" className="px-3">
+                <ul className="space-y-0.5">
+                    <li><span className="flex items-center gap-3 rounded-md px-2.5 py-2 text-sm font-semibold"><Home className="h-[18px] w-[18px]" />Home</span></li>
+                    <li>
+                        <button type="button" onClick={() => { setNavOpen(false); setPaletteOpen(true) }} className="flex w-full items-center gap-3 rounded-md px-2.5 py-2 text-sm text-gray-950 transition-colors hover:bg-gray-200">
+                            <Search className="h-[18px] w-[18px]" />Search
+                            <span className="ml-auto flex gap-0.5 pointer-coarse:hidden"><Kbd size="small">⌘</Kbd><Kbd size="small">K</Kbd></span>
+                        </button>
+                    </li>
+                    <li><span className="flex items-center gap-3 rounded-md px-2.5 py-2 text-sm text-gray-950"><Library className="h-[18px] w-[18px]" />Your library</span></li>
+                </ul>
+            </nav>
+
+            <div className="mt-5 flex items-center justify-between pl-5 pr-3">
+                <p className="text-xs font-medium text-gray-950">Playlists</p>
+                <IconButton label="Create playlist" onClick={() => { setNavOpen(false); setCreateOpen(true) }}><Plus className="h-4 w-4" /></IconButton>
+            </div>
+            <ul className="mt-1 min-h-0 flex-1 space-y-0.5 overflow-y-auto px-3">
+                {playlists.map((item) => (
+                    <li key={item.id}>
+                        <button
+                            type="button"
+                            onClick={() => { setPlaylistId(item.id); setFilter(""); setTab("songs"); setNavOpen(false) }}
+                            aria-current={item.id === playlistId ? "page" : undefined}
+                            className={`flex w-full items-center gap-3 rounded-md p-1.5 text-left transition-colors ${item.id === playlistId ? "bg-gray-300" : "hover:bg-gray-200"}`}
+                        >
+                            <img src={item.cover} alt="" className="h-10 w-10 shrink-0 rounded object-cover" />
+                            <span className="min-w-0 flex-1">
+                                <span className={`block truncate text-sm font-medium ${current.playlistId === item.id && playing ? "text-green-950" : ""}`}>{item.name}</span>
+                                <span className="block truncate text-xs text-gray-950">Playlist · {item.owner}</span>
+                            </span>
+                            {current.playlistId === item.id && playing ? <Volume2 className="h-3.5 w-3.5 shrink-0 text-green-950" aria-label="Playing" /> : null}
+                        </button>
+                    </li>
+                ))}
+            </ul>
+
+            <div className="border-t border-gray-400 px-5 py-4">
+                <p className="text-xs font-medium text-gray-950">Friend activity</p>
+                <ul className="mt-3 space-y-3">
+                    {friends.map((friend) => (
+                        <li key={friend.name} className="flex items-center gap-2.5">
+                            <span className="relative">
+                                <Avatar.Root size="small">
+                                    <Avatar.Image src={`https://i.pravatar.cc/96?img=${friend.img}`} alt={friend.name} />
+                                    <Avatar.Fallback>{friend.name[0]}</Avatar.Fallback>
+                                </Avatar.Root>
+                                {friend.when === "Now" ? <span className="absolute -bottom-0.5 -right-0.5 h-2.5 w-2.5 rounded-full border-2 border-gray-100 bg-green-900" /> : null}
+                            </span>
+                            <span className="min-w-0 flex-1">
+                                <span className="flex items-baseline justify-between gap-2">
+                                    <span className="truncate text-sm font-medium">{friend.name}</span>
+                                    <span className="shrink-0 text-[11px] text-gray-950">{friend.when}</span>
+                                </span>
+                                <span className="block truncate text-xs text-gray-950">{friend.track} · {friend.artist}</span>
+                            </span>
+                        </li>
+                    ))}
+                </ul>
+            </div>
+        </>
+    )
+
+    const queueList = (
+        <>
+            {queued.length ? (
+                <>
+                    <div className="mt-6 flex items-center justify-between">
+                        <p className="text-sm font-semibold">Next in queue</p>
+                        <Button variant="ghost" size="small" onClick={() => setQueue([])}>Clear</Button>
+                    </div>
+                    <ol className="mt-1 space-y-0.5">
+                        {queued.map((item) => (
+                            <li key={item.key} className="flex items-center gap-3 rounded-md p-1.5">
+                                <img src={item.cover} alt="" className="h-10 w-10 shrink-0 rounded object-cover" />
+                                <span className="min-w-0 flex-1">
+                                    <span className="block truncate text-sm font-medium">{item.title}</span>
+                                    <span className="block truncate text-xs text-gray-950">{item.artist}</span>
+                                </span>
+                                <IconButton label="Remove from queue" onClick={() => setQueue((list) => list.filter((entry) => entry.key !== item.key))}><X className="h-3.5 w-3.5" /></IconButton>
+                            </li>
+                        ))}
+                    </ol>
+                    <Separator className="my-3" />
+                </>
+            ) : null}
+
+            <p className={`${queued.length ? "" : "mt-6"} text-sm font-semibold`}>Next from {nowPlaylist.name}</p>
+            <ol className="mt-2 space-y-0.5">
+                {upNextFromPlaylist.map((item) => (
+                    <li key={`${item.playlistId}-${item.index}`}>
+                        <button
+                            type="button"
+                            onClick={() => startAt({ playlistId: item.playlistId, index: item.index })}
+                            className="flex w-full items-center gap-3 rounded-md p-1.5 text-left transition-colors hover:bg-gray-200"
+                        >
+                            <img src={item.cover} alt="" className="h-10 w-10 shrink-0 rounded object-cover" />
+                            <span className="min-w-0 flex-1">
+                                <span className="block truncate text-sm font-medium">{item.title}</span>
+                                <span className="block truncate text-xs text-gray-950">{item.artist}</span>
+                            </span>
+                            <span className="text-xs tabular-nums text-gray-950">{formatTime(item.duration)}</span>
+                        </button>
+                    </li>
+                ))}
+            </ol>
+        </>
+    )
+
+    const likeButton = (
+        <IconButton label={liked.has(track.id) ? "Remove from Liked Songs" : "Save to Liked Songs"} active={liked.has(track.id)} onClick={() => toggleLike(track)}>
+            <Heart className={`h-4 w-4 ${liked.has(track.id) ? "fill-current" : ""}`} />
+        </IconButton>
+    )
+
+    const shuffleButton = (
+        <IconButton label={shuffle ? "Disable shuffle" : "Enable shuffle"} active={shuffle} onClick={() => setShuffle((value) => !value)}><Shuffle className="h-4 w-4" /></IconButton>
+    )
+
+    const previousButton = (
+        <IconButton label="Previous" onClick={() => (position > 3 ? setPosition(0) : step(-1))}><SkipBack className="h-4 w-4 fill-current" /></IconButton>
+    )
+
+    const repeatButton = (
+        <IconButton
+            label={repeat === "off" ? "Enable repeat" : repeat === "all" ? "Repeat one" : "Disable repeat"}
+            active={repeat !== "off"}
+            onClick={() => setRepeat((value) => (value === "off" ? "all" : value === "all" ? "one" : "off"))}
+        >
+            {repeat === "one" ? <Repeat1 className="h-4 w-4" /> : <Repeat className="h-4 w-4" />}
+        </IconButton>
+    )
+
+    // `data-swipe-ignore` keeps a drag on the slider from also dragging the drawer it sits in.
+    const seekBar = (
+        <div className="flex w-full items-center gap-3" data-swipe-ignore>
+            <span className="w-9 text-right text-xs tabular-nums text-gray-950">{formatTime(position)}</span>
+            <div className="sw-media-slider flex-1">
+                <Slider aria-label="Seek" min={0} max={track.duration} value={position} onValueChange={(value) => setPosition(Array.isArray(value) ? value[0] : value)} />
+            </div>
+            <span className="w-9 text-xs tabular-nums text-gray-950">{formatTime(track.duration)}</span>
+        </div>
+    )
+
+    const volumeControl = (
+        <>
+            <IconButton label={muted ? "Unmute" : "Mute"} onClick={() => setMuted((value) => !value)}><VolumeIcon className="h-4 w-4" /></IconButton>
+            <div className="sw-media-slider w-28" data-swipe-ignore>
+                <Slider aria-label="Volume" min={0} max={100} value={muted ? 0 : volume} onValueChange={(value) => { setMuted(false); setVolume(Array.isArray(value) ? value[0] : value) }} />
+            </div>
+        </>
+    )
+
+    const sleepOptionsGroup = (className) => (
+        <RadioGroup.Root value={sleep} onValueChange={(value) => { setSleep(value); if (value !== "off") notify("Sleep timer set", sleepOptions.find((option) => option.value === value).label) }} aria-label="Sleep timer" className={className}>
+            {sleepOptions.map((option) => (
+                <RadioGroup.Label key={option.value} className="flex items-center gap-2.5 text-sm text-gray-1000 pointer-coarse:min-h-8">
+                    <RadioGroup.Item value={option.value}><RadioGroup.Indicator /></RadioGroup.Item>
+                    {option.label}
+                </RadioGroup.Label>
+            ))}
+        </RadioGroup.Root>
+    )
+
     return (
         <div className="flex h-[800px] flex-col bg-gray-50 text-gray-1000">
             <style>{mediaSliderCss}</style>
 
             <div className={`grid min-h-0 flex-1 grid-cols-1 md:grid-cols-[240px_minmax(0,1fr)] ${showQueue ? "xl:grid-cols-[240px_minmax(0,1fr)_300px]" : ""}`}>
-                {/* ---------------------------------------------------- sidebar */}
+                {/* ------------- sidebar: a column from `md` up, a drawer below it */}
                 <aside className="hidden min-h-0 flex-col border-r border-gray-400 bg-gray-100 md:flex">
                     <div className="flex items-center gap-2 px-5 pb-4 pt-5">
                         <span className="grid h-7 w-7 place-items-center rounded-full bg-green-900 text-gray-50"><Music2 className="h-4 w-4" /></span>
                         <span className="text-[15px] font-semibold tracking-tight">Sound Wave</span>
                     </div>
-                    <nav aria-label="Main" className="px-3">
-                        <ul className="space-y-0.5">
-                            <li><span className="flex items-center gap-3 rounded-md px-2.5 py-2 text-sm font-semibold"><Home className="h-[18px] w-[18px]" />Home</span></li>
-                            <li>
-                                <button type="button" onClick={() => setPaletteOpen(true)} className="flex w-full items-center gap-3 rounded-md px-2.5 py-2 text-sm text-gray-950 transition-colors hover:bg-gray-200">
-                                    <Search className="h-[18px] w-[18px]" />Search
-                                    <span className="ml-auto flex gap-0.5"><Kbd size="small">⌘</Kbd><Kbd size="small">K</Kbd></span>
-                                </button>
-                            </li>
-                            <li><span className="flex items-center gap-3 rounded-md px-2.5 py-2 text-sm text-gray-950"><Library className="h-[18px] w-[18px]" />Your library</span></li>
-                        </ul>
-                    </nav>
-
-                    <div className="mt-5 flex items-center justify-between pl-5 pr-3">
-                        <p className="text-xs font-medium text-gray-950">Playlists</p>
-                        <IconButton label="Create playlist" onClick={() => setCreateOpen(true)}><Plus className="h-4 w-4" /></IconButton>
-                    </div>
-                    <ul className="mt-1 min-h-0 flex-1 space-y-0.5 overflow-y-auto px-3">
-                        {playlists.map((item) => (
-                            <li key={item.id}>
-                                <button
-                                    type="button"
-                                    onClick={() => { setPlaylistId(item.id); setFilter(""); setTab("songs") }}
-                                    aria-current={item.id === playlistId ? "page" : undefined}
-                                    className={`flex w-full items-center gap-3 rounded-md p-1.5 text-left transition-colors ${item.id === playlistId ? "bg-gray-300" : "hover:bg-gray-200"}`}
-                                >
-                                    <img src={item.cover} alt="" className="h-10 w-10 shrink-0 rounded object-cover" />
-                                    <span className="min-w-0 flex-1">
-                                        <span className={`block truncate text-sm font-medium ${current.playlistId === item.id && playing ? "text-green-950" : ""}`}>{item.name}</span>
-                                        <span className="block truncate text-xs text-gray-950">Playlist · {item.owner}</span>
-                                    </span>
-                                    {current.playlistId === item.id && playing ? <Volume2 className="h-3.5 w-3.5 shrink-0 text-green-950" aria-label="Playing" /> : null}
-                                </button>
-                            </li>
-                        ))}
-                    </ul>
-
-                    <div className="border-t border-gray-400 px-5 py-4">
-                        <p className="text-xs font-medium text-gray-950">Friend activity</p>
-                        <ul className="mt-3 space-y-3">
-                            {friends.map((friend) => (
-                                <li key={friend.name} className="flex items-center gap-2.5">
-                                    <span className="relative">
-                                        <Avatar.Root size="small">
-                                            <Avatar.Image src={`https://i.pravatar.cc/96?img=${friend.img}`} alt={friend.name} />
-                                            <Avatar.Fallback>{friend.name[0]}</Avatar.Fallback>
-                                        </Avatar.Root>
-                                        {friend.when === "Now" ? <span className="absolute -bottom-0.5 -right-0.5 h-2.5 w-2.5 rounded-full border-2 border-gray-100 bg-green-900" /> : null}
-                                    </span>
-                                    <span className="min-w-0 flex-1">
-                                        <span className="flex items-baseline justify-between gap-2">
-                                            <span className="truncate text-sm font-medium">{friend.name}</span>
-                                            <span className="shrink-0 text-[11px] text-gray-950">{friend.when}</span>
-                                        </span>
-                                        <span className="block truncate text-xs text-gray-950">{friend.track} · {friend.artist}</span>
-                                    </span>
-                                </li>
-                            ))}
-                        </ul>
-                    </div>
+                    {sidebarNav}
                 </aside>
+                <DrawerPanel open={navOpen} onOpenChange={setNavOpen} title="Sound Wave" closeAbove="(min-width: 768px)">
+                    {sidebarNav}
+                </DrawerPanel>
 
                 {/* ------------------------------------------------------- main */}
                 <main className="flex min-h-0 min-w-0 flex-col">
                     {/* Top bar */}
-                    <div className="flex items-center gap-3 border-b border-gray-400 px-4 py-2.5 sm:px-8">
+                    <div className="flex items-center gap-3 border-b border-gray-400 px-4 py-2.5 max-md:pl-2 sm:px-8">
+                        <span className="md:hidden">
+                            <IconButton label="Open menu" onClick={() => setNavOpen(true)}><Menu className="h-5 w-5" /></IconButton>
+                        </span>
                         <button
                             type="button"
                             onClick={() => setPaletteOpen(true)}
@@ -502,15 +626,6 @@ const MusicApp = () => {
                     </div>
 
                     <div className="min-h-0 flex-1 overflow-y-auto">
-                        {/* Mobile playlist switcher */}
-                        <div className="flex gap-1.5 overflow-x-auto px-4 pt-4 md:hidden [scrollbar-width:none]">
-                            {playlists.map((item) => (
-                                <Button key={item.id} size="small" variant={item.id === playlistId ? "solid" : "soft"} onClick={() => setPlaylistId(item.id)}>
-                                    {item.name}
-                                </Button>
-                            ))}
-                        </div>
-
                         {/* Header */}
                         <header className="flex flex-col gap-5 px-5 pb-5 pt-6 sm:flex-row sm:items-end sm:px-8">
                             <img src={playlist.cover} alt={`${playlist.name} cover`} className="h-36 w-36 shrink-0 rounded-lg object-cover shadow-xl sm:h-44 sm:w-44" />
@@ -640,7 +755,7 @@ const MusicApp = () => {
                                                             aria-pressed={liked.has(item.id)}
                                                             aria-label={liked.has(item.id) ? `Unlike ${item.title}` : `Like ${item.title}`}
                                                             onClick={() => toggleLike(item)}
-                                                            className={`grid h-7 w-7 place-items-center rounded transition-opacity ${liked.has(item.id) ? "text-green-950" : "text-gray-950 opacity-0 hover:text-gray-1000 focus-visible:opacity-100 group-hover:opacity-100"}`}
+                                                            className={`grid h-7 w-7 place-items-center rounded transition-opacity ${liked.has(item.id) ? "text-green-950" : "text-gray-950 hover:text-gray-1000 focus-visible:opacity-100 group-hover:opacity-100 [@media(hover:hover)]:opacity-0"}`}
                                                         >
                                                             <Heart className={`h-4 w-4 ${liked.has(item.id) ? "fill-current" : ""}`} />
                                                         </button>
@@ -648,7 +763,7 @@ const MusicApp = () => {
                                                     </span>
                                                     <span role="cell" className="grid place-items-center">
                                                         <DropdownMenu.Root>
-                                                            <DropdownMenu.Trigger aria-label={`More options for ${item.title}`} className="min-h-0! border-0! bg-transparent! p-0! shadow-none! grid h-7 w-7 place-items-center rounded text-gray-950 opacity-0 transition-opacity hover:text-gray-1000 focus-visible:opacity-100 group-hover:opacity-100 data-[state=open]:opacity-100">
+                                                            <DropdownMenu.Trigger aria-label={`More options for ${item.title}`} className="min-h-0! border-0! bg-transparent! p-0! shadow-none! grid h-7! w-7! place-items-center rounded pointer-coarse:h-10! pointer-coarse:w-10! text-gray-950 transition-opacity hover:text-gray-1000 focus-visible:opacity-100! group-hover:opacity-100! data-[state=open]:opacity-100! [@media(hover:hover)]:opacity-0">
                                                                 <MoreHorizontal className="h-4 w-4" />
                                                             </DropdownMenu.Trigger>
                                                             <DropdownMenu.Content>
@@ -740,6 +855,10 @@ const MusicApp = () => {
                                                     <Avatar.Fallback>{name.slice(0, 2)}</Avatar.Fallback>
                                                 </Avatar.Root>
                                                 <div className="text-sm"><ArtistHoverCard name={name} following={following.has(name)} onToggleFollow={() => toggleFollow(name)} /></div>
+                                                {/* The hover card also has Follow, but a plain button is easier to find and to tap. */}
+                                                <Button size="small" variant={following.has(name) ? "soft" : "outline"} aria-pressed={following.has(name)} onClick={() => toggleFollow(name)}>
+                                                    {following.has(name) ? "Following" : "Follow"}
+                                                </Button>
                                             </div>
                                         ))}
                                     </div>
@@ -749,7 +868,7 @@ const MusicApp = () => {
                     </div>
                 </main>
 
-                {/* ------------------------------------------------------ queue */}
+                {/* queue: a column from `xl` up, a drawer on tablets, part of the player sheet on phones */}
                 {showQueue ? (
                     <aside aria-label="Now playing and queue" className="hidden min-h-0 flex-col overflow-y-auto border-l border-gray-400 bg-gray-100 p-5 xl:flex">
                         <div className="flex items-center justify-between">
@@ -773,49 +892,12 @@ const MusicApp = () => {
                             </IconButton>
                         </div>
 
-                        {queued.length ? (
-                            <>
-                                <div className="mt-6 flex items-center justify-between">
-                                    <p className="text-sm font-semibold">Next in queue</p>
-                                    <Button variant="ghost" size="small" onClick={() => setQueue([])}>Clear</Button>
-                                </div>
-                                <ol className="mt-1 space-y-0.5">
-                                    {queued.map((item) => (
-                                        <li key={item.key} className="flex items-center gap-3 rounded-md p-1.5">
-                                            <img src={item.cover} alt="" className="h-10 w-10 shrink-0 rounded object-cover" />
-                                            <span className="min-w-0 flex-1">
-                                                <span className="block truncate text-sm font-medium">{item.title}</span>
-                                                <span className="block truncate text-xs text-gray-950">{item.artist}</span>
-                                            </span>
-                                            <IconButton label="Remove from queue" onClick={() => setQueue((list) => list.filter((entry) => entry.key !== item.key))}><X className="h-3.5 w-3.5" /></IconButton>
-                                        </li>
-                                    ))}
-                                </ol>
-                                <Separator className="my-3" />
-                            </>
-                        ) : null}
-
-                        <p className={`${queued.length ? "" : "mt-6"} text-sm font-semibold`}>Next from {nowPlaylist.name}</p>
-                        <ol className="mt-2 space-y-0.5">
-                            {upNextFromPlaylist.map((item) => (
-                                <li key={`${item.playlistId}-${item.index}`}>
-                                    <button
-                                        type="button"
-                                        onClick={() => startAt({ playlistId: item.playlistId, index: item.index })}
-                                        className="flex w-full items-center gap-3 rounded-md p-1.5 text-left transition-colors hover:bg-gray-200"
-                                    >
-                                        <img src={item.cover} alt="" className="h-10 w-10 shrink-0 rounded object-cover" />
-                                        <span className="min-w-0 flex-1">
-                                            <span className="block truncate text-sm font-medium">{item.title}</span>
-                                            <span className="block truncate text-xs text-gray-950">{item.artist}</span>
-                                        </span>
-                                        <span className="text-xs tabular-nums text-gray-950">{formatTime(item.duration)}</span>
-                                    </button>
-                                </li>
-                            ))}
-                        </ol>
+                        {queueList}
                     </aside>
                 ) : null}
+                <DrawerPanel open={queueOpen} onOpenChange={setQueueOpen} side="right" title="Queue" closeAbove="(min-width: 1280px), (max-width: 767.98px)">
+                    <div className="px-5 pb-5">{queueList}</div>
+                </DrawerPanel>
             </div>
 
             {/* ------------------------------------------------------- player */}
@@ -830,15 +912,13 @@ const MusicApp = () => {
                         <p className="truncate text-sm font-medium">{track.title}</p>
                         <p className="truncate text-xs text-gray-950">{track.artist}</p>
                     </div>
-                    <IconButton label={liked.has(track.id) ? "Remove from Liked Songs" : "Save to Liked Songs"} active={liked.has(track.id)} onClick={() => toggleLike(track)}>
-                        <Heart className={`h-4 w-4 ${liked.has(track.id) ? "fill-current" : ""}`} />
-                    </IconButton>
+                    <span className="hidden sm:block">{likeButton}</span>
                 </div>
 
                 <div className="flex flex-col items-center gap-1">
                     <div className="flex items-center gap-1 sm:gap-2">
-                        <span className="hidden sm:block"><IconButton label={shuffle ? "Disable shuffle" : "Enable shuffle"} active={shuffle} onClick={() => setShuffle((value) => !value)}><Shuffle className="h-4 w-4" /></IconButton></span>
-                        <IconButton label="Previous" onClick={() => (position > 3 ? setPosition(0) : step(-1))}><SkipBack className="h-4 w-4 fill-current" /></IconButton>
+                        <span className="hidden sm:block">{shuffleButton}</span>
+                        <span className="hidden sm:block">{previousButton}</span>
                         <Tooltip.Root>
                             <Tooltip.Trigger
                                 aria-label={playing ? "Pause" : "Play"}
@@ -850,23 +930,12 @@ const MusicApp = () => {
                             <Tooltip.Content><span className="flex items-center gap-2">{playing ? "Pause" : "Play"}<Kbd size="small">Space</Kbd></span></Tooltip.Content>
                         </Tooltip.Root>
                         <IconButton label="Next" onClick={() => step(1)}><SkipForward className="h-4 w-4 fill-current" /></IconButton>
-                        <span className="hidden sm:block">
-                            <IconButton
-                                label={repeat === "off" ? "Enable repeat" : repeat === "all" ? "Repeat one" : "Disable repeat"}
-                                active={repeat !== "off"}
-                                onClick={() => setRepeat((value) => (value === "off" ? "all" : value === "all" ? "one" : "off"))}
-                            >
-                                {repeat === "one" ? <Repeat1 className="h-4 w-4" /> : <Repeat className="h-4 w-4" />}
-                            </IconButton>
+                        <span className="hidden sm:block">{repeatButton}</span>
+                        <span className="md:hidden">
+                            <IconButton label="Open player" onClick={() => setPlayerOpen(true)}><ChevronUp className="h-5 w-5" /></IconButton>
                         </span>
                     </div>
-                    <div className="hidden w-full items-center gap-3 md:flex">
-                        <span className="w-9 text-right text-xs tabular-nums text-gray-950">{formatTime(position)}</span>
-                        <div className="sw-media-slider flex-1">
-                            <Slider aria-label="Seek" min={0} max={track.duration} value={position} onValueChange={(value) => setPosition(Array.isArray(value) ? value[0] : value)} />
-                        </div>
-                        <span className="w-9 text-xs tabular-nums text-gray-950">{formatTime(track.duration)}</span>
-                    </div>
+                    <div className="hidden w-full md:block">{seekBar}</div>
                 </div>
 
                 <div className="hidden items-center justify-end gap-1 md:flex">
@@ -881,28 +950,58 @@ const MusicApp = () => {
                             <div className="w-56">
                                 <p className="text-sm font-semibold text-gray-1000">Sleep timer</p>
                                 <p className="mt-0.5 text-xs text-gray-950">Pause playback automatically.</p>
-                                <RadioGroup.Root value={sleep} onValueChange={(value) => { setSleep(value); if (value !== "off") notify("Sleep timer set", sleepOptions.find((option) => option.value === value).label) }} aria-label="Sleep timer" className="mt-3 flex flex-col gap-2.5">
-                                    {sleepOptions.map((option) => (
-                                        <RadioGroup.Label key={option.value} className="flex items-center gap-2.5 text-sm text-gray-1000">
-                                            <RadioGroup.Item value={option.value}><RadioGroup.Indicator /></RadioGroup.Item>
-                                            {option.label}
-                                        </RadioGroup.Label>
-                                    ))}
-                                </RadioGroup.Root>
+                                {sleepOptionsGroup("mt-3 flex flex-col gap-2.5")}
                             </div>
                         </Popover.Content>
                     </Popover.Root>
-                    <span className="hidden xl:block">
-                        <IconButton label={showQueue ? "Hide queue" : "Show queue"} active={showQueue} onClick={() => setShowQueue((value) => !value)}>
-                            <ListMusic className="h-4 w-4" />
-                        </IconButton>
-                    </span>
-                    <IconButton label={muted ? "Unmute" : "Mute"} onClick={() => setMuted((value) => !value)}><VolumeIcon className="h-4 w-4" /></IconButton>
-                    <div className="sw-media-slider w-28">
-                        <Slider aria-label="Volume" min={0} max={100} value={muted ? 0 : volume} onValueChange={(value) => { setMuted(false); setVolume(Array.isArray(value) ? value[0] : value) }} />
-                    </div>
+                    <IconButton
+                        label={queueColumnFits ? (showQueue ? "Hide queue" : "Show queue") : "Open queue"}
+                        active={queueColumnFits ? showQueue : undefined}
+                        onClick={() => (queueColumnFits ? setShowQueue((value) => !value) : setQueueOpen(true))}
+                    >
+                        <ListMusic className="h-4 w-4" />
+                    </IconButton>
+                    {volumeControl}
                 </div>
             </footer>
+
+
+            {/* ------- full player: on phones the bar above only fits play and next, so everything else is here */}
+            <DrawerPanel open={playerOpen} onOpenChange={setPlayerOpen} side="bottom" title="Now playing" closeAbove="(min-width: 768px)" className="h-[min(44rem,92dvh)]!">
+                <div className="px-5 pb-6">
+                    <img src={track.cover} alt={`${track.title} artwork`} className="mx-auto aspect-square w-full max-w-56 rounded-xl object-cover shadow-xl" />
+                    <div className="mt-4 flex items-center justify-between gap-3">
+                        <div className="min-w-0">
+                            <p className="truncate text-xl font-bold tracking-tight">{track.title}</p>
+                            <p className="truncate text-sm text-gray-950">{track.artist} · {track.album}</p>
+                        </div>
+                        {likeButton}
+                    </div>
+                    <div className="mt-4">{seekBar}</div>
+                    <div className="mt-2 flex items-center justify-between">
+                        {shuffleButton}
+                        {previousButton}
+                        <button
+                            type="button"
+                            aria-label={playing ? "Pause" : "Play"}
+                            onClick={() => setPlaying((value) => !value)}
+                            className="grid h-14 w-14 place-items-center rounded-full bg-gray-1000 text-gray-50"
+                        >
+                            {playing ? <Pause className="h-5 w-5 fill-current" /> : <Play className="ml-0.5 h-5 w-5 fill-current" />}
+                        </button>
+                        <IconButton label="Next" onClick={() => step(1)}><SkipForward className="h-4 w-4 fill-current" /></IconButton>
+                        {repeatButton}
+                    </div>
+                    <div className="mt-4 flex items-center gap-1 [&_.sw-media-slider]:w-auto [&_.sw-media-slider]:flex-1">{volumeControl}</div>
+
+                    <Separator className="my-5" />
+                    <p className="text-sm font-semibold">Sleep timer</p>
+                    {sleepOptionsGroup("mt-2 grid! grid-cols-2 gap-x-3 gap-y-1")}
+
+                    <Separator className="my-5" />
+                    <div className="[&>p:first-child]:mt-0">{queueList}</div>
+                </div>
+            </DrawerPanel>
 
             {/* ------------------------------------------------------ search */}
             <Command.Dialog open={paletteOpen} onOpenChange={setPaletteOpen}>

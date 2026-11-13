@@ -1,0 +1,201 @@
+# Mobile layouts
+
+How to take a desktop layout built with Rad UI down to a phone without losing anything on the way.
+
+A responsive layout that only hides columns is not a mobile layout. The rule this guide is built on:
+
+> **Anything a person can reach on desktop, they can reach on a phone.** When a column is hidden, what was in it moves somewhere: a drawer, a sheet, a menu or its own screen.
+
+Every [showcase](/showcase) follows this rule, and a check in the docs build fails if one stops following it. Open them on a phone, or read their source, when you want a working reference.
+
+## Which pattern for which layout
+
+People already know these patterns from the apps they use every day, so use the familiar one.
+
+| On desktop | On a phone | Rad UI component | Showcase |
+| --- | --- | --- | --- |
+| Sidebar navigation | Menu button that opens a side drawer | `Drawer` (`swipeDirection="left"`) | Inbox, Messaging, Dashboard, Music player |
+| Details or inspector column | Info button that opens a drawer from the right | `Drawer` (`swipeDirection="right"`) | Messaging |
+| List next to detail | One column: the list, then the item, with a back button | Plain state, no component needed | Inbox |
+| Wide toolbar or player bar | Keep the two or three main actions; the rest goes in a bottom sheet | `Drawer` (`swipeDirection="bottom"`) | Music player |
+| Row actions shown on hover | Always visible, or one "More" button per row | `DropdownMenu` | Music player |
+| Short vertical nav (settings) | A row of tabs that scrolls sideways | `Tabs`, or a scrolling list | Preferences |
+| Value shown on hover (chart bar) | Tap to pin the value | A `button` with `aria-pressed` | Dashboard |
+| Wide table | Scroll the table sideways inside its own container, or switch to cards | `Table`, `Card` | Dashboard |
+
+## Sidebar to drawer
+
+Render the same navigation in two places: the column on wide screens and a `Drawer` on small ones. Because it is one piece of JSX, the two can never drift apart.
+
+```tsx
+'use client'
+
+import { useState } from 'react'
+import Drawer from '@radui/ui/Drawer'
+
+export function AppShell({ children }: { children: React.ReactNode }) {
+  const [navOpen, setNavOpen] = useState(false)
+
+  // One definition, used by the column and by the drawer.
+  const navigation = (
+    <nav aria-label="Main">
+      <a href="/inbox" onClick={() => setNavOpen(false)}>Inbox</a>
+      <a href="/sent" onClick={() => setNavOpen(false)}>Sent</a>
+    </nav>
+  )
+
+  return (
+    <>
+      <div className="app-shell">
+        <aside className="sidebar">{navigation}</aside>
+
+        <main>
+          <button
+            type="button"
+            className="menu-button"
+            aria-label="Open navigation"
+            onClick={() => setNavOpen(true)}
+          >
+            ☰
+          </button>
+          {children}
+        </main>
+      </div>
+
+      <Drawer.Root open={navOpen} onOpenChange={(open) => setNavOpen(open)} swipeDirection="left">
+        <Drawer.Portal>
+          <Drawer.Overlay />
+          <Drawer.Content>
+            <Drawer.Title>Menu</Drawer.Title>
+            <Drawer.Close aria-label="Close menu">×</Drawer.Close>
+            {navigation}
+          </Drawer.Content>
+        </Drawer.Portal>
+      </Drawer.Root>
+    </>
+  )
+}
+```
+
+```css
+.app-shell { display: grid; grid-template-columns: 15rem minmax(0, 1fr); }
+.menu-button { display: none; }
+
+@media (max-width: 47.99rem) {
+  .app-shell { grid-template-columns: minmax(0, 1fr); }
+  .sidebar { display: none; }
+  .menu-button { display: inline-grid; min-width: 2.75rem; min-height: 2.75rem; }
+}
+```
+
+What `Drawer` does for you: it moves focus into the drawer and keeps it there, closes on Escape, on a press outside and on a swipe toward its edge, and returns focus to the button that opened it. `Drawer.Title` names the dialog for screen readers.
+
+What you still have to do:
+
+- **Close the drawer when a link in it is chosen.** Otherwise the new page loads behind it.
+- **Close it when the screen gets wide enough for the column.** Someone can rotate a tablet or resize a window while it is open. Listen to the same media query your CSS uses and set `open` to `false` when it matches.
+- **Keep the `Drawer.Close` button.** A swipe is not enough on its own: not everyone can swipe, and WCAG asks for a single tap alternative to any gesture.
+- **Put `data-swipe-ignore` on anything inside that is dragged**, such as a `Slider`, so dragging it does not drag the drawer too.
+
+## List and detail
+
+On desktop the list and the open item sit side by side. On a phone show one at a time.
+
+- Start on the list, even if desktop starts with the first item open.
+- Opening an item replaces the list. A back button, first in the detail toolbar, returns to it.
+- Keep the selection when going back, so the list is where the person left it.
+
+Decide which one shows from state, and hide the other with CSS at the breakpoint. Don't unmount the list: it would lose its scroll position.
+
+## Controls that depend on hover
+
+Touch screens have no hover. Anything that only appears under the pointer does not exist on a phone.
+
+- **Row actions.** Hide them at rest only when the device can hover:
+
+  ```css
+  @media (hover: hover) {
+    .row-action { opacity: 0; }
+    .row:hover .row-action,
+    .row-action:focus-visible { opacity: 1; }
+  }
+  ```
+
+- **`Tooltip`.** Treat tooltips as absent on touch. An icon button needs an `aria-label`, and anything a person must know to use the page goes in visible text.
+- **`HoverCard`.** Fine for extra detail. Never make it the only place an action lives. If the card has a Follow button, the page needs one too.
+- **Keyboard shortcut hints** such as `⌘K` mean nothing on a phone. Hide them on coarse pointers.
+
+## Touch targets
+
+- **At least 24×24 CSS px** for every control. This is the WCAG 2.2 AA minimum (2.5.8).
+- **44×44 CSS px where there is room**, and always for the main actions: menu, back, close, play, send.
+- Grow the tap area, not the icon. Size up only on touch so the desktop layout stays dense:
+
+  ```css
+  @media (pointer: coarse) {
+    .icon-button { min-width: 2.75rem; min-height: 2.75rem; }
+
+    /* For a small control in a tight row: a larger invisible tap area. */
+    .small-control { position: relative; }
+    .small-control::after { content: ''; position: absolute; inset: -0.5rem; }
+  }
+  ```
+
+  With Tailwind 4.1 or later the same thing is `pointer-coarse:min-h-11 pointer-coarse:min-w-11`.
+
+- In the default theme, `Checkbox`, `RadioGroup.Item` and the `NumberField` steppers are smaller than 24px. Wrap radios and checkboxes in their label so the whole row is the target, and see [issue 2359](https://github.com/rad-ui/ui/issues/2359) for the rest.
+
+## Accessibility on a phone
+
+Desktop accessibility work carries over. These are the checks that are specific to small screens and touch.
+
+| Check | Why | WCAG |
+| --- | --- | --- |
+| The page works at 320 CSS px wide with no sideways scrolling. Tables, code and maps may scroll inside their own box. | People who zoom to 400% on a laptop get the phone layout. | 1.4.10 Reflow |
+| Zoom is not disabled. No `user-scalable=no`, no `maximum-scale=1`. | People need to pinch to read. | 1.4.4 Resize Text |
+| The layout works in portrait and landscape. | Some devices are mounted in one orientation. | 1.3.4 Orientation |
+| Every swipe or drag has a tap alternative: a close button for a drawer, a tap on the track for a slider. | Not everyone can drag. | 2.5.1, 2.5.7 |
+| Targets are 24px or larger. | See above. | 2.5.8 |
+| Nothing is available only on hover. | See above. | 1.4.13 |
+| When a drawer or sheet opens, focus moves into it. When it closes, focus returns to the button that opened it. | Screen reader and keyboard users would otherwise be left behind the overlay. `Drawer` and `Dialog` do this for you. | 2.4.3 Focus Order |
+| Text in form fields is 16px or larger. | iOS Safari zooms the page when a smaller field takes focus. | |
+| Full height areas use `dvh`, not `vh`. | `100vh` is taller than the visible area while the browser toolbar is showing. | |
+| Content near the screen edges uses `env(safe-area-inset-*)`. | The home indicator and notches cover the bottom and sides. | |
+| Animation respects `prefers-reduced-motion`. | Sliding panels can cause motion sickness. The default theme turns drawer motion off for you. | 2.3.3 |
+
+Test with a screen reader on a real phone before you ship: VoiceOver on iOS, TalkBack on Android. Swipe through the page once with each drawer closed and once with it open.
+
+## For AI coding tools
+
+If you build with an AI assistant, paste this into the prompt or your project rules. It is the short form of this page.
+
+```text
+Mobile rules for this project (Rad UI):
+
+1. Anything reachable on desktop must be reachable on a phone. Never hide a
+   column, toolbar or control at a breakpoint without giving it another home.
+2. Sidebar or details column -> @radui/ui/Drawer opened by a labelled button.
+   Render the same JSX in the column and in the drawer. Close the drawer when
+   a link in it is chosen and when the viewport is wide enough for the column.
+   Always include Drawer.Title and Drawer.Close.
+3. List + detail -> one column on phones: list first, then the item with a
+   back button.
+4. Crowded toolbar -> keep the main 2-3 actions, move the rest into a bottom
+   Drawer or a DropdownMenu.
+5. No hover-only UI. Hide row actions only inside @media (hover: hover).
+   Tooltips and hover cards never hold the only copy of an action or of
+   required information. Every icon button has an aria-label.
+6. Touch targets: at least 24x24 CSS px, 44x44 for primary actions, sized up
+   inside @media (pointer: coarse).
+7. No sideways page scroll at 320px. Never disable zoom. Form field text is
+   16px or larger. Use dvh for full height areas and env(safe-area-inset-*)
+   near screen edges.
+8. Reference implementations: https://www.rad-ui.com/showcase
+```
+
+## Related
+
+- [Drawer](/docs/components/drawer)
+- [Mobile and touch QA](/docs/guides/mobile-touch-qa): the checklist for testing a single component on touch devices
+- [Accessibility](/docs/guides/accessibility)
+- [Keyboard interaction spec](/docs/guides/keyboard-interaction-spec)

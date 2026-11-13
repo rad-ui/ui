@@ -18,6 +18,7 @@ import {
     FolderKanban,
     HelpCircle,
     LayoutDashboard,
+    Menu,
     MoreHorizontal,
     Plus,
     Search,
@@ -27,6 +28,8 @@ import {
     TrendingUp,
     Users,
 } from "lucide-react"
+
+import { DrawerPanel, touchTarget } from "./showcaseUi"
 
 const rangeOptions = [
     { value: "7d", label: "7 days" },
@@ -229,32 +232,11 @@ const SidebarLink = ({ icon: Icon, label }) => (
     </button>
 )
 
-const DashboardSidebar = () => (
-    <aside className="flex flex-col gap-3 border-b border-gray-600 bg-gray-100 p-4 sm:flex-row lg:flex-col lg:gap-6 text-gray-1000 lg:border-b-0 lg:border-r">
-        <div className="flex items-center gap-3 rounded-lg border border-gray-600 bg-gray-50 px-3 py-2.5 sm:flex-1 lg:flex-none">
-            <Avatar.Root size="sm" color="green">
-                <Avatar.Fallback>AC</Avatar.Fallback>
-            </Avatar.Root>
-            <div className="min-w-0 flex-1">
-                <Text className="block truncate text-sm! font-medium! text-gray-1000">Acme Inc.</Text>
-                <Text className="block truncate text-xs! text-gray-1000/70">Series B proposal</Text>
-            </div>
-            <Badge variant="soft" color="green" className="rounded-full">
-                Live
-            </Badge>
-        </div>
+const DashboardSidebar = () => {
+    const [navOpen, setNavOpen] = useState(false)
 
-        <button
-            type="button"
-            aria-label="Search workspace"
-            className="flex items-center sm:flex-1 lg:flex-none gap-2 rounded-lg border border-gray-600 bg-gray-50 px-3 py-2 text-left text-sm text-gray-1000/70 transition-colors hover:border-gray-700 hover:text-gray-1000"
-        >
-            <Search className="h-4 w-4 shrink-0" />
-            <span className="flex-1 truncate">Search</span>
-            <Kbd className="border-gray-600! bg-gray-1000/[0.04]! text-gray-1000/70! shadow-none!">⌘K</Kbd>
-        </button>
-
-        <nav className="hidden flex-1 flex-col gap-6 lg:flex">
+    const navGroupList = (
+        <>
             {navGroups.map((group) => (
                 <div key={group.label}>
                     <Text className="mb-2 block text-[11px]! uppercase tracking-[0.2em] text-gray-1000/70">
@@ -288,14 +270,70 @@ const DashboardSidebar = () => (
                     </div>
                 </div>
             ))}
+        </>
+    )
+
+    const secondaryLinks = (
+        <>
+            <SidebarLink icon={Settings} label="Settings" />
+            <SidebarLink icon={HelpCircle} label="Help center" />
+        </>
+    )
+
+    return (
+    <aside className="flex flex-wrap items-center gap-3 border-b border-gray-600 bg-gray-100 p-4 lg:flex-col lg:flex-nowrap lg:items-stretch lg:gap-6 text-gray-1000 lg:border-b-0 lg:border-r">
+        <button
+            type="button"
+            aria-label="Open navigation"
+            onClick={() => setNavOpen(true)}
+            className={`grid h-10 w-10 shrink-0 place-items-center rounded-lg border border-gray-600 bg-gray-50 text-gray-1000 transition-colors hover:border-gray-700 lg:hidden ${touchTarget}`}
+        >
+            <Menu className="h-5 w-5" />
+        </button>
+
+        <div className="flex min-w-0 flex-1 items-center gap-3 rounded-lg border border-gray-600 bg-gray-50 px-3 py-2.5 lg:flex-none">
+            <Avatar.Root size="sm" color="green">
+                <Avatar.Fallback>AC</Avatar.Fallback>
+            </Avatar.Root>
+            <div className="min-w-0 flex-1">
+                <Text className="block truncate text-sm! font-medium! text-gray-1000">Acme Inc.</Text>
+                <Text className="block truncate text-xs! text-gray-1000/70">Series B proposal</Text>
+            </div>
+            <Badge variant="soft" color="green" className="rounded-full">
+                Live
+            </Badge>
+        </div>
+
+        <button
+            type="button"
+            aria-label="Search workspace"
+            className="flex w-full items-center gap-2 rounded-lg sm:w-auto sm:flex-1 lg:flex-none border border-gray-600 bg-gray-50 px-3 py-2 text-left text-sm text-gray-1000/70 transition-colors hover:border-gray-700 hover:text-gray-1000"
+        >
+            <Search className="h-4 w-4 shrink-0" />
+            <span className="flex-1 truncate">Search</span>
+            <Kbd className="border-gray-600! bg-gray-1000/[0.04]! text-gray-1000/70! shadow-none! pointer-coarse:hidden!">⌘K</Kbd>
+        </button>
+
+        <nav aria-label="Workspace" className="hidden flex-1 flex-col gap-6 lg:flex">
+            {navGroupList}
         </nav>
 
         <div className="hidden space-y-0.5 border-t border-gray-600 pt-4 lg:block">
-            <SidebarLink icon={Settings} label="Settings" />
-            <SidebarLink icon={HelpCircle} label="Help center" />
+            {secondaryLinks}
         </div>
+
+        {/* Below `lg` the navigation above is hidden, so the same links open in a drawer. */}
+        <DrawerPanel open={navOpen} onOpenChange={setNavOpen} title="Acme Inc." closeAbove="(min-width: 1024px)">
+            <nav aria-label="Workspace" className="flex flex-col gap-6 px-3 pt-2">
+                {navGroupList}
+            </nav>
+            <div className="mx-3 mt-6 space-y-0.5 border-t border-gray-600 py-4">
+                {secondaryLinks}
+            </div>
+        </DrawerPanel>
     </aside>
-)
+    )
+}
 
 const SummaryStat = ({ label, value }) => (
     <div>
@@ -310,6 +348,7 @@ const RevenueChart = ({ range, onRangeChange }) => {
     const axisMax = niceAxisMax(Math.max(...values))
     const total = values.reduce((sum, value) => sum + value, 0)
     const peak = series.points.reduce((best, point) => (point.value > best.value ? point : best), series.points[0])
+    const [pinnedPoint, setPinnedPoint] = useState(null)
 
     return (
         <Card variant="outline" className="border-gray-600! bg-gray-50!">
@@ -353,17 +392,28 @@ const RevenueChart = ({ range, onRangeChange }) => {
 
             <Card.Content>
                 <div className="flex h-48 items-end gap-1.5 border-b border-gray-300">
-                    {series.points.map((point) => (
-                        <div key={point.label} className="group relative flex h-full flex-1 items-end">
-                            <span
-                                className="w-full rounded-t-md bg-green-800/75 transition-colors group-hover:bg-green-800"
-                                style={{ height: `${(point.value / axisMax) * 100}%` }}
-                            />
-                            <span className="pointer-events-none absolute -top-7 left-1/2 -translate-x-1/2 whitespace-nowrap rounded-full border border-gray-600 bg-gray-50 px-2 py-0.5 text-[10px] font-medium tabular-nums text-gray-1000 opacity-0 transition-opacity group-hover:opacity-100">
-                                ${point.value.toFixed(1)}k
-                            </span>
-                        </div>
-                    ))}
+                    {series.points.map((point) => {
+                        // Hover shows a bar's value; a tap or key press pins it, since touch has no hover.
+                        const pinned = pinnedPoint === `${range}:${point.label}`
+                        return (
+                            <button
+                                key={point.label}
+                                type="button"
+                                aria-label={`${point.label}: $${point.value.toFixed(1)}k`}
+                                aria-pressed={pinned}
+                                onClick={() => setPinnedPoint(pinned ? null : `${range}:${point.label}`)}
+                                className="group relative flex h-full flex-1 items-end rounded-t-md"
+                            >
+                                <span
+                                    className={`w-full rounded-t-md transition-colors group-hover:bg-green-800 ${pinned ? "bg-green-800" : "bg-green-800/75"}`}
+                                    style={{ height: `${(point.value / axisMax) * 100}%` }}
+                                />
+                                <span className={`pointer-events-none absolute -top-7 left-1/2 -translate-x-1/2 whitespace-nowrap rounded-full border border-gray-600 bg-gray-50 px-2 py-0.5 text-[10px] font-medium tabular-nums text-gray-1000 transition-opacity group-hover:opacity-100 group-focus-visible:opacity-100 ${pinned ? "opacity-100" : "opacity-0"}`}>
+                                    ${point.value.toFixed(1)}k
+                                </span>
+                            </button>
+                        )
+                    })}
                 </div>
 
                 <div className="mt-2 flex gap-1.5">

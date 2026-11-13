@@ -10,7 +10,9 @@ import Separator from "@radui/ui/Separator"
 import TextField from "@radui/ui/TextField"
 import Toggle from "@radui/ui/Toggle"
 import Tooltip from "@radui/ui/Tooltip"
-import { Archive, ArrowLeft, Clock3, File, Inbox, Pencil, Search, Send, Star, Trash2 } from "lucide-react"
+import { Archive, ArrowLeft, Clock3, File, Inbox, Menu, Pencil, Search, Send, Star, Trash2 } from "lucide-react"
+
+import { DrawerPanel, hitArea, touchTarget } from "./showcaseUi"
 
 const folders = [
     { id: "inbox", label: "Inbox", icon: Inbox },
@@ -105,7 +107,7 @@ const IconAction = ({ label, onClick, children }) => (
         <Tooltip.Trigger
             aria-label={label}
             onClick={onClick}
-            className="grid h-8 w-8 place-items-center rounded-md text-gray-950 transition-colors hover:bg-gray-200 hover:text-gray-1000"
+            className={`grid h-8 w-8 shrink-0 place-items-center rounded-md text-gray-950 transition-colors hover:bg-gray-200 hover:text-gray-1000 ${touchTarget}`}
         >
             {children}
         </Tooltip.Trigger>
@@ -126,8 +128,14 @@ const InboxDemo = () => {
     const [query, setQuery] = useState("")
     const [selected, setSelected] = useState(() => new Set())
     const [openId, setOpenId] = useState(1)
+    // The first message starts open so the three-column layout has something to
+    // show. Below `xl` there is one column, and a phone should start on the list,
+    // so the reading pane only takes over once someone opens a message.
+    const [openedByUser, setOpenedByUser] = useState(false)
     const [reply, setReply] = useState("")
     const [sentReplies, setSentReplies] = useState({})
+    // Below `md` the folder list lives in a drawer.
+    const [foldersOpen, setFoldersOpen] = useState(false)
 
     const visible = useMemo(() => {
         const q = query.trim().toLowerCase()
@@ -144,6 +152,7 @@ const InboxDemo = () => {
 
     const openMail = (id) => {
         setOpenId(id)
+        setOpenedByUser(true)
         update(id, { unread: false })
         setReply("")
     }
@@ -173,59 +182,77 @@ const InboxDemo = () => {
         setReply("")
     }
 
-    return (
-        <div className="grid h-[720px] grid-cols-1 text-gray-1000 md:grid-cols-[200px_minmax(0,1fr)] xl:grid-cols-[200px_minmax(0,380px)_minmax(0,1fr)]">
-            {/* Folders */}
-            <aside className="hidden flex-col gap-1 border-r border-gray-400 bg-gray-100 p-3 md:flex">
-                <Button className="mb-3 w-full justify-center">
-                    <Pencil className="h-4 w-4" />
-                    Compose
-                </Button>
-                <nav aria-label="Folders">
-                    <ul className="space-y-0.5">
-                        {folders.map(({ id, label, icon: Icon }) => (
-                            <li key={id}>
-                                <button
-                                    type="button"
-                                    aria-current={folder === id ? "page" : undefined}
-                                    onClick={() => { setFolder(id); setSelected(new Set()) }}
-                                    className={`flex w-full items-center gap-2.5 rounded-md px-2.5 py-1.5 text-sm transition-colors ${
-                                        folder === id ? "bg-gray-300 font-medium" : "text-gray-950 hover:bg-gray-200"
-                                    }`}
-                                >
-                                    <Icon className="h-4 w-4 text-gray-950" />
-                                    {label}
-                                    {id === "inbox" && unreadCount ? <span className="ml-auto text-xs font-semibold tabular-nums">{unreadCount}</span> : null}
-                                </button>
-                            </li>
-                        ))}
-                    </ul>
-                </nav>
-                <p className="px-2.5 pb-1 pt-5 text-xs font-medium text-gray-950">Labels</p>
+    const folderNav = (
+        <>
+            <Button className="mb-3 w-full justify-center">
+                <Pencil className="h-4 w-4" />
+                Compose
+            </Button>
+            <nav aria-label="Folders">
                 <ul className="space-y-0.5">
-                    {labels.map(({ label, tone }) => (
-                        <li key={label} className="flex items-center gap-2.5 px-2.5 py-1.5 text-sm text-gray-950">
-                            <span className={`h-2 w-2 rounded-full ${tone}`} />
-                            {label}
+                    {folders.map(({ id, label, icon: Icon }) => (
+                        <li key={id}>
+                            <button
+                                type="button"
+                                aria-current={folder === id ? "page" : undefined}
+                                onClick={() => { setFolder(id); setSelected(new Set()); setFoldersOpen(false) }}
+                                className={`flex w-full items-center gap-2.5 rounded-md px-2.5 py-1.5 text-sm transition-colors ${
+                                    folder === id ? "bg-gray-300 font-medium" : "text-gray-950 hover:bg-gray-200"
+                                }`}
+                            >
+                                <Icon className="h-4 w-4 text-gray-950" />
+                                {label}
+                                {id === "inbox" && unreadCount ? <span className="ml-auto text-xs font-semibold tabular-nums">{unreadCount}</span> : null}
+                            </button>
                         </li>
                     ))}
                 </ul>
+            </nav>
+            <p className="px-2.5 pb-1 pt-5 text-xs font-medium text-gray-950">Labels</p>
+            <ul className="space-y-0.5">
+                {labels.map(({ label, tone }) => (
+                    <li key={label} className="flex items-center gap-2.5 px-2.5 py-1.5 text-sm text-gray-950">
+                        <span className={`h-2 w-2 rounded-full ${tone}`} />
+                        {label}
+                    </li>
+                ))}
+            </ul>
+        </>
+    )
+
+    return (
+        <div className="grid h-[720px] grid-cols-1 text-gray-1000 md:grid-cols-[200px_minmax(0,1fr)] xl:grid-cols-[200px_minmax(0,380px)_minmax(0,1fr)]">
+            {/* Folders: a column from `md` up, a drawer below it */}
+            <aside className="hidden flex-col gap-1 border-r border-gray-400 bg-gray-100 p-3 md:flex">
+                {folderNav}
             </aside>
+            <DrawerPanel open={foldersOpen} onOpenChange={setFoldersOpen} title="Mail" closeAbove="(min-width: 768px)">
+                <div className="flex flex-col gap-1 px-3 pb-4">{folderNav}</div>
+            </DrawerPanel>
 
             {/* List */}
-            <section aria-label="Messages" className={`min-h-0 flex-col border-r border-gray-400 bg-gray-50 ${open ? "hidden xl:flex" : "flex"}`}>
-                <div className="border-b border-gray-400 p-3">
-                    <TextField
-                        aria-label="Search mail"
-                        placeholder="Search mail"
-                        value={query}
-                        onChange={(event) => setQuery(event.target.value)}
-                        startSlot={<Search className="h-4 w-4" />}
-                    />
+            <section aria-label="Messages" className={`min-h-0 flex-col border-r border-gray-400 bg-gray-50 ${open && openedByUser ? "hidden xl:flex" : "flex"}`}>
+                <div className="flex items-center gap-1 border-b border-gray-400 p-3 max-md:px-2">
+                    <span className="md:hidden">
+                        <IconAction label="Open folders" onClick={() => setFoldersOpen(true)}><Menu className="h-5 w-5" /></IconAction>
+                    </span>
+                    <div className="min-w-0 flex-1">
+                        <TextField
+                            aria-label="Search mail"
+                            placeholder="Search mail"
+                            value={query}
+                            onChange={(event) => setQuery(event.target.value)}
+                            startSlot={<Search className="h-4 w-4" />}
+                        />
+                    </div>
+                    <span className="md:hidden">
+                        <IconAction label="Compose"><Pencil className="h-4 w-4" /></IconAction>
+                    </span>
                 </div>
                 <div className="flex h-11 items-center gap-2 border-b border-gray-400 px-4">
                     <Checkbox.Root
                         aria-label="Select all"
+                        className={hitArea}
                         checked={allSelected}
                         onCheckedChange={(checked) => setSelected(checked ? new Set(visible.map((item) => item.id)) : new Set())}
                     >
@@ -240,7 +267,9 @@ const InboxDemo = () => {
                             </div>
                         </>
                     ) : (
-                        <span className="ml-1 text-sm text-gray-950">{visible.length} conversations</span>
+                        <span className="ml-1 text-sm text-gray-950">
+                            {folders.find((item) => item.id === folder).label} · {visible.length} {visible.length === 1 ? "conversation" : "conversations"}
+                        </span>
                     )}
                 </div>
                 <ul className="min-h-0 flex-1 divide-y divide-gray-300 overflow-y-auto">
@@ -257,6 +286,7 @@ const InboxDemo = () => {
                             <div className="flex flex-col items-center gap-2 pt-0.5">
                                 <Checkbox.Root
                                     aria-label={`Select message from ${item.from}`}
+                                    className={hitArea}
                                     checked={selected.has(item.id)}
                                     onCheckedChange={(checked) => toggleSelected(item.id, checked === true)}
                                 >
@@ -271,7 +301,7 @@ const InboxDemo = () => {
                                     <Star className={`h-4 w-4 ${item.starred ? "fill-amber-800 text-amber-800" : "text-gray-950"}`} />
                                 </Toggle>
                             </div>
-                            <button type="button" onClick={() => openMail(item.id)} className="min-w-0 flex-1 text-left">
+                            <button type="button" data-showcase-item onClick={() => openMail(item.id)} className="min-w-0 flex-1 text-left">
                                 <span className="flex items-baseline gap-2">
                                     {item.unread ? <span className="h-2 w-2 shrink-0 self-center rounded-full bg-blue-800" aria-label="Unread" /> : null}
                                     <span className={`truncate text-sm ${item.unread ? "font-semibold" : "font-medium"}`}>{item.from}</span>
@@ -287,7 +317,7 @@ const InboxDemo = () => {
 
             {/* Reading pane */}
             {open ? (
-                <article aria-label={open.subject} className="flex min-h-0 flex-col bg-gray-50">
+                <article aria-label={open.subject} className={`min-h-0 flex-col bg-gray-50 ${openedByUser ? "flex" : "hidden xl:flex"}`}>
                     <div className="flex h-12 items-center gap-1 border-b border-gray-400 px-3">
                         <span className="xl:hidden">
                             <IconAction label="Back to list" onClick={() => setOpenId(null)}><ArrowLeft className="h-4 w-4" /></IconAction>

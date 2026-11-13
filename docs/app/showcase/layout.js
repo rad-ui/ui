@@ -11,7 +11,7 @@ const ShowCase = ({children}) => {
                 <div className='mt-6'>
                     <ShowcaseTabs />
                 </div>
-                <div className='mt-4 overflow-hidden rounded-xl border border-gray-500 bg-gray-50 shadow-sm'>
+                <div data-showcase-frame className='mt-4 overflow-hidden rounded-xl border border-gray-500 bg-gray-50 shadow-sm'>
                     {children}
                 </div>
             </div>

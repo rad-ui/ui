@@ -39,3 +39,15 @@ All docs text must meet WCAG AA (4.5:1, or 3:1 for large text) in **both** dark 
 - Gray steps `50`–`900` are for fills, borders and decoration. As text they fail in at least one theme (for example, `text-gray-900` is 3.8:1 in light mode).
 - Colored text (syntax highlighting, accents) uses the `950` step.
 - Run it locally with `npm run docs:verify:fixed -- --contrast` from the repo root.
+
+# Showcases on a phone (dev note)
+
+The showcases in `app/showcase/` are reference layouts that people and AI tools copy, so they must work on a phone. The rule: **anything reachable on desktop is reachable on a phone.** The patterns are in the Mobile layouts guide (`app/docs/guides/mobile-layouts/content.mdx`); read it before changing a showcase layout.
+
+CI enforces this with `scripts/check-docs-mobile.mjs`. It opens every showcase at desktop width and as a touch phone, and fails if a control is lost, is invisible without hover, is under 24×24 CSS px, or if the page scrolls sideways.
+
+- When a column is hidden at a breakpoint, put the same JSX in a `DrawerPanel` (`app/showcase/helpers/showcaseUi.js`).
+- Name the button that reveals it "Open …" (or "Back to …" for a list). The check presses buttons with those names to find what is behind them.
+- Use `touchTarget` for icon buttons and `hitArea` for small controls in tight rows (same file).
+- Hide row actions only inside `[@media(hover:hover)]:`.
+- Run it locally with `npm run docs:verify:fixed -- --mobile` from the repo root, or against a dev server with `npm run docs:check:mobile -- --base http://localhost:3000` (use `localhost`, not `127.0.0.1`: the dev server blocks its scripts on other hosts).

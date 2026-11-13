@@ -455,6 +455,7 @@
     "docs:verify:fixed": "node scripts/docs-mode.mjs verify:fixed",
     "docs:verify:live": "node scripts/docs-mode.mjs verify:live",
     "docs:check:contrast": "node scripts/check-docs-contrast.mjs",
+    "docs:check:mobile": "node scripts/check-docs-mobile.mjs",
     "generate-tailwind-preset": "tsx ./scripts/generate-tailwind-preset.ts"
   },
   "lint-staged": {
