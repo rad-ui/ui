@@ -91,6 +91,7 @@
 - [Date, Time & Timezones](https://www.rad-ui.com/docs/guides/date-time-and-timezones)
 - [Internationalization](https://www.rad-ui.com/docs/guides/internationalization)
 - [IME / Input Method QA](https://www.rad-ui.com/docs/guides/ime-input-method-qa)
+- [Mobile Layouts](https://www.rad-ui.com/docs/guides/mobile-layouts)
 - [Mobile & Touch QA](https://www.rad-ui.com/docs/guides/mobile-touch-qa)
 - [SSR & No-JS Fallback](https://www.rad-ui.com/docs/guides/ssr-and-no-js-fallback)
 - [Performance](https://www.rad-ui.com/docs/guides/performance)

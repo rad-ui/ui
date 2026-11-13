@@ -133,6 +133,10 @@ export const docsNavigationSections = [
                 path:"/docs/guides/ime-input-method-qa"
             },
             {
+                title:"Mobile Layouts",
+                path:"/docs/guides/mobile-layouts"
+            },
+            {
                 title:"Mobile & Touch QA",
                 path:"/docs/guides/mobile-touch-qa"
             },

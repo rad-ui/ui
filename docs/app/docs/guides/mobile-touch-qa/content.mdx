@@ -2,13 +2,21 @@
 
 Use this checklist when touching **interactive** components (buttons, dialogs, menus, sliders, scroll areas).
 
+Building a page rather than testing one component? Start with [Mobile layouts](/docs/guides/mobile-layouts), which covers what to do with sidebars, toolbars and hover controls on a phone.
+
 ## Touch targets
 
-- [ ] **Minimum size**: Interactive hit targets are at least **44×44 CSS px** (or the design system’s documented minimum).
+- [ ] **Minimum size**: Interactive hit targets are at least **24×24 CSS px** (WCAG 2.2 AA), and **44×44 CSS px** for primary actions.
 - [ ] **Spacing**: Adjacent targets are not overlapping in a way that causes mis-taps.
+
+## Hover
+
+- [ ] **No hover-only controls**: Everything that appears on hover is also reachable by tap and by keyboard focus.
+- [ ] **Tooltips**: Nothing a person needs is only in a tooltip.
 
 ## Gestures and scroll
 
+- [ ] **Tap alternative**: Every swipe or drag (dismissing a drawer, moving a slider) can also be done with a single tap.
 - [ ] **Scroll chaining**: Nested scroll areas do not trap scrolling unexpectedly on mobile.
 - [ ] **Pull-to-refresh**: Full-screen overlays do not fight browser overscroll (where applicable).
 

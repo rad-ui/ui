@@ -118,6 +118,7 @@ export default function App() {
 - Date, Time & Timezones: https://www.rad-ui.com/docs/guides/date-time-and-timezones
 - Internationalization: https://www.rad-ui.com/docs/guides/internationalization
 - IME / Input Method QA: https://www.rad-ui.com/docs/guides/ime-input-method-qa
+- Mobile Layouts: https://www.rad-ui.com/docs/guides/mobile-layouts
 - Mobile & Touch QA: https://www.rad-ui.com/docs/guides/mobile-touch-qa
 - SSR & No-JS Fallback: https://www.rad-ui.com/docs/guides/ssr-and-no-js-fallback
 - Performance: https://www.rad-ui.com/docs/guides/performance
@@ -242,3 +243,4 @@ export default function App() {
 - Use the docs component pages for anatomy, examples, and accessibility behavior.
 - Use the styling and design token guides when integrating with an existing design system.
 - Use the accessibility, keyboard interaction, screen reader testing, and mobile touch QA guides for high-confidence implementation checks.
+- Building a responsive layout? Follow the mobile layouts guide (https://www.rad-ui.com/docs/guides/mobile-layouts): anything reachable on desktop must stay reachable on a phone (sidebar to Drawer, list then detail, no hover-only controls, 24px minimum touch targets). The showcases at https://www.rad-ui.com/showcase are working references.

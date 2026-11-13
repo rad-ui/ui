@@ -15,6 +15,7 @@
 //
 // Add --contrast to a verify command to also serve the isolated build and run
 // the WCAG AA contrast check on every page in both themes (same as CI).
+// Add --mobile to check that no showcase loses a control on a phone (same as CI).
 //
 // Live mode only swaps the docs/node_modules/@radui/ui symlink. It never edits
 // docs/package.json or docs/pnpm-lock.yaml, so it can't be committed or reach
@@ -35,6 +36,7 @@ const linkPath = path.join(docsDir, 'node_modules', '@radui', 'ui')
 const [command, ...flags] = process.argv.slice(2)
 const skipBuild = flags.includes('--no-build')
 const checkContrast = flags.includes('--contrast')
+const checkMobile = flags.includes('--mobile')
 
 // `npm run -s` sets npm_config_loglevel=silent, which pnpm also honors and
 // would hide install/build errors. Drop it for child commands.
@@ -99,8 +101,9 @@ const isolatedDocsCopy = () => {
     return target
 }
 
-// Serve an isolated production build and run the contrast check against it.
-const runContrastCheck = async (target) => {
+// Serve an isolated production build and run the checks that need a browser against it.
+const runBrowserChecks = async (target) => {
+    if (!checkContrast && !checkMobile) return
     const port = 3200 + Math.floor(Math.random() * 500)
     // Run next directly in its own process group: killing a pnpm wrapper
     // would leave the server running.
@@ -110,7 +113,8 @@ const runContrastCheck = async (target) => {
             try { if ((await fetch(`http://127.0.0.1:${port}/`)).ok) break } catch {}
             await new Promise((resolve) => setTimeout(resolve, 1000))
         }
-        run('node', ['scripts/check-docs-contrast.mjs', '--base', `http://127.0.0.1:${port}`, '--next-dir', path.join(target, '.next')])
+        if (checkContrast) run('node', ['scripts/check-docs-contrast.mjs', '--base', `http://127.0.0.1:${port}`, '--next-dir', path.join(target, '.next')])
+        if (checkMobile) run('node', ['scripts/check-docs-mobile.mjs', '--base', `http://127.0.0.1:${port}`])
     } finally {
         try { process.kill(-server.pid) } catch {}
     }
@@ -158,7 +162,7 @@ const commands = {
         installPinned(target)
         run('pnpm', ['build'], { cwd: target })
         const { version } = readJson(path.join(target, 'node_modules', '@radui', 'ui', 'package.json'))
-        if (checkContrast) await runContrastCheck(target)
+        await runBrowserChecks(target)
         banner([`OK: docs build with published @radui/ui ${version} (isolated copy ${keepTemp ? `kept at ${target}` : 'removed after the run; pass --keep to inspect it'})`])
     },
 
@@ -178,7 +182,7 @@ const commands = {
         run('pnpm', ['build'], { cwd: target })
 
         const { version } = readJson(path.join(repoRoot, 'package.json'))
-        if (checkContrast) await runContrastCheck(target)
+        await runBrowserChecks(target)
         banner([`OK: docs build with the local @radui/ui ${version} package (isolated copy ${keepTemp ? `kept at ${target}` : 'removed after the run; pass --keep to inspect it'})`])
     }
 }

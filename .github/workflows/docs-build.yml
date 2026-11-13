@@ -87,3 +87,10 @@ jobs:
           (cd "$RUNNER_TEMP/isolated/docs" && pnpm exec next start -p 3000 > "$RUNNER_TEMP/next-start.log" 2>&1 &)
           for i in $(seq 1 60); do curl -sf http://127.0.0.1:3000/ > /dev/null && break; sleep 1; done
           node scripts/check-docs-contrast.mjs --base http://127.0.0.1:3000 --next-dir "$RUNNER_TEMP/isolated/docs/.next"
+
+      # The showcases are reference layouts that people and AI tools copy. Fail
+      # if one loses a control on a phone, needs hover, or has a tap target
+      # under 24px. Uses the server started by the contrast step.
+      - name: Check showcases on a phone
+        working-directory: .
+        run: node scripts/check-docs-mobile.mjs --base http://127.0.0.1:3000

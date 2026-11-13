@@ -123,6 +123,7 @@ ${fxNavigationSections.flatMap((section: any) => section.items).map((item: any) 
 - Use the docs component pages for anatomy, examples, and accessibility behavior.
 - Use the styling and design token guides when integrating with an existing design system.
 - Use the accessibility, keyboard interaction, screen reader testing, and mobile touch QA guides for high-confidence implementation checks.
+- Building a responsive layout? Follow the mobile layouts guide (${BASE_URL}/docs/guides/mobile-layouts): anything reachable on desktop must stay reachable on a phone (sidebar to Drawer, list then detail, no hover-only controls, 24px minimum touch targets). The showcases at ${BASE_URL}/showcase are working references.
 `;
 
   return content;
