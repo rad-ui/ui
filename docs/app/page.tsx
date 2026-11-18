@@ -190,7 +190,11 @@ export default function Home() {
                         <div className="min-w-0" style={{ animation: "rad-fade-in 0.8s 0.15s both" }}>
                             <ThemePlayground />
                             <p className="mt-4 text-center text-sm text-gray-950">
-                                Change the accent, radius or appearance. Every control here is a Rad UI component.
+                                Change the accent, radius or appearance. Every control here is a Rad UI component.{' '}
+                                <Link href="/theme-generator" className="font-medium text-gray-1000 underline underline-offset-4">
+                                    Make a theme from your brand colour
+                                </Link>
+                                .
                             </p>
                         </div>
                     </div>
@@ -332,6 +336,12 @@ export default function Home() {
                                 </Link>
                                 <Link href="/colors" className="transition-colors hover:text-gray-1000">
                                     Colors
+                                </Link>
+                                <Link href="/theme-generator" className="transition-colors hover:text-gray-1000">
+                                    Theme generator
+                                </Link>
+                                <Link href="/compare" className="transition-colors hover:text-gray-1000">
+                                    Compare
                                 </Link>
                                 <Link href="/built-with" className="transition-colors hover:text-gray-1000">
                                     Built with

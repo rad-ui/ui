@@ -1,6 +1,7 @@
 import { execSync } from 'child_process';
 import { docsNavigationSections } from './docs/docsNavigationSections';
 import { fxComponents, fxNavigationSections } from './fx/fxNavigationSections';
+import { comparisons } from './compare/data';
 
 const getLastModified = (filePath) => {
   try {
@@ -83,6 +84,24 @@ const generateAdditionalPages = () => {
       changeFrequency: 'monthly',
       priority: 0.7,
     },
+    {
+      url: 'https://www.rad-ui.com/theme-generator',
+      lastModified: getLastModified('app/theme-generator'),
+      changeFrequency: 'monthly',
+      priority: 0.8,
+    },
+    {
+      url: 'https://www.rad-ui.com/compare',
+      lastModified: getLastModified('app/compare'),
+      changeFrequency: 'monthly',
+      priority: 0.7,
+    },
+    ...comparisons.map((item) => ({
+      url: `https://www.rad-ui.com/compare/${item.slug}`,
+      lastModified: getLastModified('app/compare/data.ts'),
+      changeFrequency: 'monthly',
+      priority: 0.7,
+    })),
     {
       url: 'https://www.rad-ui.com/showcase/music-app',
       lastModified: getLastModified('app/showcase/music-app'),

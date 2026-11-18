@@ -163,6 +163,18 @@ const UiDocsNavigation = ({ pathname, onNavigate }: { pathname: string | null; o
                     <NavGroup title="All guides" items={guides.items} pathname={pathname} defaultOpen={false} onNavigate={onNavigate} />
                 </div>
             ) : null}
+            <FlatSection
+                section={{
+                    type: 'CATEGORY',
+                    title: 'Tools',
+                    items: [
+                        { title: 'Theme generator', path: '/theme-generator' },
+                        { title: 'Compare libraries', path: '/compare' },
+                    ],
+                }}
+                pathname={pathname}
+                onNavigate={onNavigate}
+            />
             {contributing ? (
                 <div className="mb-6">
                     <SectionLabel>Contributing</SectionLabel>
