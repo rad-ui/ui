@@ -1,10 +1,10 @@
-# Component Coverage Comparison: Rad UI, Radix UI, Base UI, Ark UI, Headless UI
+# Component Coverage Comparison: Rad UI, Radix UI, Ark UI, Headless UI
 
 ## Executive Summary
 
 This document presents a side-by-side comparison of component coverage across modern headless and semi-headless UI libraries:
 
-**Rad UI**, **Radix UI**, **Base UI**, **Ark UI**, and **Headless UI**.
+**Rad UI**, **Radix UI**, **Ark UI**, and **Headless UI**.
 
 The purpose of this document is not to rank or judge libraries, but to:
 
@@ -90,65 +90,65 @@ Different libraries optimize for different tradeoffs. This comparison focuses pu
 
 ## Component Coverage Matrix
 
-| Component                    | Rad UI | Radix UI | Base UI | Ark UI | Headless UI | Priority  |
-| ---------------------------- | ------ | -------- | ------- | ------ | ----------- | --------- |
-| **Layout & Structure**       |        |          |         |        |             |           |
-| Accordion                    | ✅      | ✅        | ✅       | ✅      | ❌           | –         |
-| AspectRatio                  | ✅      | ✅        | ❌       | ❌      | ❌           | –         |
-| Separator                    | ✅      | ✅        | ✅       | ❌      | ❌           | –         |
-| Splitter                     | ✅      | ❌        | ❌       | ✅      | ❌           | –         |
-| Steps                        | ✅      | ❌        | ❌       | ✅      | ❌           | –         |
-| **Navigation**               |        |          |         |        |             |           |
-| Breadcrumb                   | ❌      | ❌        | ✅       | ✅      | ❌           | 🔴 High   |
-| NavigationMenu               | ✅      | ✅        | ❌       | ❌      | ❌           | –         |
-| Menubar                      | ✅      | ✅        | ❌       | ❌      | ❌           | –         |
-| TabNav                       | ✅      | ❌        | ❌       | ❌      | ❌           | –         |
-| Tabs                         | ✅      | ✅        | ✅       | ✅      | ✅           | –         |
-| **Overlays & Dialogs**       |        |          |         |        |             |           |
-| AlertDialog                  | ✅      | ✅        | ✅       | ✅      | ❌           | –         |
-| Dialog                       | ✅      | ✅        | ✅       | ✅      | ✅           | –         |
-| Popover                      | ❌      | ✅        | ✅       | ✅      | ✅           | 🔴 High   |
-| Tooltip                      | ✅      | ✅        | ✅       | ✅      | ❌           | –         |
-| HoverCard                    | ✅      | ✅        | ❌       | ✅      | ❌           | –         |
-| BottomSheet                  | ❌      | ❌        | ❌       | ✅      | ❌           | 🟡 Medium |
-| FloatingPanel                | ❌      | ❌        | ❌       | ✅      | ❌           | 🟡 Medium |
-| **Forms & Inputs**           |        |          |         |        |             |           |
-| Button                       | ✅      | ✅        | ✅       | ✅      | ❌           | –         |
-| Checkbox                     | ✅      | ✅        | ✅       | ✅      | ❌           | –         |
-| CheckboxGroup                | ✅      | ❌        | ✅       | ✅      | ❌           | –         |
-| CheckboxCards                | ✅      | ❌        | ❌       | ❌      | ❌           | –         |
-| Radio                        | ✅      | ✅        | ✅       | ✅      | ❌           | –         |
-| RadioGroup                   | ✅      | ✅        | ✅       | ✅      | ✅           | –         |
-| RadioCards                   | ✅      | ❌        | ❌       | ❌      | ❌           | –         |
-| Switch                       | ✅      | ✅        | ✅       | ✅      | ✅           | –         |
-| Toggle                       | ✅      | ✅        | ✅       | ✅      | ❌           | –         |
-| ToggleGroup                  | ✅      | ✅        | ✅       | ✅      | ❌           | –         |
-| TextArea                     | ✅      | ❌        | ✅       | ✅      | ❌           | –         |
-| NumberField                  | ✅      | ❌        | ✅       | ✅      | ❌           | –         |
-| Select                       | ✅      | ✅        | ✅       | ✅      | ❌           | –         |
-| Combobox                     | ❌      | ❌        | ✅       | ✅      | ✅           | 🔴 High   |
-| DatePicker                   | ❌      | ❌        | ✅       | ✅      | ❌           | 🔴 High   |
-| TimePicker                   | ❌      | ❌        | ✅       | ✅      | ❌           | 🟡 Medium |
-| **Data Display**             |        |          |         |        |             |           |
-| Avatar                       | ✅      | ✅        | ✅       | ✅      | ❌           | –         |
-| AvatarGroup                  | ✅      | ❌        | ❌       | ❌      | ❌           | –         |
-| Badge                        | ✅      | ❌        | ✅       | ❌      | ❌           | –         |
-| Card                         | ✅      | ❌        | ✅       | ❌      | ❌           | –         |
-| Table                        | ✅      | ❌        | ✅       | ✅      | ❌           | –         |
-| Skeleton                     | ✅      | ❌        | ❌       | ❌      | ❌           | –         |
-| **Feedback & Notifications** |        |          |         |        |             |           |
-| Toast                        | ❌      | ✅        | ✅       | ✅      | ❌           | 🔴 High   |
-| Callout                      | ✅      | ❌        | ❌       | ❌      | ❌           | –         |
-| **Typography**               |        |          |         |        |             |           |
-| Heading                      | ✅      | ❌        | ❌       | ❌      | ❌           | –         |
-| Text                         | ✅      | ❌        | ❌       | ❌      | ❌           | –         |
-| Code                         | ✅      | ❌        | ❌       | ❌      | ❌           | –         |
-| Kbd                          | ✅      | ❌        | ❌       | ❌      | ❌           | –         |
-| Em                           | ✅      | ❌        | ❌       | ❌      | ❌           | –         |
-| Strong                       | ✅      | ❌        | ❌       | ❌      | ❌           | –         |
-| BlockQuote                   | ✅      | ❌        | ❌       | ❌      | ❌           | –         |
-| Quote                        | ✅      | ❌        | ❌       | ❌      | ❌           | –         |
-| Link                         | ✅      | ❌        | ❌       | ❌      | ❌           | –         |
+| Component                    | Rad UI | Radix UI | Ark UI | Headless UI | Priority  |
+| ---------------------------- | ------ | -------- | ------ | ----------- | --------- |
+| **Layout & Structure**       |        |          |        |             |           |
+| Accordion                    | ✅      | ✅        | ✅      | ❌           | –         |
+| AspectRatio                  | ✅      | ✅        | ❌      | ❌           | –         |
+| Separator                    | ✅      | ✅        | ❌      | ❌           | –         |
+| Splitter                     | ✅      | ❌        | ✅      | ❌           | –         |
+| Steps                        | ✅      | ❌        | ✅      | ❌           | –         |
+| **Navigation**               |        |          |        |             |           |
+| Breadcrumb                   | ❌      | ❌        | ✅      | ❌           | 🔴 High   |
+| NavigationMenu               | ✅      | ✅        | ❌      | ❌           | –         |
+| Menubar                      | ✅      | ✅        | ❌      | ❌           | –         |
+| TabNav                       | ✅      | ❌        | ❌      | ❌           | –         |
+| Tabs                         | ✅      | ✅        | ✅      | ✅           | –         |
+| **Overlays & Dialogs**       |        |          |        |             |           |
+| AlertDialog                  | ✅      | ✅        | ✅      | ❌           | –         |
+| Dialog                       | ✅      | ✅        | ✅      | ✅           | –         |
+| Popover                      | ❌      | ✅        | ✅      | ✅           | 🔴 High   |
+| Tooltip                      | ✅      | ✅        | ✅      | ❌           | –         |
+| HoverCard                    | ✅      | ✅        | ✅      | ❌           | –         |
+| BottomSheet                  | ❌      | ❌        | ✅      | ❌           | 🟡 Medium |
+| FloatingPanel                | ❌      | ❌        | ✅      | ❌           | 🟡 Medium |
+| **Forms & Inputs**           |        |          |        |             |           |
+| Button                       | ✅      | ✅        | ✅      | ❌           | –         |
+| Checkbox                     | ✅      | ✅        | ✅      | ❌           | –         |
+| CheckboxGroup                | ✅      | ❌        | ✅      | ❌           | –         |
+| CheckboxCards                | ✅      | ❌        | ❌      | ❌           | –         |
+| Radio                        | ✅      | ✅        | ✅      | ❌           | –         |
+| RadioGroup                   | ✅      | ✅        | ✅      | ✅           | –         |
+| RadioCards                   | ✅      | ❌        | ❌      | ❌           | –         |
+| Switch                       | ✅      | ✅        | ✅      | ✅           | –         |
+| Toggle                       | ✅      | ✅        | ✅      | ❌           | –         |
+| ToggleGroup                  | ✅      | ✅        | ✅      | ❌           | –         |
+| TextArea                     | ✅      | ❌        | ✅      | ❌           | –         |
+| NumberField                  | ✅      | ❌        | ✅      | ❌           | –         |
+| Select                       | ✅      | ✅        | ✅      | ❌           | –         |
+| Combobox                     | ❌      | ❌        | ✅      | ✅           | 🔴 High   |
+| DatePicker                   | ❌      | ❌        | ✅      | ❌           | 🔴 High   |
+| TimePicker                   | ❌      | ❌        | ✅      | ❌           | 🟡 Medium |
+| **Data Display**             |        |          |        |             |           |
+| Avatar                       | ✅      | ✅        | ✅      | ❌           | –         |
+| AvatarGroup                  | ✅      | ❌        | ❌      | ❌           | –         |
+| Badge                        | ✅      | ❌        | ❌      | ❌           | –         |
+| Card                         | ✅      | ❌        | ❌      | ❌           | –         |
+| Table                        | ✅      | ❌        | ✅      | ❌           | –         |
+| Skeleton                     | ✅      | ❌        | ❌      | ❌           | –         |
+| **Feedback & Notifications** |        |          |        |             |           |
+| Toast                        | ❌      | ✅        | ✅      | ❌           | 🔴 High   |
+| Callout                      | ✅      | ❌        | ❌      | ❌           | –         |
+| **Typography**               |        |          |        |             |           |
+| Heading                      | ✅      | ❌        | ❌      | ❌           | –         |
+| Text                         | ✅      | ❌        | ❌      | ❌           | –         |
+| Code                         | ✅      | ❌        | ❌      | ❌           | –         |
+| Kbd                          | ✅      | ❌        | ❌      | ❌           | –         |
+| Em                           | ✅      | ❌        | ❌      | ❌           | –         |
+| Strong                       | ✅      | ❌        | ❌      | ❌           | –         |
+| BlockQuote                   | ✅      | ❌        | ❌      | ❌           | –         |
+| Quote                        | ✅      | ❌        | ❌      | ❌           | –         |
+| Link                         | ✅      | ❌        | ❌      | ❌           | –         |
 
 ---
 
@@ -159,39 +159,39 @@ The following components appear across multiple libraries and represent patterns
 ### 🔴 High Priority
 
 1. **Popover**
-   Present in Radix UI, Base UI, Ark UI, Headless UI
+   Present in Radix UI, Ark UI, Headless UI
 
 2. **Combobox**
-   Present in Base UI, Ark UI, Headless UI
+   Present in Ark UI, Headless UI
 
 3. **DatePicker**
-   Present in Base UI, Ark UI
+   Present in Ark UI
 
 4. **Toast**
-   Present in Radix UI, Base UI, Ark UI
+   Present in Radix UI, Ark UI
 
 5. **Pagination**
-   Present in Base UI, Ark UI
+   Present in Ark UI
 
 6. **Breadcrumb**
-   Present in Base UI, Ark UI
+   Present in Ark UI
 
 ---
 
 ## Coverage Summary by Category
 
-| Category           | Rad UI | Radix UI | Base UI | Ark UI | Headless UI |
-| ------------------ | ------ | -------- | ------- | ------ | ----------- |
-| Layout & Structure | 5      | 2        | 1       | 2      | 0           |
-| Navigation         | 4      | 2        | 1       | 2      | 1           |
-| Overlays & Dialogs | 5      | 4        | 3       | 6      | 2           |
-| Forms & Inputs     | 18     | 7        | 15      | 20     | 3           |
-| Data Display       | 8      | 1        | 3       | 6      | 0           |
-| Menus              | 3      | 2        | 2       | 3      | 2           |
-| Feedback           | 1      | 1        | 1       | 1      | 0           |
-| Typography         | 9      | 0        | 0       | 0      | 0           |
-| Utilities          | 7      | 3        | 0       | 10     | 1           |
-| **Total**          | **54** | **22**   | **25**  | **50** | **9**       |
+| Category           | Rad UI | Radix UI | Ark UI | Headless UI |
+| ------------------ | ------ | -------- | ------ | ----------- |
+| Layout & Structure | 5      | 2        | 2      | 0           |
+| Navigation         | 4      | 2        | 2      | 1           |
+| Overlays & Dialogs | 5      | 4        | 6      | 2           |
+| Forms & Inputs     | 18     | 7        | 20     | 3           |
+| Data Display       | 8      | 1        | 6      | 0           |
+| Menus              | 3      | 2        | 3      | 2           |
+| Feedback           | 1      | 1        | 1      | 0           |
+| Typography         | 9      | 0        | 0      | 0           |
+| Utilities          | 7      | 3        | 10     | 1           |
+| **Total**          | **54** | **22**   | **50** | **9**       |
 
 ---
 
