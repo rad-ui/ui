@@ -13,6 +13,7 @@
     "postbuild": "node scripts/check-static-pages.mjs",
     "start": "next start",
     "check:examples": "tsc -p tsconfig.examples.json --noEmit",
+    "test": "node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON --test utils/theme-generator/scale.test.mjs",
     "check:boundary": "node scripts/check-docs-boundary.mjs",
     "check:static": "node scripts/check-static-pages.mjs",
     "registry:build": "node scripts/build-registry.mjs",
