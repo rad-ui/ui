@@ -4,10 +4,12 @@ import FullHeightScroll from '@/components/layout/ScrollContainers/FullHeightScr
 import generateSeoMetadata from "@/utils/seo/generateSeoMetadata"
 
 export const metadata = generateSeoMetadata({
-  title: "Colors - Rad UI",
-  description: "Explore Rad UI color families, accessible token scales, and component specimens for React design systems.",
+  title: "Colors: 31 color palettes with hex codes",
+  description: "31 color palettes with 12 shades each, in light and dark mode. Copy any hex code, use them as CSS variables or Tailwind classes, and keep text readable.",
   keywords: [
     "Rad UI colors",
+    "rad colors",
+    "color palette hex codes",
     "React color tokens",
     "accessible color scale",
     "design system colors",
