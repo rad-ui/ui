@@ -8,6 +8,11 @@ export type CaseStudy = {
     href: string
     /** One line for the card. */
     summary: string
+    /** Logo and a screenshot of the live site, in /public/case-studies. */
+    logo: string
+    shot: string
+    /** What kind of product, for the card's label. */
+    kind: string
     /** Rad UI components the product uses. */
     components: string[]
     /** Question-and-answer sections, in order. Each answer is a list of paragraphs. */
@@ -19,6 +24,9 @@ export type CaseStudy = {
 export const caseStudies: CaseStudy[] = [
     {
         slug: "razzle",
+        logo: "/case-studies/logos/razzle.svg",
+        shot: "/case-studies/shots/razzle.jpg",
+        kind: "Marketing SaaS",
         name: "Razzle",
         href: "https://getrazzle.com",
         summary: "A browser tool for making Instagram Reels and carousels, getting them approved and scheduling them.",
@@ -73,9 +81,12 @@ export const caseStudies: CaseStudy[] = [
     },
     {
         slug: "fpv-grind",
+        logo: "/case-studies/logos/fpv-grind.svg",
+        shot: "/case-studies/shots/fpv-grind.jpg",
+        kind: "E-commerce + 3D sim",
         name: "FPV Grind",
         href: "https://www.fpvgrind.in",
-        summary: "An online store for FPV drone parts in India, with build guides and a blog.",
+        summary: "A store for FPV drone parts in India with a free 3D FPV simulator in the browser, a move dictionary and a weekly sim race.",
         components: ["Button", "TextField", "TextArea", "Select", "Slider", "Checkbox", "Dialog", "Drawer"],
         sections: [
             {
@@ -102,6 +113,9 @@ export const caseStudies: CaseStudy[] = [
     },
     {
         slug: "fiery-panda-studios",
+        logo: "/case-studies/logos/fiery-panda.png",
+        shot: "/case-studies/shots/fiery-panda.jpg",
+        kind: "Game studio site",
         name: "Fiery Panda Studios",
         href: "https://fierypandastudios.com",
         summary: "The website of an indie game studio in Hyderabad making pixel-art action games in Godot.",
@@ -134,6 +148,9 @@ export const caseStudies: CaseStudy[] = [
     },
     {
         slug: "paudho",
+        logo: "/case-studies/logos/paudho.svg",
+        shot: "/case-studies/shots/paudho.jpg",
+        kind: "Gardening app",
         name: "Paudho",
         href: "https://www.paudho.com",
         summary: "Gardening help for terraces, balconies and small farms in India: what to plant, when, and how.",
@@ -171,6 +188,9 @@ export const caseStudies: CaseStudy[] = [
     },
     {
         slug: "awelgorithms",
+        logo: "/case-studies/logos/awelgorithms.svg",
+        shot: "/case-studies/shots/awelgorithms.jpg",
+        kind: "Learning platform",
         name: "Awelgorithms",
         href: "https://www.awelgorithms.com",
         summary: "A place to learn algorithms that measures your skill and unlocks practice problems as you improve.",
