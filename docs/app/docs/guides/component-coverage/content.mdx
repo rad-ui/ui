@@ -99,7 +99,7 @@ Different libraries optimize for different tradeoffs. This comparison focuses pu
 | Splitter                     | ✅      | ❌        | ✅      | ❌           | –         |
 | Steps                        | ✅      | ❌        | ✅      | ❌           | –         |
 | **Navigation**               |        |          |        |             |           |
-| Breadcrumb                   | ❌      | ❌        | ✅      | ❌           | 🔴 High   |
+| Breadcrumb                   | ✅      | ❌        | ✅      | ❌           | –         |
 | NavigationMenu               | ✅      | ✅        | ❌      | ❌           | –         |
 | Menubar                      | ✅      | ✅        | ❌      | ❌           | –         |
 | TabNav                       | ✅      | ❌        | ❌      | ❌           | –         |
@@ -107,7 +107,7 @@ Different libraries optimize for different tradeoffs. This comparison focuses pu
 | **Overlays & Dialogs**       |        |          |        |             |           |
 | AlertDialog                  | ✅      | ✅        | ✅      | ❌           | –         |
 | Dialog                       | ✅      | ✅        | ✅      | ✅           | –         |
-| Popover                      | ❌      | ✅        | ✅      | ✅           | 🔴 High   |
+| Popover                      | ✅      | ✅        | ✅      | ✅           | –         |
 | Tooltip                      | ✅      | ✅        | ✅      | ❌           | –         |
 | HoverCard                    | ✅      | ✅        | ✅      | ❌           | –         |
 | BottomSheet                  | ❌      | ❌        | ✅      | ❌           | 🟡 Medium |
@@ -126,7 +126,7 @@ Different libraries optimize for different tradeoffs. This comparison focuses pu
 | TextArea                     | ✅      | ❌        | ✅      | ❌           | –         |
 | NumberField                  | ✅      | ❌        | ✅      | ❌           | –         |
 | Select                       | ✅      | ✅        | ✅      | ❌           | –         |
-| Combobox                     | ❌      | ❌        | ✅      | ✅           | 🔴 High   |
+| Combobox                     | ✅      | ❌        | ✅      | ✅           | –         |
 | DatePicker                   | ❌      | ❌        | ✅      | ❌           | 🔴 High   |
 | TimePicker                   | ❌      | ❌        | ✅      | ❌           | 🟡 Medium |
 | **Data Display**             |        |          |        |             |           |
@@ -137,7 +137,7 @@ Different libraries optimize for different tradeoffs. This comparison focuses pu
 | Table                        | ✅      | ❌        | ✅      | ❌           | –         |
 | Skeleton                     | ✅      | ❌        | ❌      | ❌           | –         |
 | **Feedback & Notifications** |        |          |        |             |           |
-| Toast                        | ❌      | ✅        | ✅      | ❌           | 🔴 High   |
+| Toast                        | ✅      | ✅        | ✅      | ❌           | –         |
 | Callout                      | ✅      | ❌        | ❌      | ❌           | –         |
 | **Typography**               |        |          |        |             |           |
 | Heading                      | ✅      | ❌        | ❌      | ❌           | –         |
@@ -158,23 +158,13 @@ The following components appear across multiple libraries and represent patterns
 
 ### 🔴 High Priority
 
-1. **Popover**
-   Present in Radix UI, Ark UI, Headless UI
-
-2. **Combobox**
-   Present in Ark UI, Headless UI
-
-3. **DatePicker**
+1. **DatePicker**
    Present in Ark UI
 
-4. **Toast**
-   Present in Radix UI, Ark UI
-
-5. **Pagination**
+2. **Pagination**
    Present in Ark UI
 
-6. **Breadcrumb**
-   Present in Ark UI
+Popover, Combobox, Toast and Breadcrumb were on this list and have since shipped in Rad UI.
 
 ---
 
@@ -183,15 +173,15 @@ The following components appear across multiple libraries and represent patterns
 | Category           | Rad UI | Radix UI | Ark UI | Headless UI |
 | ------------------ | ------ | -------- | ------ | ----------- |
 | Layout & Structure | 5      | 2        | 2      | 0           |
-| Navigation         | 4      | 2        | 2      | 1           |
-| Overlays & Dialogs | 5      | 4        | 6      | 2           |
-| Forms & Inputs     | 18     | 7        | 20     | 3           |
+| Navigation         | 5      | 2        | 2      | 1           |
+| Overlays & Dialogs | 6      | 4        | 6      | 2           |
+| Forms & Inputs     | 19     | 7        | 20     | 3           |
 | Data Display       | 8      | 1        | 6      | 0           |
 | Menus              | 3      | 2        | 3      | 2           |
-| Feedback           | 1      | 1        | 1      | 0           |
+| Feedback           | 2      | 1        | 1      | 0           |
 | Typography         | 9      | 0        | 0      | 0           |
 | Utilities          | 7      | 3        | 10     | 1           |
-| **Total**          | **54** | **22**   | **50** | **9**       |
+| **Total**          | **58** | **22**   | **50** | **9**       |
 
 ---
 
@@ -206,9 +196,8 @@ The following components appear across multiple libraries and represent patterns
 
 ## Opportunities for Expansion
 
-* Add commonly expected overlay patterns (Popover, Toast)
-* Expand date and time input coverage
-* Improve data navigation patterns (Pagination, Breadcrumb)
+* Expand date and time input coverage (DatePicker, TimePicker)
+* Add Pagination for data navigation
 * Introduce optional animation and transition primitives
 
 ---
@@ -229,11 +218,7 @@ We welcome contributions to Rad UI! If you're interested in helping expand our c
 
 The following components are marked as high priority and would be great contributions:
 
-- **Popover** - A versatile overlay component for displaying content relative to a trigger
-- **Combobox** - An autocomplete input with dropdown suggestions
 - **DatePicker** - Date selection component with calendar interface
-- **Toast** - Notification system for user feedback
-- **Breadcrumb** - Navigation component showing hierarchical path
 - **Pagination** - Component for navigating through paginated content
 
 ### How to Contribute
