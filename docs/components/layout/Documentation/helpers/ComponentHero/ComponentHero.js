@@ -58,7 +58,7 @@ const ComponentHero = ({ children, title = '', codeUsage = {} }) => {
         )}
         <div className={docsSurfaceClassName}>
             <div className="flex flex-wrap items-center gap-x-3 gap-y-2 border-b border-gray-300 bg-gray-100 px-3 py-2">
-                <span className="font-mono text-[0.65rem] font-semibold uppercase tracking-[0.16em] text-gray-950">Preview</span>
+                <span className="font-mono text-[0.65rem] font-semibold uppercase tracking-[0.16em] text-gray-950">Example</span>
                 <div className="ml-auto flex flex-wrap items-center gap-2">
                     <ToggleGroup.Root
                         type="single"
