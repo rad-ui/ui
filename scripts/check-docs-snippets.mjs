@@ -34,6 +34,10 @@ const PLACEHOLDER_SUBPATHS = new Set(['Component', 'ComponentName']);
 
 const SCANNED_EXTENSIONS = new Set(['.mdx', '.md', '.tsx', '.ts', '.js', '.jsx']);
 const IGNORED_DIRS = new Set(['node_modules', '.next', 'dist', '.git']);
+// Build tooling, not copy-paste snippets: it reads the package's own files.
+const IGNORED_PATHS = [path.join(DOCS_ROOT, 'scripts')];
+// Comparison pages show other libraries' install commands on purpose.
+const OTHER_PACKAGE_INSTALLS_ALLOWED = [path.join(DOCS_ROOT, 'app', 'compare')];
 
 const IMPORT_PATTERN = /@radui\/ui(?:\/([^'"\s]+))?/g;
 const INSTALL_PATTERN = /(?:npm install|pnpm add|yarn add|bun add)(?:\s+[-\w]+)*\s+(@[^\s;]+)/g;
@@ -47,6 +51,10 @@ function walk(dir, files = []) {
     }
 
     const fullPath = path.join(dir, entry.name);
+
+    if (IGNORED_PATHS.includes(fullPath)) {
+      continue;
+    }
 
     if (entry.isDirectory()) {
       walk(fullPath, files);
@@ -71,7 +79,8 @@ function validateImport(file, lineNumber, subpath) {
     return;
   }
 
-  const normalized = subpath.replace(/^[`([{]+/, '').replace(/[`)\]},.;:]+$/g, '');
+  // Cut at the first '<' so a path inside markup (`themes/default.css</code>`) reads as the path.
+  const normalized = subpath.split('<')[0].replace(/^[`([{]+/, '').replace(/[`)\]},.;:]+$/g, '');
   const exportPath = normalized.split('?')[0];
 
   if (ALLOWED_SUBPATHS.has(exportPath) || PLACEHOLDER_SUBPATHS.has(normalized)) {
@@ -90,6 +99,10 @@ function validateImport(file, lineNumber, subpath) {
 }
 
 function validateInstall(file, lineNumber, packageName) {
+  if (OTHER_PACKAGE_INSTALLS_ALLOWED.some((dir) => file.startsWith(dir + path.sep))) {
+    return;
+  }
+
   const normalized = packageName.replace(/['",;]+$/, '');
 
   if (normalized !== PACKAGE_NAME && !normalized.startsWith(`${PACKAGE_NAME}@`)) {

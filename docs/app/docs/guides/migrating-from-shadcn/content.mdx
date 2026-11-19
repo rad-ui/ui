@@ -1,0 +1,152 @@
+# Migrating from shadcn/ui to Rad UI
+
+shadcn/ui copies Radix-based component files into your repo and styles them with Tailwind. Rad UI is a package you install: the same compound-part model (`Root`, `Trigger`, `Content`, `asChild`, `data-state`), with the components maintained for you and three ways to style them. Most screens move over by changing imports and part names, one component at a time.
+
+## Why teams switch
+
+- **No copied code to maintain.** Fixes and new components arrive with `npm update` instead of re-running a generator and merging by hand.
+- **Styling is your choice.** Use the Clarity theme, the Tailwind preset, or style the `data-*` attributes yourself.
+- **Same mental model.** If you know shadcn's Dialog, you already know Rad UI's: parts, `asChild`, and state on the element.
+
+If you're still deciding, see [Rad UI vs shadcn/ui](/compare/shadcn-ui).
+
+## 1. Install
+
+```bash
+npm install @radui/ui
+```
+
+## 2. Pick how you'll style it
+
+| Path | Pick it when | Setup |
+| --- | --- | --- |
+| **Tailwind preset** | You're on Tailwind, as most shadcn apps are | `@import "@radui/ui/themes/tailwind-presets/default.css"` after `tailwindcss` in your global CSS |
+| **Clarity theme** | You want finished-looking components now | `import "@radui/ui/themes/default.css"` and wrap the app in `Theme classNamespace="rad-ui"` |
+| **Headless** | You'll keep your own look | Nothing: style the parts and their `data-*` attributes with any CSS |
+
+Details: [Installation](/docs/first-steps/installation) and [Styling and customization](/docs/guides/styling-and-customization).
+
+## 3. Move one component at a time
+
+shadcn components and Rad UI components work side by side, so you don't need a big-bang rewrite. A good order: leaf components first (Button, Badge, Avatar, Separator), then form controls (Checkbox, Switch, Select), then overlays (Dialog, Popover, DropdownMenu, Tooltip). Delete each `components/ui/*.tsx` file once nothing imports it.
+
+### Before and after: Dialog
+
+shadcn/ui:
+
+```tsx
+import { Button } from "@/components/ui/button";
+import {
+  Dialog, DialogContent, DialogDescription, DialogFooter,
+  DialogHeader, DialogTitle, DialogTrigger, DialogClose,
+} from "@/components/ui/dialog";
+
+<Dialog>
+  <DialogTrigger asChild>
+    <Button variant="outline">Edit profile</Button>
+  </DialogTrigger>
+  <DialogContent>
+    <DialogHeader>
+      <DialogTitle>Edit profile</DialogTitle>
+      <DialogDescription>Make changes to your profile.</DialogDescription>
+    </DialogHeader>
+    {/* form */}
+    <DialogFooter>
+      <DialogClose asChild><Button>Save</Button></DialogClose>
+    </DialogFooter>
+  </DialogContent>
+</Dialog>
+```
+
+Rad UI:
+
+```tsx
+import Button from "@radui/ui/Button";
+import Dialog from "@radui/ui/Dialog";
+
+<Dialog.Root>
+  <Dialog.Trigger asChild>
+    <Button variant="outline">Edit profile</Button>
+  </Dialog.Trigger>
+  <Dialog.Portal>
+    <Dialog.Overlay />
+    <Dialog.Content>
+      <Dialog.Title>Edit profile</Dialog.Title>
+      <Dialog.Description>Make changes to your profile.</Dialog.Description>
+      {/* form */}
+      <Dialog.Footer>
+        <Dialog.Close asChild><Button>Save</Button></Dialog.Close>
+      </Dialog.Footer>
+    </Dialog.Content>
+  </Dialog.Portal>
+</Dialog.Root>
+```
+
+What changed: one import per component, parts are properties (`Dialog.Title` instead of `DialogTitle`), and the portal and overlay are explicit parts you can style or leave out. shadcn's `DialogHeader` is a styled `div`; use your own wrapper or none.
+
+## Component map
+
+| shadcn/ui | Rad UI | Parts |
+| --- | --- | --- |
+| Accordion | `Accordion` | `Root`, `Item`, `Header`, `Trigger`, `Content` |
+| Alert Dialog | `AlertDialog` | `Root`, `Trigger`, `Portal`, `Overlay`, `Content`, `Title`, `Description`, `Footer`, `Cancel`, `Action` |
+| Avatar | `Avatar` | `Root`, `Image`, `Fallback` |
+| Badge | `Badge` | single component |
+| Breadcrumb | `Breadcrumb` | see its page |
+| Button | `Button` | single component, `variant` and `size` props |
+| Card | `Card` | `Root`, `Header`, `Title`, `Description`, `Action`, `Content`, `Footer` |
+| Checkbox | `Checkbox` | `Root`, `Indicator` |
+| Collapsible | `Collapsible` | see its page |
+| Command | `Command` | in preview |
+| Context Menu | `ContextMenu` | see its page |
+| Dialog | `Dialog` | `Root`, `Trigger`, `Portal`, `Overlay`, `Content`, `Title`, `Description`, `Footer`, `Close` |
+| Dropdown Menu | `DropdownMenu` | `Root`, `Trigger`, `Portal`, `Content`, `Item`, `Group`, `GroupLabel`, `Separator`, `CheckboxItem`, `RadioGroup`, `RadioItem`, `ItemIndicator`, `Sub`, `SubTrigger`, `Arrow` |
+| Hover Card | `HoverCard` | see its page |
+| Input | `TextField` | see its page |
+| Input OTP | `OTPField` | see its page |
+| Label | `Label` | single component |
+| Menubar | `Menubar` | see its page |
+| Navigation Menu | `NavigationMenu` | see its page |
+| Popover | `Popover` | `Root`, `Trigger`, `Anchor`, `Portal`, `Content`, `Title`, `Description`, `Close`, `Arrow` |
+| Progress | `Progress` | see its page |
+| Radio Group | `RadioGroup` | `Root`, `Item`, `Indicator`, `Label` |
+| Resizable | `Splitter` | see its page |
+| Scroll Area | `ScrollArea` | see its page |
+| Select | `Select` | `Root`, `Trigger`, `Value`, `Icon`, `Portal`, `Content`, `Group`, `GroupLabel`, `Item`, `Indicator`, `Separator`, `Label`, `ScrollUpArrow`, `ScrollDownArrow` |
+| Separator | `Separator` | single component |
+| Sheet | `Drawer` | see its page |
+| Skeleton | `Skeleton` | single component |
+| Slider | `Slider` | `Root`, `Track`, `Range`, `Thumb`, `Marks`, `Value`, plus `RangeSlider` |
+| Sonner / Toast | `Toast` | `Provider`, `Viewport`, `Root`, `Title`, `Description`, `Action`, `Close` |
+| Switch | `Switch` | `Root`, `Thumb` |
+| Table | `Table` | `Root`, `Head`, `Body`, `Row`, `ColumnCellHeader`, `Cell` |
+| Tabs | `Tabs` | `Root`, `List`, `Trigger`, `Content`, `Indicator` |
+| Textarea | `TextArea` | see its page |
+| Toggle | `Toggle` | single component |
+| Toggle Group | `ToggleGroup` | `Root`, `Item` |
+| Tooltip | `Tooltip` | `Provider`, `Root`, `Trigger`, `Content` |
+
+Every component is imported from its own path, for example `import Select from "@radui/ui/Select"`. Each component's page in these docs has the full API and examples.
+
+## Not one-to-one
+
+- **Form:** shadcn's Form wraps react-hook-form. Rad UI has its own `Form` and `Field` primitives for labels, descriptions and errors; you can keep react-hook-form for state and render Rad UI fields.
+- **Data Table:** shadcn's data table is TanStack Table plus its Table component. Keep TanStack for sorting and filtering and render with Rad UI's `Table`.
+- **Calendar, Date Picker, Chart, Carousel, Sidebar, Pagination:** no Rad UI equivalent yet. Keep those shadcn components; they work alongside Rad UI. See [component coverage](/docs/guides/component-coverage).
+
+## Restyling
+
+Rad UI parts expose their state the same way Radix does, so most of your Tailwind state variants carry over:
+
+```tsx
+<Dialog.Overlay className="fixed inset-0 bg-black/50 data-[state=open]:animate-in" />
+```
+
+Every element with a `data-state` also gets a boolean attribute (`data-open`, `data-checked`), so `data-open:opacity-100` works too. `className` is passed through on every part.
+
+## Checklist
+
+- [ ] `@radui/ui` installed and one styling path set up
+- [ ] Components moved one at a time; each old `components/ui` file deleted when unused
+- [ ] Keyboard check on every overlay you moved: Tab, Shift+Tab, Esc, focus returns to the trigger
+- [ ] `class-variance-authority` and `tailwind-merge` removed if nothing else uses them
