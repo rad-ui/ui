@@ -86,6 +86,11 @@ const nextConfig = {
                 destination: '/docs/guides/internationalization',
                 permanent: true,
             },
+            {
+                source: '/built-with',
+                destination: '/case-studies',
+                permanent: true,
+            },
         ]
     },
 

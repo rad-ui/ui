@@ -1,6 +1,7 @@
 import { execSync } from 'child_process';
 import { docsNavigationSections } from './docs/docsNavigationSections';
 import { fxComponents, fxNavigationSections } from './fx/fxNavigationSections';
+import { caseStudies } from './case-studies/studies';
 import { comparisons } from './compare/data';
 
 const getLastModified = (filePath) => {
@@ -132,11 +133,17 @@ const generateAdditionalPages = () => {
 export default function sitemap() {
   return [
     {
-      url: 'https://www.rad-ui.com/built-with',
-      lastModified: getLastModified('app/built-with/page.tsx'),
+      url: 'https://www.rad-ui.com/case-studies',
+      lastModified: getLastModified('app/case-studies/studies.ts'),
       changeFrequency: 'monthly',
       priority: 0.6,
     },
+    ...caseStudies.map((study) => ({
+      url: `https://www.rad-ui.com/case-studies/${study.slug}`,
+      lastModified: getLastModified('app/case-studies/studies.ts'),
+      changeFrequency: 'monthly',
+      priority: 0.5,
+    })),
     {
       url: 'https://www.rad-ui.com',
       lastModified: getLastModified('app/page.tsx') || getLastModified('app/page.js'),

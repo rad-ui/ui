@@ -6,6 +6,7 @@ const KICKERS: [prefix: string, kicker: string][] = [
     ["/docs/contributing", "Contributing"],
     ["/docs", "Docs"],
     ["/showcase", "Showcase · Built with Rad UI"],
+    ["/case-studies", "Case studies · Built with Rad UI"],
     ["/playground", "Playground"],
 ]
 
