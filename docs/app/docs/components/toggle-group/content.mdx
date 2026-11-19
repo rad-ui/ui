@@ -5,13 +5,18 @@ import ToggleGroupExample from "./docs/examples/ToggleGroupExample"
 
 <Documentation 
     title={`Toggle Group`} 
-    description={`
-        ToggleGroup is a component that allows you to group multiple toggles together. Useful for when you want to allow users to select multiple options. For example, a user can select multiple filters for a search.
-    `}
+    description="A set of toggles where one or several can be pressed at once. One tab stop; arrow keys move between items."
 >
     <Documentation.ComponentHero codeUsage={codeUsage}>
         <ToggleGroupExample/>
     </Documentation.ComponentHero>
+
+    <Documentation.ComponentFeatures features={[
+        "type=\"single\" presses one item at a time; type=\"multiple\" allows several",
+        "One tab stop with roving focus; arrow keys move between items, with loop",
+        "Controlled with value and onValueChange, or uncontrolled with defaultValue",
+        "Items carry aria-pressed and data-state=\"on\"; iconOnly tightens the padding"
+    ]} />
     <Documentation.ApiReference
         title="API Documentation"
         tables={api_documentation}

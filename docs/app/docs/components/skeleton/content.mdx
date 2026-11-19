@@ -10,6 +10,12 @@ import { code, anatomy, api_documentation } from "./docs/codeUsage"
         <SkeletonExample />
     </Documentation.ComponentHero>
 
+    <Documentation.ComponentFeatures features={[
+        "Draws a placeholder in the shape of the content, with width, height and radius props",
+        "When loading is false it renders its children instead, so the layout does not jump",
+        "Pulses by default and stops under prefers-reduced-motion"
+    ]} />
+
     <Documentation.ApiReference
         anatomy={anatomy.code}
         tables={api_documentation}

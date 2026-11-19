@@ -8,13 +8,21 @@ import {code, anatomy, ariaReferences, keyboardShortcuts, api_documentation} fro
 
 <Documentation
     title={`Accordion`}
-    description='Accordions are a common UX pattern that can help reduce the amount of information presented to users. They are used to toggle the visibility of content, condensing information and reducing clutter.'
+    description="Stacked sections that expand and collapse. One open at a time, or several; the headers are one tab stop and arrow keys move between them."
 >
 
     {/* Component Hero */}
     <Documentation.ComponentHero codeUsage={code}>
         <AccordionExample />
     </Documentation.ComponentHero>
+
+    <Documentation.ComponentFeatures features={[
+        "type=\"single\" opens one section at a time; type=\"multiple\" lets several stay open",
+        "collapsible lets the open section in single mode close again",
+        "Arrow keys move between headers; Enter and Space toggle",
+        "hiddenUntilFound keeps closed content searchable with the browser's find",
+        "Exposes data-state and data-orientation for styling and animation"
+    ]} />
 
     <Documentation.ApiReference
         anatomy={anatomy.code}

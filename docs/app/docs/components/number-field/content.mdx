@@ -10,6 +10,14 @@ import { code, anatomy, api_documentation, ariaReferences, keyboardShortcuts } f
         <NumberFieldExample />
     </Documentation.ComponentHero>
 
+    <Documentation.ComponentFeatures features={[
+        "Increment and decrement buttons; largeStep and smallStep for coarser and finer steps",
+        "Parses and formats with Intl.NumberFormat for the given locale",
+        "min, max and step clamp and snap the value; allowOutOfRange turns clamping off",
+        "A scrub area changes the value by dragging; allowWheelScrub does it with the wheel",
+        "Submits the parsed number under name; works inside Field.Root"
+    ]} />
+
     <Documentation.Table title="Keyboard Interactions" columns={keyboardShortcuts.columns} data={keyboardShortcuts.data} />
 
     <Documentation.Table title="ARIA References" columns={ariaReferences.columns} data={ariaReferences.data} />

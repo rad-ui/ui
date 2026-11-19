@@ -20,6 +20,15 @@ import {
         <DrawerExample />
     </Documentation.ComponentHero>
 
+    <Documentation.ComponentFeatures features={[
+        "Docks to the left, right, top or bottom; the swipe direction follows the side",
+        "Drag to close, with snap points for partially open positions",
+        "Modal by default: focus trapped, scroll locked, Escape and outside press dismiss",
+        "Non-modal mode keeps the page usable with the drawer open",
+        "onOpenChange receives the reason and can cancel a close",
+        "Portal rendering, focus returned to the trigger, data-state for transitions"
+    ]} />
+
     <Documentation.ApiReference
         anatomy={anatomy.code}
         tables={api_documentation}

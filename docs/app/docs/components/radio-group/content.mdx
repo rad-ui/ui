@@ -10,6 +10,13 @@ import { code, anatomy, ariaReferences, keyboardShortcuts, api_documentation } f
         <RadioGroupExample />
     </Documentation.ComponentHero>
 
+    <Documentation.ComponentFeatures features={[
+        "One tab stop for the group; arrow keys move the selection, Home and End jump",
+        "Controlled with value and onValueChange, or uncontrolled with defaultValue",
+        "A hidden input submits the value under name, honours required and resets with the form",
+        "readOnly shows the selection without letting it change; works inside Field.Root"
+    ]} />
+
     <Documentation.ApiReference
         anatomy={anatomy.code}
         tables={api_documentation}

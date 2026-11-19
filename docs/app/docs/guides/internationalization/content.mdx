@@ -1,23 +1,42 @@
-# Internationalization and locale-sensitive formatting
+# Internationalization
 
-Rad UI components are **headless** and **do not** ship translated strings. Applications own translations and locale selection.
+Rad UI ships almost no text and no locale logic. Your app owns translations, formatting and the reading direction; the library makes sure the direction reaches every component.
 
-## Principles
+## Right-to-left
 
-- **Avoid hard-coded copy** in examples; when we must ship demo text, keep it minimal and clearly marked as demo-only.
-- **Do not** bake locale-specific formatting into components; accept **values** or **formatters** from the app.
+Wrap the app once in `DirectionProvider`. Every component inside flips its keyboard navigation and positioning: arrow keys in `Tabs`, `TabNav`, `ToggleGroup`, `Toolbar`, `RadioGroup`, `CheckboxGroup`, `Accordion`, `Menubar` and menus, `NavigationMenu`, `Splitter`, `Slider`, `Select` and `Combobox`; the side a popup opens on; which edge a `Drawer` docks to.
+
+```tsx
+import DirectionProvider from "@radui/ui/DirectionProvider";
+
+<html lang="ar" dir="rtl">
+  <body>
+    <DirectionProvider dir="rtl">
+      <App />
+    </DirectionProvider>
+  </body>
+</html>
+```
+
+Set `dir` on `<html>` as well: text direction and CSS logical properties come from the document, not from React. A component's own `dir` prop still wins for a subtree that must stay left-to-right, such as a code block. Clarity uses logical properties (`margin-inline`, `inset-inline`), so the theme mirrors on its own.
+
+## The strings Rad UI ships
+
+Five accessible names are built in, all in English. Override them when your app is not:
+
+| Where | Default | Override |
+| --- | --- | --- |
+| `Toast.Close` | `aria-label="Close notification"` | pass your own `aria-label` |
+| `Combobox.Clear`, `Select.Clear` | `aria-label="Clear"` | pass your own `aria-label` |
+| `Slider` thumbs in a range | `"Minimum value"`, `"Maximum value"` | `aria-label` on each `Slider.Thumb` |
+| `Command.Dialog` | `"Command menu"` | the `label` prop |
+
+Everything else (empty states, button text, placeholders, error messages) is content you render, so it goes through your i18n library like the rest of the app.
 
 ## Formatting
 
-- Use **`Intl`** APIs (`Intl.NumberFormat`, `Intl.DateTimeFormat`, `Intl.ListFormat`, `Intl.RelativeTimeFormat`) for locale-aware output.
-- For **pluralization**, use ICU message format or your i18n framework’s plural rules; avoid naive string concatenation.
+Components accept values and render what you give them; none format numbers, dates or lists. Use the `Intl` APIs (`Intl.NumberFormat`, `Intl.DateTimeFormat`, `Intl.ListFormat`, `Intl.RelativeTimeFormat`) or your i18n framework, and pass the formatted string in. `NumberField` is the exception that parses: it accepts the locale's decimal separator and formats the committed value with `Intl.NumberFormat` for the `locale` you give it.
 
-## Layout and semantics
+## Layout
 
-- Allow **translated strings** to vary in length; avoid fixed widths that clip content.
-- **RTL**: Rad UI components should respect logical CSS (`margin-inline`, `inset-inline`) where layout is directional; test with `dir="rtl"` when adding new layout primitives.
-
-## Testing
-
-- Storybook stories can showcase **pseudo-translation** or **long strings** to catch layout issues.
-- Automated tests should not depend on a single locale’s formatted output unless the assertion is locale-scoped.
+Translated strings are often longer. Avoid fixed widths on triggers, tabs and menu items, and test with a pseudo-locale that stretches strings. Popups size to their content and reposition on collision, so they tolerate long labels.

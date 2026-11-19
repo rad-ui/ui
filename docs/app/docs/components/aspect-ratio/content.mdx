@@ -5,7 +5,7 @@ import Card from "@radui/ui/Card"
 
 <Documentation 
   title="AspectRatio"  
-  description="Aspect Ratio is used to set the desired ratio."
+  description="Keeps an image, video or embed at a fixed width-to-height ratio while it scales with its container."
 >
   <Documentation.ComponentHero codeUsage={codeUsage}>
     <Card style={{ width: '300px', height: 'auto' }}>
@@ -19,6 +19,12 @@ import Card from "@radui/ui/Card"
       </AspectRatio>
     </Card>
   </Documentation.ComponentHero>
+
+    <Documentation.ComponentFeatures features={[
+        "Takes any ratio as a number or a string such as \"16/9\"",
+        "The content fills the box; use object-fit on media to control cropping",
+        "No layout shift: the box reserves its height before the media loads"
+    ]} />
   
   <Documentation.Table 
     columns={AspectRatioTable.columns} 

@@ -10,6 +10,13 @@ import { code, anatomy, api_documentation, ariaReferences, keyboardShortcuts } f
         <TabNavExample />
     </Documentation.ComponentHero>
 
+    <Documentation.ComponentFeatures features={[
+        "Tabs that are links, so each tab is a URL and the browser back button works",
+        "Arrow keys move between links; the active one is the group's tab stop",
+        "active marks the current page; use asChild to render your router's Link",
+        "Horizontal or vertical, right-to-left aware"
+    ]} />
+
     <Documentation.ApiReference
         anatomy={anatomy.code}
         tables={api_documentation}

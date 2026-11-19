@@ -10,6 +10,13 @@ import { code, anatomy, api_documentation } from "./docs/codeUsage"
         <MinimapExample />
     </Documentation.ComponentHero>
 
+    <Documentation.ComponentFeatures features={[
+        "Registers waypoints in long content and draws a scaled map of them",
+        "Clicking a bubble scrolls its section into view",
+        "Highlights the section currently in the viewport",
+        "Works with any scroll container through Minimap.Provider"
+    ]} />
+
     <Documentation.ApiReference
         anatomy={anatomy.code}
         tables={api_documentation}

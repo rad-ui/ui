@@ -12,6 +12,12 @@ import VisuallyHiddenExample from "./docs/examples/VisuallyHiddenExample"
         <VisuallyHiddenExample />
     </Documentation.ComponentHero>
 
+    <Documentation.ComponentFeatures features={[
+        "Hides content from sighted users while screen readers still read it",
+        "Keeps the element in the accessibility tree and in the focus order",
+        "Use it for icon-only button labels and extra context for table cells"
+    ]} />
+
     <Documentation.Table 
         columns={VisuallyHiddenTable.columns} 
         data={VisuallyHiddenTable.data} 

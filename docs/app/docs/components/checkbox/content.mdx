@@ -4,11 +4,19 @@ import { code, anatomy, ariaReferences, keyboardShortcuts, api_documentation } f
 
 <Documentation
     title="Checkbox"
-    description="A composable checkbox with Root and Indicator sub-components. Fully headless — bring your own styles."
+    description="An on, off or mixed choice. Renders a hidden native checkbox so it submits, validates and resets with the form."
 >
     <Documentation.ComponentHero codeUsage={code}>
         <CheckboxExample />
     </Documentation.ComponentHero>
+
+    <Documentation.ComponentFeatures features={[
+        "Checked, unchecked and indeterminate states, controlled or uncontrolled",
+        "Renders a hidden native checkbox: submits under name, honours required, resets with the form",
+        "uncheckedValue submits a value while unchecked; form targets a form elsewhere on the page",
+        "Space toggles it; the state is announced through aria-checked",
+        "Works inside Field.Root without extra wiring"
+    ]} />
 
     <Documentation.ApiReference
         anatomy={anatomy.code}

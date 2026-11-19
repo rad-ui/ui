@@ -10,6 +10,13 @@ import { code, anatomy, ariaReferences, keyboardShortcuts, api_documentation } f
         <SplitterExample />
     </Documentation.ComponentHero>
 
+    <Documentation.ComponentFeatures features={[
+        "Two or more panels with a draggable handle between them",
+        "Arrow keys move the focused handle",
+        "minSize and maxSize per panel; sizes are controlled or uncontrolled",
+        "Horizontal or vertical; right-to-left aware"
+    ]} />
+
     <Documentation.Table title="Keyboard Interactions" columns={keyboardShortcuts.columns} data={keyboardShortcuts.data} />
 
     <Documentation.Table title="ARIA References" columns={ariaReferences.columns} data={ariaReferences.data} />

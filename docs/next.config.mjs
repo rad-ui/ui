@@ -80,6 +80,12 @@ const nextConfig = {
                 destination: '/docs/first-steps/introduction',
                 permanent: true,
             },
+            // Removed in the Nov 2026 content audit: it described components Rad UI does not ship.
+            {
+                source: '/docs/guides/date-time-and-timezones',
+                destination: '/docs/guides/internationalization',
+                permanent: true,
+            },
             {
                 source: '/built-with',
                 destination: '/case-studies',

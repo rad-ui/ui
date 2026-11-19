@@ -10,6 +10,12 @@ import { code, anatomy, api_documentation } from "./docs/codeUsage"
         <SpinnerExample />
     </Documentation.ComponentHero>
 
+    <Documentation.ComponentFeatures features={[
+        "An animated indicator with a size prop that follows the theme scale",
+        "Keeps turning under prefers-reduced-motion, because it tells people something is happening",
+        "Give it a label with aria-label, or hide it with aria-hidden next to a text status"
+    ]} />
+
     <Documentation.ApiReference
         anatomy={anatomy.code}
         tables={api_documentation}

@@ -1,68 +1,23 @@
 # Migration guides
 
-Step-by-step notes for major `@radui/ui` upgrades. Patch and minor releases should be drop-in when the changelog reports no breaking changes.
+There has been no breaking release since `@radui/ui` 1.0. Patch and minor versions are drop-in: bump the dependency, run your tests, read the [changelog](/docs/first-steps/changelog) for anything marked as a behaviour change.
 
-For day-to-day upgrades, start with [Upgrade & codemods](/docs/contributing/upgrade-and-codemods) and the [GitHub Releases](https://github.com/rad-ui/ui/releases) page.
+## Upgrading
 
-## How to use these guides
+1. Read the [changelog](/docs/first-steps/changelog) entries between your version and the target. Each entry says what changed, who it affects and how to adopt it; each component page links to its own history.
+2. Bump `@radui/ui` and run the type check. Renamed or narrowed props show up as TypeScript errors.
+3. Smoke-test the surfaces that depend on DOM structure: overlays (Dialog, Popover, Select), forms, and any CSS that targets Rad UI's generated classes or `data-*` attributes.
+4. If you import `@radui/ui/themes/default.css`, keep `Theme classNamespace="rad-ui"` so the stylesheet's selectors still match.
 
-Each major guide lists:
+## When a major version ships
 
-1. **Breaking changes** — APIs or behavior you must update
-2. **Recommended updates** — non-breaking improvements worth adopting
-3. **Verification** — tests and manual checks before shipping
+A major release gets a guide on this page with the breaking changes, a before/after example for each, and the recommended updates that are not breaking. The release's changeset carries a `BREAKING` note ([Changeset quality](/docs/contributing/changeset-quality)), and codemods, when they exist, are listed under [Upgrade and codemods](/docs/contributing/upgrade-and-codemods).
 
-When a guide references imports, use per-component entrypoints (`@radui/ui/Button`) unless the migration note says otherwise.
+## Coming from another library
 
-## Available guides
+Part names and composition will look familiar if you have used Radix UI: `Root`, `Trigger`, `Portal`, `Content`, `asChild`. The differences that matter during a port:
 
-| Release | Guide | Status |
-| --- | --- | --- |
-| `1.x` | *Not published yet* | Planned when the first major breaking release ships |
-
-There is no `1.x` migration guide yet because `@radui/ui` `0.x` releases have not shipped a documented major breaking bump requiring a standalone guide. This page will link to version-specific guides as they are added.
-
-## Before every major upgrade
-
-1. Read the release changelog and changeset notes for `"@radui/ui": major`.
-2. Search your app for deprecated props or renamed exports called out in the release.
-3. Run your unit, integration, and accessibility tests.
-4. Smoke-test overlays (Dialog, Popover, Select), forms, and theme appearance in both light and dark modes.
-5. If you import `@radui/ui/themes/default.css`, confirm `Theme classNamespace="rad-ui"` still matches your selectors.
-
-## Contributing a migration guide
-
-When you ship a major release:
-
-1. Add `docs/app/docs/guides/migration-guides/v<major>-migration.mdx` (or a dedicated route) with before/after examples.
-2. Link it from this index table.
-3. Reference the guide from the major changeset body ([Changeset quality](/docs/contributing/changeset-quality)).
-4. Add codemod instructions to [Upgrade & codemods](/docs/contributing/upgrade-and-codemods) when automation exists.
-
-## Template for future major guides
-
-```md
-# Migrating to @radui/ui <version>
-
-## Breaking changes
-
-### <Area>
-
-**Before**
-\`\`\`tsx
-// old API
-\`\`\`
-
-**After**
-\`\`\`tsx
-// new API
-\`\`\`
-
-## Recommended updates
-
-- ...
-
-## Verification checklist
-
-- [ ] ...
-```
+- Imports are per component: `import Dialog from "@radui/ui/Dialog"`, then `Dialog.Root`.
+- State lives on `data-*` attributes, both as `data-state="open"` and as a boolean `data-open`, so either selector style works ([Styling and customization](/docs/guides/styling-and-customization#state-attributes)).
+- Form controls render their own hidden inputs and submit, validate and reset with a native form ([Form submission](/docs/guides/hidden-input-strategies)).
+- The theme is optional. Nothing renders styled until you import Clarity and set `classNamespace`.

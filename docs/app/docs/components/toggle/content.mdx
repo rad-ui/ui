@@ -5,13 +5,18 @@ import ToggleExampleBasic from "./docs/toggle-example-basic"
 
 <Documentation 
     title={`Toggle`} 
-    description={`
-        Toggles are used to switch between two states. They are commonly used in settings, forms, and more.
-    `}
+    description="A button that stays pressed until pressed again, for a single on/off option such as bold in a toolbar."
 >
     <Documentation.ComponentHero codeUsage={codeUsage}>
         <ToggleExampleBasic/>
     </Documentation.ComponentHero>
+
+    <Documentation.ComponentFeatures features={[
+        "Pressed state is announced through aria-pressed",
+        "Controlled with pressed and onPressedChange, or uncontrolled with defaultPressed",
+        "Space and Enter toggle it; disabled toggles are skipped by focus",
+        "Exposes data-state=\"on\" and data-pressed for styling"
+    ]} />
 
     <Documentation.Table 
         columns={ToggleTable.columns} 

@@ -10,6 +10,12 @@ import { code, anatomy, api_documentation } from "./docs/codeUsage"
         <StepsExample />
     </Documentation.ComponentHero>
 
+    <Documentation.ComponentFeatures features={[
+        "A list of steps with a bubble, a connecting line, a title and a description each",
+        "The current step comes from value or defaultValue and is marked with aria-current",
+        "Horizontal or vertical layout"
+    ]} />
+
     <Documentation.ApiReference
         anatomy={anatomy.code}
         tables={api_documentation}
