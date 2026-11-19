@@ -6,7 +6,9 @@ export const ACCENT_COLORS = ["gray", "blue", "green", "red", "plum", "gold"]
 
 export const PlaygroundContext = React.createContext({
     accent: "gray",
-    showAllColors: false
+    showAllColors: false,
+    unstyled: false,
+    appearance: "dark"
 })
 
 export const usePlayground = () => React.useContext(PlaygroundContext)

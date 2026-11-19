@@ -18,6 +18,8 @@ const sectionItems = (sections: readonly Section[], title: string) =>
 const SITE: Entry[] = [
     { title: 'Playground', path: '/playground', hint: 'Every component, every variant' },
     { title: 'Colors', path: '/colors', hint: 'The 12-step scales' },
+    { title: 'Theme generator', path: '/theme-generator', hint: 'One brand colour to an accessible theme', keywords: ['palette', 'tokens', 'contrast'] },
+    { title: 'Compare', path: '/compare', hint: 'Rad UI vs Radix, Headless UI, React Aria, Ark UI, shadcn/ui', keywords: ['alternative', 'vs'] },
     { title: 'Showcase', path: '/showcase/music-app', hint: 'Real screens built with Rad UI' },
     { title: 'Case studies', path: '/built-with', hint: 'Products that run on Rad UI' },
     { title: 'Rad UI FX', path: '/fx', hint: 'Accessible motion components' }

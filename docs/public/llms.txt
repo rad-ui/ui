@@ -232,6 +232,13 @@
 - [GitHub](https://github.com/rad-ui/ui)
 - [Playground](https://www.rad-ui.com/playground)
 - [Colors](https://www.rad-ui.com/colors)
+- [Theme generator](https://www.rad-ui.com/theme-generator): one brand colour to an accessible 12-step accent + gray theme (light and dark, WCAG AA text), exported as --rad-ui-* CSS variables; the theme is encoded in the URL
+- [Compare Rad UI with other libraries](https://www.rad-ui.com/compare)
+- [Rad UI vs Radix UI](https://www.rad-ui.com/compare/radix-ui)
+- [Rad UI vs Headless UI](https://www.rad-ui.com/compare/headless-ui)
+- [Rad UI vs React Aria](https://www.rad-ui.com/compare/react-aria)
+- [Rad UI vs Ark UI](https://www.rad-ui.com/compare/ark-ui)
+- [Rad UI vs shadcn/ui](https://www.rad-ui.com/compare/shadcn-ui)
 - [Full AI reference](https://www.rad-ui.com/llms-full.txt)
 - [Package facts](https://www.rad-ui.com/package-facts.json)
 

@@ -2,21 +2,52 @@
 
 import React from "react"
 import Switch from "@radui/ui/Switch"
-import { ACCENT_COLORS, PlaygroundContext, toSectionId } from "./PlaygroundContext"
+import { NavBarContext } from "@/components/Main/NavBar/NavBarContext"
+import { THEME_PREVIEW_EVENT } from "@/components/Main/Main"
+import { PlaygroundContext, toSectionId } from "./PlaygroundContext"
+import PlaygroundToolbar, { RADII } from "./PlaygroundToolbar"
 
-const swatchClass = {
-    gray: "bg-gray-900",
-    blue: "bg-blue-900",
-    green: "bg-green-900",
-    red: "bg-red-900",
-    plum: "bg-plum-900",
-    gold: "bg-gold-900"
-}
+// Baremetal styles apply under body[data-rad-ui-design-system="baremetal"]; the root layout sets
+// "clarity" on the body, so loading this sheet changes nothing until the toolbar switches.
+import "@radui/ui/themes/baremetal.css"
+
+const RADIUS_VARS = ["sm", "md", "lg", "xl"]
+
+const previewAppearance = (value) => window.dispatchEvent(new CustomEvent(THEME_PREVIEW_EVENT, { detail: value }))
 
 const PlaygroundShell = ({ sections, children }) => {
+    const { darkMode } = React.useContext(NavBarContext)
     const [accent, setAccent] = React.useState("gray")
     const [showAllColors, setShowAllColors] = React.useState(false)
-    const contextValue = React.useMemo(() => ({ accent, showAllColors }), [accent, showAllColors])
+    const [system, setSystem] = React.useState("clarity")
+    const [pinnedAppearance, setPinnedAppearance] = React.useState(null)
+    const [radius, setRadius] = React.useState("medium")
+    const [unstyled, setUnstyled] = React.useState(false)
+    const appearance = pinnedAppearance ?? (darkMode ? "dark" : "light")
+    const contextValue = React.useMemo(() => ({ accent, showAllColors, unstyled, appearance }), [accent, showAllColors, unstyled, appearance])
+
+    // The design system lives on <body> so portalled popovers and dialogs follow it too.
+    React.useEffect(() => {
+        document.body.setAttribute("data-rad-ui-design-system", system)
+        return () => document.body.setAttribute("data-rad-ui-design-system", "clarity")
+    }, [system])
+
+    // Light or dark previews the whole site without changing the visitor's saved choice.
+    React.useEffect(() => {
+        if (!pinnedAppearance) return
+        previewAppearance(pinnedAppearance)
+        return () => previewAppearance(null)
+    }, [pinnedAppearance])
+
+    // Radius tokens on <body>, for the same reason as the design system.
+    React.useEffect(() => {
+        const r = RADII[radius]
+        for (const k of RADIUS_VARS) {
+            if (r[k]) document.body.style.setProperty(`--rad-ui-radius-${k}`, r[k])
+            else document.body.style.removeProperty(`--rad-ui-radius-${k}`)
+        }
+        return () => RADIUS_VARS.forEach((k) => document.body.style.removeProperty(`--rad-ui-radius-${k}`))
+    }, [radius])
 
     return (
         <PlaygroundContext.Provider value={contextValue}>
@@ -26,24 +57,10 @@ const PlaygroundShell = ({ sections, children }) => {
                         <div className="space-y-1">
                             <h1 className="text-3xl font-semibold tracking-tight">Playground</h1>
                             <p className="text-sm text-gray-950">
-                                Every component with its variants, sizes, colors, and states side by side. {sections.length} components.
+                                Every component with its variants, sizes, colors, and states side by side. {sections.length} components. Restyle them all from the bar at the bottom.
                             </p>
                         </div>
                         <div className="flex flex-wrap items-center gap-5">
-                            <div className="flex items-center gap-2" role="group" aria-label="Accent color">
-                                <span className="text-xs font-medium text-gray-950">Accent</span>
-                                {ACCENT_COLORS.map((color) => (
-                                    <button
-                                        key={color}
-                                        type="button"
-                                        title={color}
-                                        aria-label={color}
-                                        aria-pressed={accent === color}
-                                        onClick={() => setAccent(color)}
-                                        className={`size-6 rounded-full ${swatchClass[color]} outline-offset-2 aria-pressed:outline-2 aria-pressed:outline-gray-1000`}
-                                    />
-                                ))}
-                            </div>
                             <label className="flex items-center gap-2 text-xs font-medium text-gray-950">
                                 <Switch.Root checked={showAllColors} onCheckedChange={setShowAllColors} aria-label="Show all colors">
                                     <Switch.Thumb />
@@ -53,7 +70,7 @@ const PlaygroundShell = ({ sections, children }) => {
                         </div>
                     </header>
 
-                    <div className="grid gap-8 lg:grid-cols-[11rem_minmax(0,1fr)]">
+                    <div className="grid gap-8 pb-24 lg:grid-cols-[11rem_minmax(0,1fr)]">
                         <nav aria-label="Components" className="hidden lg:block">
                             <ul className="sticky top-6 grid max-h-[calc(100vh-8rem)] gap-0.5 overflow-y-auto text-sm">
                                 {sections.map((title) => (
@@ -71,6 +88,18 @@ const PlaygroundShell = ({ sections, children }) => {
                     </div>
                 </div>
             </div>
+            <PlaygroundToolbar
+                system={system}
+                setSystem={setSystem}
+                appearance={appearance}
+                setAppearance={setPinnedAppearance}
+                accent={accent}
+                setAccent={setAccent}
+                radius={radius}
+                setRadius={setRadius}
+                unstyled={unstyled}
+                setUnstyled={setUnstyled}
+            />
         </PlaygroundContext.Provider>
     )
 }

@@ -68,6 +68,10 @@ jobs:
         working-directory: ${{ runner.temp }}/isolated/docs
         run: pnpm check:examples
 
+      - name: Test docs utilities
+        working-directory: ${{ runner.temp }}/isolated/docs
+        run: pnpm test
+
       - name: Build docs
         working-directory: ${{ runner.temp }}/isolated/docs
         run: pnpm build
