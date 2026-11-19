@@ -201,6 +201,10 @@ export const docsNavigationSections = [
                 path:"/docs/guides/migration-guides"
             },
             {
+                title:"Migrating from shadcn/ui",
+                path:"/docs/guides/migrating-from-shadcn"
+            },
+            {
                 title:"CSS Variable Fallbacks",
                 path:"/docs/guides/css-variable-fallbacks"
             },
