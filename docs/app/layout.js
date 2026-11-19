@@ -183,7 +183,7 @@ export default async function RootLayout({ children, ...props }) {
           }}
         />
       </head>
-      <body className="h-screen overflow-hidden" suppressHydrationWarning>
+      <body className="h-screen overflow-hidden" data-rad-ui-design-system="clarity" suppressHydrationWarning>
         <PostHogProvider>
           <Main>
             {children}
