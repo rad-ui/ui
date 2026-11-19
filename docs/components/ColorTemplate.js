@@ -1,6 +1,7 @@
 'use client'
 
 import Link from "next/link"
+import HexCodes from "@/components/colors/HexCodes"
 
 const colorFamilies = [
   "gray",
@@ -386,6 +387,8 @@ const ColorTemplate = () => {
           ))}
         </div>
       </section>
+
+      <HexCodes />
     </main>
   )
 }

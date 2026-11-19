@@ -1,11 +1,13 @@
 'use client'
 
 import Link from "@radui/ui/Link"
-import { toSectionId } from "./PlaygroundContext"
+import Theme from "@radui/ui/Theme"
+import { toSectionId, usePlayground } from "./PlaygroundContext"
 
 // Compact, anchor-linked section in the style of a component reference sheet.
 const PlaygroundSection = ({ title = "", docsLink = "", description = "", children }) => {
     const id = toSectionId(title)
+    const { unstyled, appearance } = usePlayground()
 
     return (
         <section id={id} aria-labelledby={`${id}-heading`} className="scroll-mt-6">
@@ -19,7 +21,11 @@ const PlaygroundSection = ({ title = "", docsLink = "", description = "", childr
                 {docsLink ? <Link href={docsLink} size="small">Docs</Link> : null}
             </div>
             <div className="min-w-0 rounded-xl border border-gray-300 bg-gray-50 p-5">
-                {children}
+                {unstyled ? (
+                    // A Theme with no class namespace: components render without Rad UI's classes, so no
+                    // theme CSS reaches them and you see the bare, working markup.
+                    <Theme className="contents" appearance={appearance}>{children}</Theme>
+                ) : children}
             </div>
         </section>
     )

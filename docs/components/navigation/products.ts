@@ -11,13 +11,14 @@ export const products = [
         title: "Rad UI",
         home: "/docs/first-steps/introduction",
         // Pages that belong to UI. Anything unmatched (e.g. the home page) also falls back to UI.
-        ownsPath: /^\/(docs|playground|colors|showcase|case-studies)(\/|$)/,
+        ownsPath: /^\/(docs|playground|colors|theme-generator|compare|showcase|case-studies)(\/|$)/,
         docsPath: /^\/docs(\/|$)/,
         sections: docsNavigationSections,
         navLinks: [
             { href: "/docs/first-steps/introduction", label: "Docs", match: "/docs" },
             { href: "/playground", label: "Playground", match: "/playground" },
             { href: "/colors", label: "Colors", match: "/colors" },
+            { href: "/theme-generator", label: "Themes", match: "/theme-generator" },
             { href: "/showcase/music-app", label: "Showcase", match: "/showcase" },
             { href: "/case-studies", label: "Case studies", match: "/case-studies" }
         ]

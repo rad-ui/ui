@@ -2,6 +2,7 @@ import fs from 'fs';
 import path from 'path';
 import { docsNavigationSections } from '../app/docs/docsNavigationSections';
 import { fxNavigationSections } from '../app/fx/fxNavigationSections';
+import { comparisons } from '../app/compare/data';
 
 const BASE_URL = 'https://www.rad-ui.com';
 
@@ -48,6 +49,9 @@ function generateLlmsTxt() {
 - [GitHub](https://github.com/rad-ui/ui)
 - [Playground](${BASE_URL}/playground)
 - [Colors](${BASE_URL}/colors)
+- [Theme generator](${BASE_URL}/theme-generator): one brand colour to an accessible 12-step accent + gray theme (light and dark, WCAG AA text), exported as --rad-ui-* CSS variables; the theme is encoded in the URL
+- [Compare Rad UI with other libraries](${BASE_URL}/compare)
+${comparisons.map((item) => `- [Rad UI vs ${item.name}](${BASE_URL}/compare/${item.slug})`).join('\n')}
 - [Full AI reference](${BASE_URL}/llms-full.txt)
 - [Package facts](${BASE_URL}/package-facts.json)
 

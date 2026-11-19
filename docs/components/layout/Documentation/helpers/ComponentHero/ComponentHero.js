@@ -2,9 +2,10 @@
 import CodeBlock from '../CodeBlock';
 import { useContext, useEffect, useMemo, useState } from 'react'
 import Link from 'next/link'
-import { ArrowUpRight, Moon, Sun } from 'lucide-react'
+import { ArrowUpRight, Moon, PaintbrushVertical, Sun } from 'lucide-react'
 import Heading from "@radui/ui/Heading"
 import Theme from '@radui/ui/Theme'
+import Toggle from '@radui/ui/Toggle'
 import ToggleGroup from '@radui/ui/ToggleGroup'
 
 import { NavBarContext } from '@/components/Main/NavBar/NavBarContext'
@@ -29,7 +30,8 @@ const toggleItemClass = 'grid h-6 min-w-6 place-items-center rounded-[5px] px-1 
 /**
  * The live example at the top of a component page. The toolbar drives a nested
  * Theme around the example only, so a reader can check the component in the
- * other appearance and with another accent without leaving the page.
+ * other appearance and with another accent without leaving the page, or with
+ * Rad UI's styles off to see the bare markup that still works.
  */
 const ComponentHero = ({ children, title = '', codeUsage = {} }) => {
     const { darkMode } = useContext(NavBarContext)
@@ -37,6 +39,7 @@ const ComponentHero = ({ children, title = '', codeUsage = {} }) => {
     const [accent, setAccent] = useState('gray')
     const [appearance, setAppearance] = useState(darkMode ? 'dark' : 'light')
     const [pinned, setPinned] = useState(false)
+    const [unstyled, setUnstyled] = useState(false)
     useEffect(() => {
         if (!pinned) setAppearance(darkMode ? 'dark' : 'light')
     }, [darkMode, pinned])
@@ -58,7 +61,7 @@ const ComponentHero = ({ children, title = '', codeUsage = {} }) => {
         )}
         <div className={docsSurfaceClassName}>
             <div className="flex flex-wrap items-center gap-x-3 gap-y-2 border-b border-gray-300 bg-gray-100 px-3 py-2">
-                <span className="font-mono text-[0.65rem] font-semibold uppercase tracking-[0.16em] text-gray-950">Preview</span>
+                <span className="font-mono text-[0.65rem] font-semibold uppercase tracking-[0.16em] text-gray-950">Example</span>
                 <div className="ml-auto flex flex-wrap items-center gap-2">
                     <ToggleGroup.Root
                         type="single"
@@ -101,6 +104,16 @@ const ComponentHero = ({ children, title = '', codeUsage = {} }) => {
                             <Moon size={13} strokeWidth={2} aria-hidden />
                         </ToggleGroup.Item>
                     </ToggleGroup.Root>
+                    <Toggle
+                        pressed={unstyled}
+                        onPressedChange={setUnstyled}
+                        aria-label="Turn Rad UI styles off"
+                        title="Styles off: the bare markup, still working"
+                        className="!h-6 !min-h-0 !w-auto gap-1 rounded-md !border-0 !bg-gray-200 !px-1.5 !text-[0.75rem] !font-medium !leading-none !text-gray-950 !shadow-none hover:!text-gray-1000 data-[state=on]:!bg-gray-1000 data-[state=on]:!text-gray-50"
+                    >
+                        <PaintbrushVertical size={12} strokeWidth={2.25} aria-hidden />
+                        {unstyled ? 'Styles off' : 'Styles'}
+                    </Toggle>
                     <Link
                         href={playgroundHref}
                         className="inline-flex items-center gap-1 rounded-md px-1.5 py-1 text-[0.75rem] font-medium text-gray-950 transition-colors hover:bg-gray-200 hover:text-gray-1000"
@@ -114,7 +127,8 @@ const ComponentHero = ({ children, title = '', codeUsage = {} }) => {
                 id="docs-preview-theme"
                 appearance={appearance}
                 accentColor={accent}
-                classNamespace="rad-ui"
+                // No class namespace = components render without Rad UI's classes, so no theme CSS reaches them.
+                classNamespace={unstyled ? undefined : 'rad-ui'}
                 style={lightTokens}
                 className="docs-preview-stage flex min-h-[220px] items-center justify-center overflow-x-auto bg-gray-50 p-8 text-gray-1000 transition-colors duration-300 sm:p-12"
             >
