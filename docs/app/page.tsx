@@ -343,8 +343,8 @@ export default function Home() {
                                 <Link href="/compare" className="transition-colors hover:text-gray-1000">
                                     Compare
                                 </Link>
-                                <Link href="/built-with" className="transition-colors hover:text-gray-1000">
-                                    Built with
+                                <Link href="/case-studies" className="transition-colors hover:text-gray-1000">
+                                    Case studies
                                 </Link>
                                 <Link href="https://studio.rad-ui.com" className="transition-colors hover:text-gray-1000">
                                     Work with us
