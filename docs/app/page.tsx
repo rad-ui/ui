@@ -346,6 +346,9 @@ export default function Home() {
                                 <Link href="/built-with" className="transition-colors hover:text-gray-1000">
                                     Built with
                                 </Link>
+                                <Link href="https://studio.rad-ui.com" className="transition-colors hover:text-gray-1000">
+                                    Work with us
+                                </Link>
                                 <Link href="/sponsors" className="transition-colors hover:text-gray-1000">
                                     Sponsors
                                 </Link>
