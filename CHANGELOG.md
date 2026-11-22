@@ -1,5 +1,12 @@
 # @radui/ui
 
+## 1.2.2
+
+### Patch Changes
+
+- 607c0e1: `Dialog.Root`, `AlertDialog.Root`, `Popover.Root` and `Tooltip.Root` no longer render a wrapping `<div>`. A Root only holds state, and the extra element changed the layout around it: it took a `gap` in a flex or grid row even when its trigger was hidden, and broke `space-y` stacks and `:last-child` rules. The trigger now sits directly in your markup. Passing a `ref`, `className`, `style` or another HTML attribute to the Root still renders the wrapper `<div>`, so code that styles or measures a Root keeps working (#2333).
+- a5ef4a5: In right-to-left layouts, `OTPField` and `Menubar` arrow keys now follow the reading direction. `OTPField.Input`'s ArrowLeft moves to the next slot and ArrowRight to the previous one, and `Menubar.Content`'s ArrowLeft opens the next menu, when the root has `dir="rtl"` or sits in an RTL `DirectionProvider`. Both used to move as in left-to-right layouts. `OTPField.Root` also sets `dir` on its element when the direction comes from a `DirectionProvider`.
+
 ## 1.2.1
 
 ### Patch Changes
