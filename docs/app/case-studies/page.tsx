@@ -10,7 +10,7 @@ import { caseStudies, linkSnippet } from "./studies"
 export const metadata = generateSeoMetadata({
     title: "Built with Rad UI: products and case studies",
     description:
-        "Real products built on Rad UI's headless, accessible React components: a SaaS for Instagram Reels, an e-commerce store with a 3D drone sim, a gardening app, a learning platform and a game studio. What they use and what broke.",
+        "Real products built on Rad UI's headless, accessible React components: what each one is, which components it uses and what broke along the way.",
     canonicalUrl: "https://www.rad-ui.com/case-studies",
     kicker: "Built with Rad UI",
 })
@@ -18,26 +18,7 @@ export const metadata = generateSeoMetadata({
 const totalComponents = new Set(caseStudies.flatMap((study) => study.components)).size
 const totalIssues = caseStudies.reduce((sum, study) => sum + study.issues.length, 0)
 
-/** A screenshot in a light browser frame, so every card reads as "a real product". */
-function BrowserFrame({ src, alt, host }: { src: string; alt: string; host: string }) {
-    return (
-        <div className="overflow-hidden rounded-xl border border-gray-400 bg-gray-50 shadow-[0_24px_60px_-30px_color-mix(in_oklab,var(--rad-ui-color-gray-1000)_45%,transparent)]">
-            <div className="flex items-center gap-2 border-b border-gray-300 bg-gray-100 px-3 py-2">
-                <span aria-hidden className="flex gap-1.5">
-                    <span className="h-2.5 w-2.5 rounded-full bg-gray-400" />
-                    <span className="h-2.5 w-2.5 rounded-full bg-gray-400" />
-                    <span className="h-2.5 w-2.5 rounded-full bg-gray-400" />
-                </span>
-                <span className="mx-auto truncate rounded-md bg-gray-50 px-3 py-0.5 font-mono text-[11px] text-gray-950">{host}</span>
-            </div>
-            { }
-            <img src={src} alt={alt} width={1200} height={750} loading="lazy" className="block aspect-[16/10] w-full object-cover object-top" />
-        </div>
-    )
-}
-
 export default function CaseStudiesPage() {
-    const [lead, ...rest] = caseStudies
     return (
         <FullHeightScroll>
             <div className="relative px-4 py-10 sm:px-6 lg:p-12">
@@ -48,8 +29,8 @@ export default function CaseStudiesPage() {
                             Real products, shipped on Rad UI
                         </Heading>
                         <Text className="mx-auto max-w-2xl text-lg text-gray-950">
-                            {caseStudies.length} products in production: a SaaS, a store with a 3D sim, a gardening app, a learning
-                            platform and a game studio. Each case study covers which components it uses and what broke along the way.
+                            Products running in production on Rad UI. Each case study covers what the product is, which components it
+                            uses and what broke along the way.
                         </Text>
                         <dl className="mx-auto mt-2 flex max-w-xl flex-wrap justify-center gap-x-10 gap-y-3">
                             {[
@@ -77,58 +58,26 @@ export default function CaseStudiesPage() {
                         </ul>
                     </header>
 
-                    {lead ? (
-                        <article id={lead.slug} className="grid scroll-mt-10 items-center gap-8 lg:grid-cols-[1.25fr_1fr]">
-                            <Link href={`/case-studies/${lead.slug}`} aria-label={`${lead.name} case study`}>
-                                <BrowserFrame src={lead.shot} alt={`${lead.name} home page`} host={new URL(lead.href).host} />
-                            </Link>
-                            <div className="space-y-4">
-                                <div className="flex items-center gap-3">
-                                    { }
-                                    <img src={lead.logo} alt="" className="h-10 w-auto" />
-                                    <div>
-                                        <Heading as="h2" className="text-2xl font-semibold text-gray-1000">{lead.name}</Heading>
-                                        <p className="text-xs uppercase tracking-widest text-gray-950">{lead.kind}</p>
-                                    </div>
-                                </div>
-                                <Text className="text-gray-950">{lead.summary}</Text>
-                                <ul className="flex flex-wrap gap-1.5" aria-label="Components used">
-                                    {lead.components.slice(0, 10).map((c) => (
-                                        <li key={c} className="rounded-md border border-gray-300 bg-gray-50 px-2 py-0.5 font-mono text-[11px] text-gray-1000">{c}</li>
-                                    ))}
-                                    {lead.components.length > 10 ? <li className="px-1 py-0.5 text-[11px] text-gray-950">+{lead.components.length - 10} more</li> : null}
-                                </ul>
-                                <div className="flex flex-wrap gap-4 pt-1 text-sm font-semibold">
-                                    <Link href={`/case-studies/${lead.slug}`} className="text-gray-1000 underline underline-offset-4">Read the case study</Link>
-                                    <a href={lead.href} className="text-gray-950 underline-offset-4 hover:underline">Visit {new URL(lead.href).host} ↗</a>
-                                </div>
-                            </div>
-                        </article>
-                    ) : null}
-
-                    <ul className="grid gap-x-8 gap-y-12 md:grid-cols-2">
-                        {rest.map((study) => (
+                    <ul className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+                        {caseStudies.map((study) => (
                             <li key={study.slug} id={study.slug} className="scroll-mt-10">
-                                <article className="flex h-full flex-col gap-4">
-                                    <Link href={`/case-studies/${study.slug}`} aria-label={`${study.name} case study`}>
-                                        <BrowserFrame src={study.shot} alt={`${study.name} home page`} host={new URL(study.href).host} />
-                                    </Link>
+                                <article className="flex h-full flex-col gap-3 rounded-2xl border border-gray-400 bg-gray-50 p-5">
                                     <div className="flex items-center gap-3">
                                         { }
-                                        <img src={study.logo} alt="" className="h-8 w-auto" />
+                                        <img src={study.logo} alt="" className="h-9 w-auto" />
                                         <div>
-                                            <Heading as="h2" className="text-xl font-semibold text-gray-1000">{study.name}</Heading>
+                                            <h2 className="text-lg font-semibold leading-tight text-gray-1000">{study.name}</h2>
                                             <p className="text-[11px] uppercase tracking-widest text-gray-950">{study.kind}</p>
                                         </div>
                                     </div>
-                                    <Text className="text-gray-950">{study.summary}</Text>
+                                    <Text className="text-sm text-gray-950">{study.summary}</Text>
                                     <p className="font-mono text-[11px] text-gray-950">
                                         {study.components.length} components
                                         {study.issues.length ? ` · ${study.issues.length} issue${study.issues.length === 1 ? "" : "s"} filed` : ""}
                                     </p>
-                                    <div className="mt-auto flex flex-wrap gap-4 text-sm font-semibold">
+                                    <div className="mt-auto flex flex-wrap gap-x-4 gap-y-1 pt-1 text-sm font-semibold">
                                         <Link href={`/case-studies/${study.slug}`} className="text-gray-1000 underline underline-offset-4">Read the case study</Link>
-                                        <a href={study.href} className="text-gray-950 underline-offset-4 hover:underline">Visit {new URL(study.href).host} ↗</a>
+                                        <a href={study.href} className="text-gray-950 underline-offset-4 hover:underline">{new URL(study.href).host} ↗</a>
                                     </div>
                                 </article>
                             </li>

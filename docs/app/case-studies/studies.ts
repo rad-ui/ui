@@ -8,9 +8,8 @@ export type CaseStudy = {
     href: string
     /** One line for the card. */
     summary: string
-    /** Logo and a screenshot of the live site, in /public/case-studies. */
+    /** Logo, in /public/case-studies/logos. */
     logo: string
-    shot: string
     /** What kind of product, for the card's label. */
     kind: string
     /** Rad UI components the product uses. */
@@ -25,7 +24,6 @@ export const caseStudies: CaseStudy[] = [
     {
         slug: "razzle",
         logo: "/case-studies/logos/razzle.svg",
-        shot: "/case-studies/shots/razzle.jpg",
         kind: "Marketing SaaS",
         name: "Razzle",
         href: "https://getrazzle.com",
@@ -82,7 +80,6 @@ export const caseStudies: CaseStudy[] = [
     {
         slug: "fpv-grind",
         logo: "/case-studies/logos/fpv-grind.svg",
-        shot: "/case-studies/shots/fpv-grind.jpg",
         kind: "E-commerce + 3D sim",
         name: "FPV Grind",
         href: "https://www.fpvgrind.in",
@@ -114,7 +111,6 @@ export const caseStudies: CaseStudy[] = [
     {
         slug: "fiery-panda-studios",
         logo: "/case-studies/logos/fiery-panda.png",
-        shot: "/case-studies/shots/fiery-panda.jpg",
         kind: "Game studio site",
         name: "Fiery Panda Studios",
         href: "https://fierypandastudios.com",
@@ -149,7 +145,6 @@ export const caseStudies: CaseStudy[] = [
     {
         slug: "paudho",
         logo: "/case-studies/logos/paudho.svg",
-        shot: "/case-studies/shots/paudho.jpg",
         kind: "Gardening app",
         name: "Paudho",
         href: "https://www.paudho.com",
@@ -189,7 +184,6 @@ export const caseStudies: CaseStudy[] = [
     {
         slug: "awelgorithms",
         logo: "/case-studies/logos/awelgorithms.svg",
-        shot: "/case-studies/shots/awelgorithms.jpg",
         kind: "Learning platform",
         name: "Awelgorithms",
         href: "https://www.awelgorithms.com",

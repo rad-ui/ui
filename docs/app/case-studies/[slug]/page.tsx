@@ -58,10 +58,6 @@ export default async function CaseStudyPage({ params }: { params: Promise<{ slug
                         </a>
                     </div>
 
-                    <div className="overflow-hidden rounded-xl border border-gray-400 bg-gray-50">
-                        { }
-                        <img src={study.shot} alt={`${study.name} home page`} width={1200} height={750} className="block aspect-[16/10] w-full object-cover object-top" />
-                    </div>
 
                     {study.sections.map((section) => (
                         <section key={section.question} className="space-y-3">
