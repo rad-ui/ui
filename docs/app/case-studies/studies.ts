@@ -1,116 +1,71 @@
-// Case studies: real products built on Rad UI. Each one says what the
-// product is, how it uses Rad UI, and what broke along the way, with the issues it led to.
-// Paudho and Awelgorithms moved onto Rad UI on 2026-11-05: deploy these docs only once both are live.
+// Case studies: products built on Rad UI. Each one tells the problem Rad UI
+// solved and what the product's users got from it. Keep them short.
 
 export type CaseStudy = {
     slug: string
     name: string
     href: string
-    /** One line for the card. */
+    /** One line for the sidebar's About. */
     summary: string
-    /** The lead under the title: what Rad UI does for this product, in one sentence. */
+    /** The lead under the title: what Rad UI did for this product, in one sentence. */
     headline: string
     /** Logo, in /public/case-studies/logos. */
     logo: string
-    /** What kind of product, for the card's label. */
+    /** What kind of product, for the sidebar. */
     kind: string
-    /** Rad UI components the product uses. */
-    components: string[]
     /** Question-and-answer sections, in order. Each answer is a list of paragraphs. */
     sections: { question: string; answer: string[] }[]
-    /** rad-ui/ui issues this product filed; `fixed` is true once the fix shipped (checked 2026-11-24). */
-    issues: { number: number; title: string; fixed: boolean }[]
 }
 
 export const caseStudies: CaseStudy[] = [
     {
         slug: "razzle",
-        headline: "Every control in a browser Reel editor, from sliders to approval dialogs, is a Rad UI component.",
+        headline: "A Reel editor where every slider, toggle and approval dialog works by keyboard, by touch and with a screen reader.",
         logo: "/case-studies/logos/razzle.svg",
         kind: "Marketing SaaS",
         name: "Razzle",
         href: "https://getrazzle.com",
         summary: "A browser tool for making Instagram Reels and carousels, getting them approved and scheduling them.",
-        components: [
-            "Button", "TextField", "TextArea", "Dialog", "AlertDialog", "DropdownMenu", "Drawer", "Select",
-            "Slider", "NumberField", "ToggleGroup", "Switch", "Checkbox", "Tabs", "Toolbar", "Progress",
-            "HoverCard", "Accordion", "Breadcrumb", "Kbd", "Theme",
-        ],
         sections: [
             {
-                question: "What is Razzle?",
+                question: "What problem did Rad UI solve?",
                 answer: [
-                    "Razzle makes short videos and carousels for Instagram. You type or chat what you want, edit it in the browser, send it to a teammate for approval, and schedule it. The video is rendered in the browser, so there's no upload wait.",
+                    "Razzle's editor is a wall of controls: sliders for timing, number fields, format toggles, selects for fonts and music, switches for captions. Then come the review dialogs, the drawers on phones, the menus and the calendar. Building each of those by hand, with focus, keyboard support and screen-reader labels done right, would have taken longer than building the editor.",
+                    "Rad UI gave the team all of those parts with the behaviour already done, so the work went into the editor itself. Razzle keeps its own look with Tailwind on top.",
                 ],
             },
             {
-                question: "How does it use Rad UI?",
+                question: "What did users get?",
                 answer: [
-                    "Almost every control in the app is a Rad UI component. The editor's side panel is built from Slider, NumberField, ToggleGroup, Select and Switch. Review and approval use Dialog, AlertDialog and Drawer. Menus, tabs and keyboard hints use DropdownMenu, Tabs and Kbd.",
-                    "Razzle styles everything with Tailwind on top of Rad UI's default theme, so the components handle focus, keyboard use and screen readers while the app keeps its own look.",
+                    "The whole editor works from the keyboard: Tab through the side panel, nudge a slider with the arrow keys, flip a switch with Space.",
+                    "On a phone, the review flow opens in a drawer a client can approve with one thumb, and dialogs keep focus where it belongs. The same controls behave the same way in the editor, the calendar and the review screen, so nothing has to be learned twice.",
                 ],
             },
-            {
-                question: "How did Razzle make Rad UI better?",
-                answer: [
-                    "Razzle is where we find Rad UI's problems first. Whenever something broke, we worked around it in the app and filed an issue the same day, with a small example that shows the bug.",
-                    "That led to 19 issues. Most were small but painful in a real app: dialogs pushed off the screen on phones, a select inside a drawer whose options couldn't be clicked, types that rejected normal button props. 13 of them are fixed as of November 2026, the rest are tracked in the open, and Razzle removed each workaround once the fix shipped.",
-                ],
-            },
-        ],
-        issues: [
-            { number: 2245, title: "Published .d.ts files import unresolved '~/' aliases", fixed: true },
-            { number: 2246, title: "Theme without classNamespace renders every component unstyled", fixed: true },
-            { number: 2247, title: "Dialog.Close / AlertDialog.Cancel types reject standard button props", fixed: true },
-            { number: 2248, title: "Select.Trigger renderValue is undocumented and missing from the types", fixed: false },
-            { number: 2252, title: "Tailwind preset: 'white' renders black in dark mode", fixed: true },
-            { number: 2255, title: "Tailwind preset: numeric colour scales flip in dark mode", fixed: false },
-            { number: 2257, title: "DropdownMenu.Trigger asChild overrides the button's variant", fixed: true },
-            { number: 2258, title: "Theme's global :focus-visible reset can't be overridden", fixed: true },
-            { number: 2265, title: "Button: no high-contrast solid variant for dark surfaces", fixed: true },
-            { number: 2266, title: "TextArea forwards ref to the root div, not the textarea", fixed: true },
-            { number: 2273, title: "Progress: hidden max-width stops the bar filling its container", fixed: false },
-            { number: 2277, title: "Dialog content is pushed off-screen on mobile", fixed: false },
-            { number: 2278, title: "Dialog initialFocus scrolls tall content", fixed: false },
-            { number: 2284, title: "TextArea: fixed min-height overrides rows", fixed: true },
-            { number: 2285, title: "Dialog content: no bottom padding without a Footer, tall content clipped", fixed: false },
-            { number: 2288, title: "ToggleGroup: a soft segmented variant for view switchers", fixed: true },
-            { number: 2321, title: "HoverCard.Trigger asChild applies link styling to the child", fixed: true },
-            { number: 2322, title: "Select inside a Drawer: options can't be clicked", fixed: true },
-            { number: 2323, title: "Dialog opened from a Drawer is marked aria-hidden", fixed: true },
         ],
     },
     {
         slug: "fpv-grind",
-        headline: "A drone parts store and a 3D sim share one set of Rad UI form controls.",
+        headline: "A drone parts store and its admin share one set of accessible form controls, wrapped once.",
         logo: "/case-studies/logos/fpv-grind.svg",
         kind: "E-commerce + 3D sim",
         name: "FPV Grind",
         href: "https://www.fpvgrind.in",
-        summary: "A store for FPV drone parts in India with a free 3D FPV simulator in the browser, a move dictionary and a weekly sim race.",
-        components: ["Button", "TextField", "TextArea", "Select", "Slider", "Checkbox", "Dialog", "Drawer"],
+        summary: "A store for FPV drone parts in India with a free 3D FPV simulator in the browser.",
         sections: [
             {
-                question: "What is FPV Grind?",
+                question: "What problem did Rad UI solve?",
                 answer: [
-                    "FPV Grind sells parts for small FPV drones in India and writes guides for people building their first one.",
+                    "A store has a lot of forms: checkout, accounts, search filters, and an admin for editing products and uploading photos. FPV Grind needed them consistent and accessible without a design-system team.",
+                    "Its buttons, text fields, selects, sliders and checkboxes are thin wrappers around Rad UI. The rest of the code imports the store's own Button or Select, so upgrading Rad UI touches one folder.",
                 ],
             },
             {
-                question: "How does it use Rad UI?",
+                question: "What did users get?",
                 answer: [
-                    "The store's shared form controls (buttons, text fields, selects, sliders and checkboxes) are thin wrappers around Rad UI. The store's admin uses them to edit products, upload photos and confirm changes in a dialog.",
-                    "Wrapping each component once means the rest of the code imports the store's own Button or Select, and Rad UI stays an implementation detail that's easy to upgrade.",
-                ],
-            },
-            {
-                question: "What did it change in Rad UI?",
-                answer: [
-                    "The checkbox. Checkbox.Indicator always drew its own fixed-size icon, so the store couldn't use its own. That was filed and is now fixed.",
+                    "Forms that behave the same everywhere in the store, work with a keyboard, and label every field for screen readers. In the admin, risky changes ask for confirmation in a dialog that traps focus and closes on Escape.",
                 ],
             },
         ],
-        issues: [{ number: 2299, title: "Checkbox.Indicator always renders its own fixed-size icon", fixed: true }],
     },
     {
         slug: "fiery-panda-studios",
@@ -119,107 +74,68 @@ export const caseStudies: CaseStudy[] = [
         kind: "Game studio site",
         name: "Fiery Panda Studios",
         href: "https://fierypandastudios.com",
-        summary: "The website of an indie game studio in Hyderabad making pixel-art action games in Godot.",
-        components: ["Heading", "Badge", "Button", "Theme"],
+        summary: "The website of an indie game studio making pixel-art action games in Godot.",
         sections: [
             {
-                question: "What is Fiery Panda Studios?",
+                question: "What problem did Rad UI solve?",
                 answer: [
-                    "A small game studio in Hyderabad, India. Its site shows the studio's games, devlogs and news.",
+                    "The site has a pixel-art look: chunky borders, a pixel font, fire colours. Most component libraries fight a look like that. Rad UI's theme loads into its own CSS layer, so the site's styles always win, and the components bring only the behaviour.",
                 ],
             },
             {
-                question: "How does it use Rad UI?",
+                question: "What did users get?",
                 answer: [
-                    "The site has a pixel-art look: chunky borders, a pixel font, fire colours. Headings, badges and buttons come from Rad UI, and the theme is loaded into its own CSS layer so the site's styles always win.",
-                    "It shows that a headless library doesn't have to look like a dashboard. The components bring the behaviour, and the site brings the look.",
+                    "Buttons and badges that look like they came out of the games, with proper focus rings, keyboard use and semantics underneath. A visitor using a keyboard or a screen reader gets the same site as everyone else.",
                 ],
             },
-            {
-                question: "What did it change in Rad UI?",
-                answer: [
-                    "Two things, both now fixed. The theme's focus ring couldn't be overridden by the site's own styles. And a Button rendered as a link caused a hydration warning and gave the link button-only attributes.",
-                ],
-            },
-        ],
-        issues: [
-            { number: 2258, title: "Theme's global :focus-visible reset can't be overridden", fixed: true },
-            { number: 2283, title: "Button asChild with a link child: hydration mismatch", fixed: true },
         ],
     },
     {
         slug: "paudho",
-        headline: "A phone-first gardening app moved every shared control to Rad UI with no visible change.",
+        headline: "A phone-first gardening app moved every shared control to Rad UI with no visible change, and gained touch and keyboard support.",
         logo: "/case-studies/logos/paudho.svg",
         kind: "Gardening app",
         name: "Paudho",
         href: "https://www.paudho.com",
         summary: "Gardening help for terraces, balconies and small farms in India: what to plant, when, and how.",
-        components: ["Button", "Badge", "TextField", "TextArea", "Label", "Select", "Checkbox", "Switch", "RadioGroup", "Slider", "Progress", "Tabs", "Accordion", "Tooltip", "Popover", "Dialog", "ScrollArea", "Avatar", "Separator", "Slot"],
         sections: [
             {
-                question: "What is Paudho?",
+                question: "What problem did Rad UI solve?",
                 answer: [
-                    "Paudho helps people grow food at home in India. It has a plant library with hundreds of plants, a planner that works out what to sow each month for your city, and guides for small spaces.",
+                    "Paudho's selects, dialogs, popovers and tooltips came from a mix of sources, and each behaved a little differently, especially on phones. Most of its visitors are on phones, often on slow connections.",
+                    "The app moved every shared control onto Rad UI and kept its own Tailwind classes, checking screen by screen that nothing visible changed.",
                 ],
             },
             {
-                question: "How does it use Rad UI?",
+                question: "What did users get?",
                 answer: [
-                    "Every shared control in Paudho sits on a Rad UI part: the month picker and filters are Selects, plant rows use Checkboxes, the inventory and seed forms open in Dialogs, and row actions sit in Popovers. The app's own Tailwind classes give everything its look, so moving to Rad UI changed nothing visible.",
-                    "Most of Paudho's visitors are on phones, often on slow connections, so the parts have to work as well with touch as with a keyboard or a screen reader.",
+                    "The month picker, plant filters and seed forms now work the same way with a thumb, a keyboard or a screen reader. Dialogs and popovers open, close and return focus consistently across the whole app.",
                 ],
             },
-            {
-                question: "What did the move change in Rad UI?",
-                answer: [
-                    "The move was checked screenshot by screenshot against the old version, and every difference was traced to a cause. Most came from extra wrapping elements: Dialog, Popover, Tooltip and Select roots render a div, which changed spacing in stacked layouts. Others were a link inside a Tooltip.Trigger being announced as a button, and positioning props that Select.Content silently ignored.",
-                    "Each one was worked around in the app and filed as an issue with a small example.",
-                ],
-            },
-        ],
-        issues: [
-            { number: 2332, title: "Tooltip.Trigger asChild: role and type leak onto a link", fixed: true },
-            { number: 2333, title: "Roots render a wrapper div that changes the parent's layout", fixed: true },
-            { number: 2334, title: "Types: children required on parts that work without it", fixed: true },
-            { number: 2335, title: "Select.Content passes positioning props to the DOM", fixed: true },
-            { number: 2336, title: "RadioGroup wraps its items in an extra group div", fixed: true },
-            { number: 2337, title: "Select: open the list over the trigger, aligned to the selected item", fixed: true },
         ],
     },
     {
         slug: "awelgorithms",
-        headline: "A hand-styled learning app swapped its home-made menus for Rad UI and gained arrow-key navigation.",
+        headline: "A hand-styled learning app replaced its home-made menus with Rad UI and gained arrow-key navigation.",
         logo: "/case-studies/logos/awelgorithms.svg",
         kind: "Learning platform",
         name: "Awelgorithms",
         href: "https://www.awelgorithms.com",
         summary: "A place to learn algorithms that measures your skill and unlocks practice problems as you improve.",
-        components: ["Button", "TextField", "TextArea", "Select", "DropdownMenu", "Popover", "Tabs"],
         sections: [
             {
-                question: "What is Awelgorithms?",
+                question: "What problem did Rad UI solve?",
                 answer: [
-                    "Awelgorithms teaches algorithms step by step. It checks what you already know, takes you through lessons and roadmaps, and unlocks practice problems as your skills grow.",
+                    "Awelgorithms has its own hand-written look, and its menus were hand-written too: code that placed them on screen, closed them on outside clicks and handled Escape. Every new menu copied that code and its bugs.",
+                    "The account menu, chat menus, language picker, lesson tabs and the editor's reset confirm are now Rad UI parts carrying the app's own classes. The hand-written menu code is gone.",
                 ],
             },
             {
-                question: "How does it use Rad UI?",
+                question: "What did users get?",
                 answer: [
-                    "Awelgorithms has its own hand-written look, so it uses Rad UI for behaviour only. Buttons and text fields are Rad UI parts carrying the app's own classes. The account menu and chat menus are DropdownMenus, the language picker is a Select, a lesson's views are Tabs, and the code editor's reset confirm is a Popover.",
-                    "Before the move, the menus placed themselves, closed on outside clicks and handled Escape with hand-written code. Rad UI does all of that now, and adds arrow-key navigation the hand-written menus never had.",
+                    "Menus that move with the arrow keys, which the old ones never did, and that close and return focus the way people expect. The app looks exactly as it did before.",
                 ],
             },
-            {
-                question: "What did it change in Rad UI?",
-                answer: [
-                    "Wrapping elements again. DropdownMenu.Content puts its items in an inner scroll div, and Select.Item wraps its children in a text span. Both broke the app's grid and flex layouts until the wrappers were unwrapped in CSS. Menu placement also lives on the Root, not on Content as it does for Popover and Tooltip.",
-                ],
-            },
-        ],
-        issues: [
-            { number: 2333, title: "Roots and contents add wrapper elements that change layout", fixed: true },
-            { number: 2335, title: "Positioning props on Select and DropdownMenu live on the Root", fixed: true },
         ],
     },
 ]

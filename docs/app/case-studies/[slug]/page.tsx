@@ -62,29 +62,6 @@ export default async function CaseStudyPage({ params }: { params: Promise<{ slug
                             </section>
                         ))}
 
-                        {study.issues.length ? (
-                            <section className="space-y-3">
-                                <h2 className="text-base font-semibold text-gray-1000">
-                                    Which issues did it file?
-                                </h2>
-                                <ul className="space-y-2">
-                                    {study.issues.map((issue) => (
-                                        <li key={issue.number} className="flex items-baseline justify-between gap-4 text-sm text-gray-950">
-                                            <span>
-                                                <a
-                                                    href={`https://github.com/rad-ui/ui/issues/${issue.number}`}
-                                                    className="font-medium text-gray-1000 underline underline-offset-4"
-                                                >
-                                                    #{issue.number}
-                                                </a>{" "}
-                                                {issue.title}
-                                            </span>
-                                            <span className="shrink-0 text-xs text-gray-950">{issue.fixed ? "Fixed" : "Open"}</span>
-                                        </li>
-                                    ))}
-                                </ul>
-                            </section>
-                        ) : null}
                     </div>
 
                     <aside className="space-y-6 text-sm lg:sticky lg:top-6 lg:self-start">
@@ -106,23 +83,6 @@ export default async function CaseStudyPage({ params }: { params: Promise<{ slug
                             <div className="space-y-1">
                                 <dt className="font-semibold text-gray-1000">Type</dt>
                                 <dd className="text-gray-950">{study.kind}</dd>
-                            </div>
-                            <div className="space-y-2">
-                                <dt className="font-semibold text-gray-1000">Components</dt>
-                                <dd>
-                                    <ul className="flex flex-wrap gap-1.5">
-                                        {study.components.map((name) => (
-                                            <li key={name}>
-                                                <Link
-                                                    href={`/docs/components/${name.replace(/([a-z])([A-Z])/g, "$1-$2").toLowerCase()}`}
-                                                    className="block rounded-md border border-gray-400 px-2 py-0.5 text-xs text-gray-1000 hover:border-gray-1000"
-                                                >
-                                                    {name}
-                                                </Link>
-                                            </li>
-                                        ))}
-                                    </ul>
-                                </dd>
                             </div>
                         </dl>
                         <span aria-hidden="true" className="block h-px w-8 bg-gray-400" />
