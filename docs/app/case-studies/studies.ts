@@ -8,6 +8,8 @@ export type CaseStudy = {
     href: string
     /** One line for the card. */
     summary: string
+    /** The lead under the title: what Rad UI does for this product, in one sentence. */
+    headline: string
     /** Logo, in /public/case-studies/logos. */
     logo: string
     /** What kind of product, for the card's label. */
@@ -16,13 +18,14 @@ export type CaseStudy = {
     components: string[]
     /** Question-and-answer sections, in order. Each answer is a list of paragraphs. */
     sections: { question: string; answer: string[] }[]
-    /** rad-ui/ui issues this product filed. */
-    issues: { number: number; title: string }[]
+    /** rad-ui/ui issues this product filed; `fixed` is true once the fix shipped (checked 2026-11-24). */
+    issues: { number: number; title: string; fixed: boolean }[]
 }
 
 export const caseStudies: CaseStudy[] = [
     {
         slug: "razzle",
+        headline: "Every control in a browser Reel editor, from sliders to approval dialogs, is a Rad UI component.",
         logo: "/case-studies/logos/razzle.svg",
         kind: "Marketing SaaS",
         name: "Razzle",
@@ -48,37 +51,38 @@ export const caseStudies: CaseStudy[] = [
                 ],
             },
             {
-                question: "What broke, and what changed because of it?",
+                question: "How did Razzle make Rad UI better?",
                 answer: [
                     "Razzle is where we find Rad UI's problems first. Whenever something broke, we worked around it in the app and filed an issue the same day, with a small example that shows the bug.",
-                    "That led to 19 issues. Most were small but painful in a real app: dialogs pushed off the screen on phones, a select inside a drawer whose options couldn't be clicked, types that rejected normal button props. 13 of them are fixed as of November 2026, and Razzle removed each workaround once the fix shipped.",
+                    "That led to 19 issues. Most were small but painful in a real app: dialogs pushed off the screen on phones, a select inside a drawer whose options couldn't be clicked, types that rejected normal button props. 13 of them are fixed as of November 2026, the rest are tracked in the open, and Razzle removed each workaround once the fix shipped.",
                 ],
             },
         ],
         issues: [
-            { number: 2245, title: "Published .d.ts files import unresolved '~/' aliases" },
-            { number: 2246, title: "Theme without classNamespace renders every component unstyled" },
-            { number: 2247, title: "Dialog.Close / AlertDialog.Cancel types reject standard button props" },
-            { number: 2248, title: "Select.Trigger renderValue is undocumented and missing from the types" },
-            { number: 2252, title: "Tailwind preset: 'white' renders black in dark mode" },
-            { number: 2255, title: "Tailwind preset: numeric colour scales flip in dark mode" },
-            { number: 2257, title: "DropdownMenu.Trigger asChild overrides the button's variant" },
-            { number: 2258, title: "Theme's global :focus-visible reset can't be overridden" },
-            { number: 2265, title: "Button: no high-contrast solid variant for dark surfaces" },
-            { number: 2266, title: "TextArea forwards ref to the root div, not the textarea" },
-            { number: 2273, title: "Progress: hidden max-width stops the bar filling its container" },
-            { number: 2277, title: "Dialog content is pushed off-screen on mobile" },
-            { number: 2278, title: "Dialog initialFocus scrolls tall content" },
-            { number: 2284, title: "TextArea: fixed min-height overrides rows" },
-            { number: 2285, title: "Dialog content: no bottom padding without a Footer, tall content clipped" },
-            { number: 2288, title: "ToggleGroup: a soft segmented variant for view switchers" },
-            { number: 2321, title: "HoverCard.Trigger asChild applies link styling to the child" },
-            { number: 2322, title: "Select inside a Drawer: options can't be clicked" },
-            { number: 2323, title: "Dialog opened from a Drawer is marked aria-hidden" },
+            { number: 2245, title: "Published .d.ts files import unresolved '~/' aliases", fixed: true },
+            { number: 2246, title: "Theme without classNamespace renders every component unstyled", fixed: true },
+            { number: 2247, title: "Dialog.Close / AlertDialog.Cancel types reject standard button props", fixed: true },
+            { number: 2248, title: "Select.Trigger renderValue is undocumented and missing from the types", fixed: false },
+            { number: 2252, title: "Tailwind preset: 'white' renders black in dark mode", fixed: true },
+            { number: 2255, title: "Tailwind preset: numeric colour scales flip in dark mode", fixed: false },
+            { number: 2257, title: "DropdownMenu.Trigger asChild overrides the button's variant", fixed: true },
+            { number: 2258, title: "Theme's global :focus-visible reset can't be overridden", fixed: true },
+            { number: 2265, title: "Button: no high-contrast solid variant for dark surfaces", fixed: true },
+            { number: 2266, title: "TextArea forwards ref to the root div, not the textarea", fixed: true },
+            { number: 2273, title: "Progress: hidden max-width stops the bar filling its container", fixed: false },
+            { number: 2277, title: "Dialog content is pushed off-screen on mobile", fixed: false },
+            { number: 2278, title: "Dialog initialFocus scrolls tall content", fixed: false },
+            { number: 2284, title: "TextArea: fixed min-height overrides rows", fixed: true },
+            { number: 2285, title: "Dialog content: no bottom padding without a Footer, tall content clipped", fixed: false },
+            { number: 2288, title: "ToggleGroup: a soft segmented variant for view switchers", fixed: true },
+            { number: 2321, title: "HoverCard.Trigger asChild applies link styling to the child", fixed: true },
+            { number: 2322, title: "Select inside a Drawer: options can't be clicked", fixed: true },
+            { number: 2323, title: "Dialog opened from a Drawer is marked aria-hidden", fixed: true },
         ],
     },
     {
         slug: "fpv-grind",
+        headline: "A drone parts store and a 3D sim share one set of Rad UI form controls.",
         logo: "/case-studies/logos/fpv-grind.svg",
         kind: "E-commerce + 3D sim",
         name: "FPV Grind",
@@ -100,16 +104,17 @@ export const caseStudies: CaseStudy[] = [
                 ],
             },
             {
-                question: "What broke?",
+                question: "What did it change in Rad UI?",
                 answer: [
                     "The checkbox. Checkbox.Indicator always drew its own fixed-size icon, so the store couldn't use its own. That was filed and is now fixed.",
                 ],
             },
         ],
-        issues: [{ number: 2299, title: "Checkbox.Indicator always renders its own fixed-size icon" }],
+        issues: [{ number: 2299, title: "Checkbox.Indicator always renders its own fixed-size icon", fixed: true }],
     },
     {
         slug: "fiery-panda-studios",
+        headline: "A pixel-art game studio site that looks nothing like a dashboard, on the same components.",
         logo: "/case-studies/logos/fiery-panda.png",
         kind: "Game studio site",
         name: "Fiery Panda Studios",
@@ -131,19 +136,20 @@ export const caseStudies: CaseStudy[] = [
                 ],
             },
             {
-                question: "What broke?",
+                question: "What did it change in Rad UI?",
                 answer: [
                     "Two things, both now fixed. The theme's focus ring couldn't be overridden by the site's own styles. And a Button rendered as a link caused a hydration warning and gave the link button-only attributes.",
                 ],
             },
         ],
         issues: [
-            { number: 2258, title: "Theme's global :focus-visible reset can't be overridden" },
-            { number: 2283, title: "Button asChild with a link child: hydration mismatch" },
+            { number: 2258, title: "Theme's global :focus-visible reset can't be overridden", fixed: true },
+            { number: 2283, title: "Button asChild with a link child: hydration mismatch", fixed: true },
         ],
     },
     {
         slug: "paudho",
+        headline: "A phone-first gardening app moved every shared control to Rad UI with no visible change.",
         logo: "/case-studies/logos/paudho.svg",
         kind: "Gardening app",
         name: "Paudho",
@@ -165,7 +171,7 @@ export const caseStudies: CaseStudy[] = [
                 ],
             },
             {
-                question: "What broke, and what changed because of it?",
+                question: "What did the move change in Rad UI?",
                 answer: [
                     "The move was checked screenshot by screenshot against the old version, and every difference was traced to a cause. Most came from extra wrapping elements: Dialog, Popover, Tooltip and Select roots render a div, which changed spacing in stacked layouts. Others were a link inside a Tooltip.Trigger being announced as a button, and positioning props that Select.Content silently ignored.",
                     "Each one was worked around in the app and filed as an issue with a small example.",
@@ -173,16 +179,17 @@ export const caseStudies: CaseStudy[] = [
             },
         ],
         issues: [
-            { number: 2332, title: "Tooltip.Trigger asChild: role and type leak onto a link" },
-            { number: 2333, title: "Roots render a wrapper div that changes the parent's layout" },
-            { number: 2334, title: "Types: children required on parts that work without it" },
-            { number: 2335, title: "Select.Content passes positioning props to the DOM" },
-            { number: 2336, title: "RadioGroup wraps its items in an extra group div" },
-            { number: 2337, title: "Select: open the list over the trigger, aligned to the selected item" },
+            { number: 2332, title: "Tooltip.Trigger asChild: role and type leak onto a link", fixed: true },
+            { number: 2333, title: "Roots render a wrapper div that changes the parent's layout", fixed: true },
+            { number: 2334, title: "Types: children required on parts that work without it", fixed: true },
+            { number: 2335, title: "Select.Content passes positioning props to the DOM", fixed: true },
+            { number: 2336, title: "RadioGroup wraps its items in an extra group div", fixed: true },
+            { number: 2337, title: "Select: open the list over the trigger, aligned to the selected item", fixed: true },
         ],
     },
     {
         slug: "awelgorithms",
+        headline: "A hand-styled learning app swapped its home-made menus for Rad UI and gained arrow-key navigation.",
         logo: "/case-studies/logos/awelgorithms.svg",
         kind: "Learning platform",
         name: "Awelgorithms",
@@ -204,15 +211,15 @@ export const caseStudies: CaseStudy[] = [
                 ],
             },
             {
-                question: "What broke?",
+                question: "What did it change in Rad UI?",
                 answer: [
                     "Wrapping elements again. DropdownMenu.Content puts its items in an inner scroll div, and Select.Item wraps its children in a text span. Both broke the app's grid and flex layouts until the wrappers were unwrapped in CSS. Menu placement also lives on the Root, not on Content as it does for Popover and Tooltip.",
                 ],
             },
         ],
         issues: [
-            { number: 2333, title: "Roots and contents add wrapper elements that change layout" },
-            { number: 2335, title: "Positioning props on Select and DropdownMenu live on the Root" },
+            { number: 2333, title: "Roots and contents add wrapper elements that change layout", fixed: true },
+            { number: 2335, title: "Positioning props on Select and DropdownMenu live on the Root", fixed: true },
         ],
     },
 ]
